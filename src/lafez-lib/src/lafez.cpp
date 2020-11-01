@@ -1,8 +1,9 @@
-#include <iostream>
+#include <spdlog/spdlog.h>
 #include "lafez.hpp"
 
 namespace Lafez {
     void init() {
-        std::cout << __func__ << std::endl;
+        spdlog::info("LafeZ initialized");
+        spdlog::warn("Printing test warning");
     }
 }

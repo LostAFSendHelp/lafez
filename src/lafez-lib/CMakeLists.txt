@@ -5,6 +5,9 @@ add_library(
 
     src/lafez.hpp
     src/lafez.cpp
+
+    src/utils/log.hpp
+    src/utils/log.cpp
 )
 
 generate_export_header(
@@ -14,4 +17,6 @@ generate_export_header(
     EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/exports/lafezlib_export.h
 )
 
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(lafez-lib PUBLIC spdlog::spdlog)
 target_include_directories(lafez-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/exports)

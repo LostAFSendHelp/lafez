@@ -1,8 +1,11 @@
 #include <lafez.hpp>
+#include <utils/log.hpp>
 #include <iostream>
 
 int main() {
     Lafez::init();
-    std::cout << "Hello world" << std::endl;
+    Lafez::Log::init();
+    Lafez::Log::getEngineLog()->info("Test Info message");
+    Lafez::Log::getClientLog()->warn("Test Warning message");
     return 0;
 }
