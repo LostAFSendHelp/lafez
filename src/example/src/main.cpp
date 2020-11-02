@@ -3,9 +3,15 @@
 #include <iostream>
 
 int main() {
-    Lafez::init();
     Lafez::Log::init();
-    Lafez::Log::getEngineLog()->info("Test Info message");
-    Lafez::Log::getClientLog()->warn("Test Warning message");
+    
+    LZ_ENGINE_INFO("Test Info message");
+    LZ_ENGINE_WARN("Test Warning message");
+    LZ_ENGINE_ERR("Test Error message");
+    
+    LZ_CLIENT_INFO("Test Info message");
+    LZ_CLIENT_WARN("Test Warning message");
+    LZ_CLIENT_ERR("Test Error message");
+
     return 0;
 }

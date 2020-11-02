@@ -52,3 +52,25 @@ namespace Lafez {
         static std::shared_ptr<spdlog::logger> mClientLog;
     };
 };
+
+#ifdef _DEBUG
+
+    #define LZ_ENGINE_INFO(...) Lafez::Log::getEngineLog()->info(__VA_ARGS__)
+    #define LZ_ENGINE_WARN(...) Lafez::Log::getEngineLog()->warn(__VA_ARGS__)
+    #define LZ_ENGINE_ERR(...) Lafez::Log::getEngineLog()->error(__VA_ARGS__)
+
+    #define LZ_CLIENT_INFO(...) Lafez::Log::getClientLog()->info(__VA_ARGS__)
+    #define LZ_CLIENT_WARN(...) Lafez::Log::getClientLog()->warn(__VA_ARGS__)
+    #define LZ_CLIENT_ERR(...) Lafez::Log::getClientLog()->error(__VA_ARGS__)
+
+#else
+
+    #define LZ_ENGINE_INFO(...)
+    #define LZ_ENGINE_WARN(...)
+    #define LZ_ENGINE_ERR(...)
+
+    #define LZ_CLIENT_INFO(...)
+    #define LZ_CLIENT_WARN(...)
+    #define LZ_CLIENT_ERR(...)
+
+#endif
