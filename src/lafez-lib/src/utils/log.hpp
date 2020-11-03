@@ -53,7 +53,7 @@ namespace Lafez {
     };
 };
 
-#ifdef _DEBUG
+#if defined __LZ_DBG || defined __LZ_RELDBG
 
     #define LZ_ENGINE_INFO(...) Lafez::Log::getEngineLog()->info(__VA_ARGS__)
     #define LZ_ENGINE_WARN(...) Lafez::Log::getEngineLog()->warn(__VA_ARGS__)
