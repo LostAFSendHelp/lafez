@@ -3,11 +3,11 @@ include(GenerateExportHeader)
 add_library(
     lafez-lib SHARED
 
-    src/lafez.hpp
-    src/lafez.cpp
+    lafez/lafez.hpp
+    lafez/lafez.cpp
 
-    src/utils/log.hpp
-    src/utils/log.cpp
+    lafez/utils/log.hpp
+    lafez/utils/log.cpp
 )
 
 generate_export_header(
@@ -19,4 +19,4 @@ generate_export_header(
 
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(lafez-lib PUBLIC spdlog::spdlog)
-target_include_directories(lafez-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/exports)
+target_include_directories(lafez-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/exports)

@@ -1,5 +1,5 @@
-#include <lafez.hpp>
-#include <utils/log.hpp>
+#include <lafez/lafez.hpp>
+#include <lafez/utils/log.hpp>
 #include <iostream>
 
 int main() {
