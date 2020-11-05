@@ -6,8 +6,21 @@ add_library(
     lafez/lafez.hpp
     lafez/lafez.cpp
 
-    lafez/utils/log.hpp
-    lafez/utils/log.cpp
+    lafez/utils/Log.hpp
+    lafez/utils/Log.cpp
+
+    lafez/core/event/Event.hpp
+    lafez/core/event/Event.cpp
+    lafez/core/event/MouseEvent.hpp
+    lafez/core/event/MouseEvent.cpp
+    lafez/core/event/KeyEvent.hpp
+    lafez/core/event/KeyEvent.cpp
+    lafez/core/event/ApplicationEvent.hpp
+    lafez/core/event/ApplicationEvent.cpp
+)
+
+target_precompile_headers(
+    lafez-lib PRIVATE lafez/lafez-pch.hpp
 )
 
 generate_export_header(

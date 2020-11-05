@@ -1,4 +1,4 @@
-#include "log.hpp"
+#include "Log.hpp"
 
 namespace Lafez {
     std::shared_ptr<spdlog::logger> Log::mEngineLog{ nullptr };
