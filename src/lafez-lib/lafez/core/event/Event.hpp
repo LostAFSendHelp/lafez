@@ -24,11 +24,14 @@ namespace Lafez {
 
         virtual ~Event();
 
-        virtual bool isOfCategory(EventCategory category) const = 0;
+        virtual bool isOfCategory(EventCategory category)   const = 0;
+        virtual bool isHandled()                            const;
+        virtual EventType getType()                         const;
+        virtual void handle();
     
     protected:
         EventType mType;
-        bool mHandled;
+        bool mIsHandled;
 
         Event(EventType type);
 

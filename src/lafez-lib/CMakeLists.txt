@@ -9,6 +9,7 @@ add_library(
     lafez/utils/Log.hpp
     lafez/utils/Log.cpp
 
+    lafez/core/lafe_event.hpp
     lafez/core/event/Event.hpp
     lafez/core/event/Event.cpp
     lafez/core/event/MouseEvent.hpp
@@ -17,6 +18,12 @@ add_library(
     lafez/core/event/KeyEvent.cpp
     lafez/core/event/ApplicationEvent.hpp
     lafez/core/event/ApplicationEvent.cpp
+    lafez/core/event/EventCenter.hpp
+    lafez/core/event/EventCenter.cpp
+    lafez/core/event/EventSubscription.hpp
+    lafez/core/event/EventSubscription.cpp
+    lafez/core/event/DisposeBag.hpp
+    lafez/core/event/DisposeBag.cpp
 )
 
 target_precompile_headers(

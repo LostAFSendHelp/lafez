@@ -7,11 +7,23 @@ namespace Lafez {
     Event::Event(EventType type):
     mID(sCount++),
     mType(type),
-    mHandled(false) {
+    mIsHandled(false) {
         LZ_ENGINE_INFO("LafezEvent created with ID {0}", mID);
     }
 
     Event::~Event() {
 
+    }
+
+    bool Event::isHandled() const {
+        return mIsHandled;
+    }
+
+    EventType Event::getType() const {
+        return mType;
+    }
+
+    void Event::handle() {
+        mIsHandled = true;
     }
 }
