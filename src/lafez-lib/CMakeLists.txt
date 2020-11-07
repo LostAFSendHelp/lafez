@@ -3,9 +3,6 @@ include(GenerateExportHeader)
 add_library(
     lafez-lib SHARED
 
-    lafez/lafez.hpp
-    lafez/lafez.cpp
-
     lafez/utils/Log.hpp
     lafez/utils/Log.cpp
 
