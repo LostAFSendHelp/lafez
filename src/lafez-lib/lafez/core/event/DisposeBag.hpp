@@ -3,7 +3,7 @@
 #include "EventSubscription.hpp"
 
 namespace Lafez {
-    class DisposeBag final {
+    class LAFEZLIB DisposeBag final {
     public:
         DisposeBag() = default;
         ~DisposeBag();

@@ -2,7 +2,7 @@
 #include "Event.hpp"
 
 namespace Lafez {
-    class ApplicationEvent : public Event {
+    class LAFEZLIB ApplicationEvent : public Event {
     public:
         const bool mWindowShouldClose;
         const int mWidth;

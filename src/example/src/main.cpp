@@ -1,5 +1,6 @@
 #include <lafez/lafez.hpp>
 #include <lafez/utils/Log.hpp>
+#include <lafez/core/lafe_event.hpp>
 #include <iostream>
 
 int main() {

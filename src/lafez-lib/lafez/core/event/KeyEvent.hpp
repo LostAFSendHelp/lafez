@@ -2,7 +2,7 @@
 #include "Event.hpp"
 
 namespace Lafez {
-    class KeyEvent : public Event {
+    class LAFEZLIB KeyEvent : public Event {
     public:
         const int mKeyCode;
         

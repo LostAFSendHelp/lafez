@@ -3,7 +3,7 @@
 #include "Event.hpp"
 
 namespace Lafez {
-    class MouseEvent : public Event {
+    class LAFEZLIB MouseEvent : public Event {
     public:
         const int mButton;
         const float mX, mY;

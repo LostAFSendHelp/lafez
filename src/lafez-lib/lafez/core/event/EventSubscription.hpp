@@ -4,7 +4,7 @@
 namespace Lafez {
     using EventCallback = std::function<void(Event&)>;
 
-    class EventSubscription final {
+    class LAFEZLIB EventSubscription final {
     public:
         const uint16_t mID;
 

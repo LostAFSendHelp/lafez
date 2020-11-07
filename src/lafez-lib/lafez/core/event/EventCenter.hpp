@@ -2,7 +2,7 @@
 #include "EventSubscription.hpp"
 
 namespace Lafez {
-    class EventCenter final {
+    class LAFEZLIB EventCenter final {
     public:
         EventCenter() = default;
         ~EventCenter() = default;
