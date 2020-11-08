@@ -4,4 +4,7 @@ add_executable(
     src/main.cpp
 )
 
-target_link_libraries(example PRIVATE lafez-lib)
+target_link_libraries(example
+    PRIVATE
+    lafez-lib
+)

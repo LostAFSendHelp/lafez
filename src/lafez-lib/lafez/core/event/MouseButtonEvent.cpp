@@ -1,22 +1,20 @@
-#include "MouseEvent.hpp"
+#include "MouseButtonEvent.hpp"
 
 namespace Lafez {
-    MouseEvent::MouseEvent(EventType type, int button, float x, float y):
+    MouseButtonEvent::MouseButtonEvent(EventType type, int button):
     Event(type),
-    mButton(button),
-    mX(x),
-    mY(y) {
+    mButton(button) {
         auto rawValue = static_cast<uint8_t>(mType);
         if (rawValue < 20 || rawValue >= 30) {
             mType = EventType::None;
         }
     }
 
-    MouseEvent::~MouseEvent() {
+    MouseButtonEvent::~MouseButtonEvent() {
 
     }
 
-    bool MouseEvent::isOfCategory(EventCategory category) const {
+    bool MouseButtonEvent::isOfCategory(EventCategory category) const {
         return category == EventCategory::Input || category == EventCategory::MouseInput;
     }
 }

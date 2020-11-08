@@ -1,5 +1,5 @@
 #pragma once
-#include <lafez/lafez-pch.hpp>
+#include <lafez/lafez_pch.hpp>
 #include "EventSubscription.hpp"
 
 namespace Lafez {

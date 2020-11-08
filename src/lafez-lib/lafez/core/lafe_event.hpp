@@ -1,7 +1,9 @@
 #pragma once
 
-#include "event/ApplicationEvent.hpp"
+#include "event/WindowCloseEvent.hpp"
+#include "event/WindowResizeEvent.hpp"
 #include "event/KeyEvent.hpp"
-#include "event/MouseEvent.hpp"
+#include "event/MouseButtonEvent.hpp"
+#include "event/MouseMoveEvent.hpp"
 #include "event/EventCenter.hpp"
 #include "event/DisposeBag.hpp"

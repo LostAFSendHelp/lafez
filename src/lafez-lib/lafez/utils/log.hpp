@@ -38,6 +38,24 @@ namespace Lafez {
 
 
 
+        /**
+         * @brief Set log level for Engine Log
+         * 
+         * @param level The desired log level
+         */
+        static void setEngineLogLevel(spdlog::level::level_enum level);
+
+
+
+        /**
+         * @brief Set log level for Client Log
+         * 
+         * @param level The desired log level
+         */
+        static void setClientLogLevel(spdlog::level::level_enum level);
+
+
+
     private:
         /**
          * @brief Used for logging messages within the engine
@@ -55,13 +73,13 @@ namespace Lafez {
 
 #if defined __LZ_DBG || defined __LZ_RELDBG
 
-    #define LZ_ENGINE_INFO(...) Lafez::Log::getEngineLog()->info(__VA_ARGS__)
-    #define LZ_ENGINE_WARN(...) Lafez::Log::getEngineLog()->warn(__VA_ARGS__)
-    #define LZ_ENGINE_ERR(...) Lafez::Log::getEngineLog()->error(__VA_ARGS__)
+    #define LZ_ENGINE_INFO(...) ::Lafez::Log::getEngineLog()->info(__VA_ARGS__)
+    #define LZ_ENGINE_WARN(...) ::Lafez::Log::getEngineLog()->warn(__VA_ARGS__)
+    #define LZ_ENGINE_ERR(...) ::Lafez::Log::getEngineLog()->error(__VA_ARGS__)
 
-    #define LZ_CLIENT_INFO(...) Lafez::Log::getClientLog()->info(__VA_ARGS__)
-    #define LZ_CLIENT_WARN(...) Lafez::Log::getClientLog()->warn(__VA_ARGS__)
-    #define LZ_CLIENT_ERR(...) Lafez::Log::getClientLog()->error(__VA_ARGS__)
+    #define LZ_CLIENT_INFO(...) ::Lafez::Log::getClientLog()->info(__VA_ARGS__)
+    #define LZ_CLIENT_WARN(...) ::Lafez::Log::getClientLog()->warn(__VA_ARGS__)
+    #define LZ_CLIENT_ERR(...) ::Lafez::Log::getClientLog()->error(__VA_ARGS__)
 
 #else
 

@@ -2,14 +2,13 @@
 #include "Event.hpp"
 
 namespace Lafez {
-    class LAFEZLIB ApplicationEvent : public Event {
+    class LAFEZLIB WindowResizeEvent : public Event {
     public:
-        const bool mWindowShouldClose;
         const int mWidth;
         const int mHeight;
 
-        ApplicationEvent(EventType type, bool shouldClose, int width, int height);
-        ~ApplicationEvent();
+        WindowResizeEvent(int width, int height);
+        ~WindowResizeEvent();
 
         bool isOfCategory(EventCategory category) const override;
 

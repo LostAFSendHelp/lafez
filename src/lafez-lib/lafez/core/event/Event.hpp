@@ -1,6 +1,6 @@
 #pragma once
 #include <lafezlib_export.h>
-#include <lafez/lafez-pch.hpp>
+#include <lafez/lafez_pch.hpp>
 
 namespace Lafez {
     enum class EventCategory: uint8_t {
@@ -14,8 +14,10 @@ namespace Lafez {
     enum class EventType: uint8_t {
         None,
         KeyUp = 10, KeyDown, KeyRepeat,
-        MouseUp = 20, MouseDown, MouseMove, MouseScroll,
-        WindowResize = 30, WindowClose
+        MouseUp = 20, MouseDown, MouseScroll,
+        MouseMove = 30,
+        WindowResize = 40, 
+        WindowClose = 50
     };
 
     class LAFEZLIB Event {

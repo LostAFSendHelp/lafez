@@ -36,4 +36,12 @@ namespace Lafez {
         if (mClientLog == nullptr) init();
         return mClientLog;
     }
+
+    void Log::setEngineLogLevel(spdlog::level::level_enum level) {
+        getEngineLog()->set_level(level);
+    }
+
+    void Log::setClientLogLevel(spdlog::level::level_enum level) {
+        getClientLog()->set_level(level);
+    }
 }
