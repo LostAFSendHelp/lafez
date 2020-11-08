@@ -14,3 +14,4 @@ add_compile_definitions(
 
 add_subdirectory(src/lafez-lib)
 add_subdirectory(src/example)
+add_subdirectory(src/lafez-test)
