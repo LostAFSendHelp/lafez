@@ -3,10 +3,16 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez_test_pch.hpp>
 
-#define LZK(x) ::Lafez::EventType::Key##x
-#define LZM(x) ::Lafez::EventType::Mouse##x
-#define LZW(x) ::Lafez::EventType::Window##x
-#define LZN    ::Lafez::EventType::None
+#define LZTK(x) ::Lafez::EventType::Key##x
+#define LZTM(x) ::Lafez::EventType::Mouse##x
+#define LZTW(x) ::Lafez::EventType::Window##x
+#define LZTN    ::Lafez::EventType::None
+
+#define LZCK    ::Lafez::EventCategory::KeyInput
+#define LZCM    ::Lafez::EventCategory::MouseInput
+#define LZCI    ::Lafez::EventCategory::Input
+#define LZCA    ::Lafez::EventCategory::Application
+#define LZCN    ::Lafez::EventCategory::None
 
 namespace Lafez {
     class EventTest : public ::testing::Test {
@@ -18,15 +24,15 @@ namespace Lafez {
         ::Lafez::WindowResizeEvent mWindowResize;
 
         EventTest():
-        mKeyUp(LZK(Up), 0),
-        mKeyDown(LZK(Down), 0),
-        mKeyRepeat(LZK(Repeat), 0),
-        mKeyInvalid(LZM(Up), 0),
-        mMouseUp(LZM(Up), 0),
-        mMouseDown(LZM(Down), 0),
-        mMouseScroll(LZM(Scroll), 0),
+        mKeyUp(LZTK(Up), 0),
+        mKeyDown(LZTK(Down), 0),
+        mKeyRepeat(LZTK(Repeat), 0),
+        mKeyInvalid(LZTM(Up), 0),
+        mMouseUp(LZTM(Up), 0),
+        mMouseDown(LZTM(Down), 0),
+        mMouseScroll(LZTM(Scroll), 0),
         mMouseMove(0, 0),
-        mMouseInvalid(LZK(Up), 0),
+        mMouseInvalid(LZTK(Up), 0),
         mWindowResize(0, 0),
         mWindowClose(false) {
             
@@ -46,17 +52,17 @@ namespace Lafez {
     };
 
     TEST_F(EventTest, ReturnsCorrectType) {
-        EXPECT_EQ(mKeyUp.getType(), LZK(Up));
-        EXPECT_EQ(mKeyDown.getType(), LZK(Down));
-        EXPECT_EQ(mKeyRepeat.getType(), LZK(Repeat));
-        EXPECT_EQ(mKeyInvalid.getType(), LZN);
+        EXPECT_EQ(mKeyUp.getType(), LZTK(Up));
+        EXPECT_EQ(mKeyDown.getType(), LZTK(Down));
+        EXPECT_EQ(mKeyRepeat.getType(), LZTK(Repeat));
+        EXPECT_EQ(mKeyInvalid.getType(), LZTN);
         
-        EXPECT_EQ(mMouseUp.getType(), LZM(Up));
-        EXPECT_EQ(mMouseDown.getType(), LZM(Down));
-        EXPECT_EQ(mMouseScroll.getType(), LZM(Scroll));
-        EXPECT_EQ(mMouseInvalid.getType(), LZN);
+        EXPECT_EQ(mMouseUp.getType(), LZTM(Up));
+        EXPECT_EQ(mMouseDown.getType(), LZTM(Down));
+        EXPECT_EQ(mMouseScroll.getType(), LZTM(Scroll));
+        EXPECT_EQ(mMouseInvalid.getType(), LZTN);
 
-        EXPECT_EQ(mWindowClose.getType(), LZW(Close));
-        EXPECT_EQ(mWindowResize.getType(), LZW(Resize));
+        EXPECT_EQ(mWindowClose.getType(), LZTW(Close));
+        EXPECT_EQ(mWindowResize.getType(), LZTW(Resize));
     }
 };
