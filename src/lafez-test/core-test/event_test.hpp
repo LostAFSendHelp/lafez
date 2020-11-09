@@ -65,4 +65,18 @@ namespace Lafez {
         EXPECT_EQ(mWindowClose.getType(), LZTW(Close));
         EXPECT_EQ(mWindowResize.getType(), LZTW(Resize));
     }
+
+    TEST_F(EventTest, ReturnsCorrectCategories) {
+        EXPECT_TRUE(mKeyUp.isOfCategories(LZCI, LZCK));
+        EXPECT_TRUE(mKeyDown.isOfCategories(LZCI, LZCK));
+        EXPECT_TRUE(mKeyRepeat.isOfCategories(LZCI, LZCK));
+
+        EXPECT_TRUE(mMouseUp.isOfCategories(LZCI, LZCM));
+        EXPECT_TRUE(mMouseDown.isOfCategories(LZCI, LZCM));
+        EXPECT_TRUE(mMouseMove.isOfCategories(LZCI, LZCM));
+        EXPECT_TRUE(mMouseScroll.isOfCategories(LZCI, LZCM));
+
+        EXPECT_TRUE(mWindowClose.isOfCategories(LZCA));
+        EXPECT_TRUE(mWindowResize.isOfCategories(LZCA));
+    }
 };

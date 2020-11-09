@@ -45,6 +45,19 @@ namespace Lafez {
          * @return false otherwise
          */
         virtual bool isOfCategory(EventCategory category) const = 0;
+
+
+
+        /**
+         * @brief Check whether the Event belongs to a set of categories
+         * 
+         * @tparam Args 
+         * @param args 
+         * @return true 
+         * @return false 
+         */
+        template<typename ... Args>
+        bool isOfCategories(Args ... args) const;
         
         
         
@@ -81,4 +94,9 @@ namespace Lafez {
     private:
         static long sCount;
     };
+
+    template<typename ... Args>
+    bool Event::isOfCategories(Args ... args) const {
+        return (... && isOfCategory(args));
+    }
 };
