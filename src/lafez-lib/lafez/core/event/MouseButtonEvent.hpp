@@ -10,6 +10,7 @@ namespace Lafez {
         MouseButtonEvent(EventType type, int button);
         ~MouseButtonEvent();
 
+    protected:
         bool isOfCategory(EventCategory category) const override;
 
     private:

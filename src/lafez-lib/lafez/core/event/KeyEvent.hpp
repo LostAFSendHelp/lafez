@@ -9,6 +9,7 @@ namespace Lafez {
         KeyEvent(EventType type, int keyCode);
         ~KeyEvent();
 
+    protected:
         bool isOfCategory(EventCategory category) const override;
 
     private:

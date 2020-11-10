@@ -10,6 +10,7 @@ namespace Lafez {
         MouseMoveEvent(float x, float y);
         ~MouseMoveEvent();
 
+    protected:
         bool isOfCategory(EventCategory category) const override;
 
     private:

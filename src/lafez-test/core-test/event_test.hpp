@@ -70,11 +70,13 @@ namespace Lafez {
         EXPECT_TRUE(mKeyUp.isOfCategories(LZCI, LZCK));
         EXPECT_TRUE(mKeyDown.isOfCategories(LZCI, LZCK));
         EXPECT_TRUE(mKeyRepeat.isOfCategories(LZCI, LZCK));
+        EXPECT_TRUE(mKeyInvalid.isOfCategories(LZCN));
 
         EXPECT_TRUE(mMouseUp.isOfCategories(LZCI, LZCM));
         EXPECT_TRUE(mMouseDown.isOfCategories(LZCI, LZCM));
         EXPECT_TRUE(mMouseMove.isOfCategories(LZCI, LZCM));
         EXPECT_TRUE(mMouseScroll.isOfCategories(LZCI, LZCM));
+        EXPECT_TRUE(mMouseInvalid.isOfCategories(LZCN));
 
         EXPECT_TRUE(mWindowClose.isOfCategories(LZCA));
         EXPECT_TRUE(mWindowResize.isOfCategories(LZCA));

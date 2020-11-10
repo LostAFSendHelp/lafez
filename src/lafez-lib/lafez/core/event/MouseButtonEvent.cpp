@@ -15,6 +15,10 @@ namespace Lafez {
     }
 
     bool MouseButtonEvent::isOfCategory(EventCategory category) const {
-        return category == EventCategory::Input || category == EventCategory::MouseInput;
+        if (mType == EventType::None) {
+            return category == EventCategory::None;
+        } else {
+            return category == EventCategory::Input || category == EventCategory::MouseInput;
+        }
     }
 }

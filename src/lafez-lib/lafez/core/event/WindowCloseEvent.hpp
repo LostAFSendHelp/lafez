@@ -9,6 +9,7 @@ namespace Lafez {
         WindowCloseEvent(bool shouldClose = true);
         ~WindowCloseEvent();
 
+    protected:
         bool isOfCategory(EventCategory category) const override;
 
     private:

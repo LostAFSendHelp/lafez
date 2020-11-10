@@ -10,6 +10,7 @@ namespace Lafez {
         WindowResizeEvent(int width, int height);
         ~WindowResizeEvent();
 
+    protected:
         bool isOfCategory(EventCategory category) const override;
 
     private:

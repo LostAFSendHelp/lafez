@@ -35,17 +35,6 @@ namespace Lafez {
          */
         virtual ~Event();
 
-        
-        
-        /**
-         * @brief Check whether the Event belongs to the specified category. One Event can belong to multiple categories
-         * 
-         * @param category The category to check
-         * @return true if the Event object belongs to the given category
-         * @return false otherwise
-         */
-        virtual bool isOfCategory(EventCategory category) const = 0;
-
 
 
         /**
@@ -90,6 +79,17 @@ namespace Lafez {
         bool mIsHandled;
 
         Event(EventType type);
+
+        
+        
+        /**
+         * @brief Check whether the Event belongs to the specified category. One Event can belong to multiple categories
+         * 
+         * @param category The category to check
+         * @return true if the Event object belongs to the given category
+         * @return false otherwise
+         */
+        virtual bool isOfCategory(EventCategory category) const = 0;
 
     private:
         static long sCount;

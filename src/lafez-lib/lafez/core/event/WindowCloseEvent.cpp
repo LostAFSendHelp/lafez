@@ -12,6 +12,10 @@ namespace Lafez {
     }
 
     bool WindowCloseEvent::isOfCategory(EventCategory category) const {
-        return category == EventCategory::Application;
+        if (mType == EventType::None) {
+            return category == EventCategory::None;
+        } else {
+            return category == EventCategory::Application;
+        }
     }
 }
