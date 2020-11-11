@@ -36,6 +36,15 @@ namespace Lafez {
          */
         std::shared_ptr<EventSubscription> subscribe(EventCallback callback);
 
+
+
+        /**
+         * @brief The EventCenter singleton
+         * 
+         * @return std::shared_ptr<EventCenter> 
+         */
+        static std::shared_ptr<EventCenter> getInstance();
+
     private:
         std::vector<std::shared_ptr<EventSubscription>> mSubscriptions;
         std::vector<uint16_t> mDied;

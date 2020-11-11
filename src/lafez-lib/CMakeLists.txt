@@ -6,10 +6,12 @@ add_library(
     lafez/utils/Log.hpp
     lafez/utils/Log.cpp
 
-    lafez/core/lafe_event.hpp
-    lafez/core/event/Event.hpp
+    lafez/core/lafez_event.hpp
+    lafez/core/lafez_window.hpp
     
+    lafez/core/event/Event.hpp
     lafez/core/event/Event.cpp
+
     lafez/core/event/MouseButtonEvent.hpp
     lafez/core/event/MouseButtonEvent.cpp
     lafez/core/event/MouseMoveEvent.hpp
@@ -29,6 +31,12 @@ add_library(
     lafez/core/event/EventSubscription.cpp
     lafez/core/event/DisposeBag.hpp
     lafez/core/event/DisposeBag.cpp
+
+    lafez/core/window/Window.hpp
+    lafez/core/window/Window.cpp
+
+    lafez/core/window/platforms/win/WinWindow.hpp
+    lafez/core/window/platforms/win/WinWindow.cpp
 )
 
 target_precompile_headers(
@@ -36,6 +44,10 @@ target_precompile_headers(
     
     PRIVATE
     lafez/lafez_pch.hpp
+)
+
+add_compile_definitions(
+    $<$<PLATFORM_ID:Windows>:__LZ_WIN>
 )
 
 generate_export_header(
@@ -47,12 +59,14 @@ generate_export_header(
 )
 
 find_package(spdlog CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
 
 target_link_libraries(
     lafez-lib
 
     PUBLIC
     spdlog::spdlog
+    glfw
 )
 
 target_include_directories(

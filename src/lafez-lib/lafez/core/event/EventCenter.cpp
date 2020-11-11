@@ -1,6 +1,15 @@
 #include "EventCenter.hpp"
 
 namespace Lafez {
+    std::shared_ptr<EventCenter> EventCenter::getInstance() {
+        static std::shared_ptr<EventCenter> instance{ nullptr };
+        if (instance == nullptr) {
+            instance = std::make_shared<EventCenter>();
+        }
+
+        return instance;
+    }
+
     void EventCenter::emit(Event& event) {
         std::vector<uint16_t> indices{ };
         for (uint16_t idx = 0; idx < mSubscriptions.size(); ++idx) {

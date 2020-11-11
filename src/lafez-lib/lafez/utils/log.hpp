@@ -92,3 +92,17 @@ namespace Lafez {
     #define LZ_CLIENT_ERR(...)
 
 #endif
+
+#ifdef __LZ_WIN
+
+    #define LZ_ENGINE_ASSERT(statement, message)\
+        if (!statement) {\
+            LZ_ENGINE_ERR("ASSERTION FAILED: {0}", message);\
+            __debugbreak();\
+        }
+
+#else
+
+    #define LZ_ENGINE_ASSERT(statement, message)
+
+#endif

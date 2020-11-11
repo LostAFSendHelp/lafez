@@ -1,5 +1,5 @@
 #pragma once
-#include <lafez/core/lafe_event.hpp>
+#include <lafez/core/lafez_event.hpp>
 #include <lafez/utils/Log.hpp>
 #include <lafez_test_pch.hpp>
 
