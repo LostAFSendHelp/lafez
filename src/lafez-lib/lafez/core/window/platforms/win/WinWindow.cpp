@@ -119,6 +119,7 @@ namespace Lafez {
 
         glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
             auto type = EventType::None;
+            auto mouseButton = MouseButton::Unknown;
 
             switch (action) {
             case GLFW_PRESS:
@@ -133,7 +134,24 @@ namespace Lafez {
                 break;
             }
 
-            MouseButtonEvent event{ type, button };
+            switch (button) {
+            case GLFW_MOUSE_BUTTON_LEFT:
+                mouseButton = MouseButton::Left;
+                break;
+
+            case GLFW_MOUSE_BUTTON_RIGHT:
+                mouseButton = MouseButton::Right;
+                break;
+
+            case GLFW_MOUSE_BUTTON_MIDDLE:
+                mouseButton = MouseButton::Mid;
+                break;
+
+            default:
+                break;
+            }
+
+            MouseButtonEvent event{ type, mouseButton };
             EventCenter::getInstance()->emit(event);
         });
         
@@ -146,6 +164,9 @@ namespace Lafez {
             auto& info = *((WindowInfo*)glfwGetWindowUserPointer(window));
             info.mWidth = width;
             info.mHeight = height;
+
+            WindowResizeEvent event{ width, height };
+            EventCenter::getInstance()->emit(event);
         });
 
         glfwSetWindowCloseCallback(mWindow,[](GLFWwindow* window) {

@@ -5,10 +5,12 @@
 namespace Lafez {
     class LAFEZLIB MouseButtonEvent : public Event {
     public:
-        const int mButton;
+        const MouseButton mButton;
 
-        MouseButtonEvent(EventType type, int button);
+        MouseButtonEvent(EventType type, MouseButton button);
         ~MouseButtonEvent();
+
+        std::string toString() const override;
 
     protected:
         bool isOfCategory(EventCategory category) const override;

@@ -20,13 +20,18 @@ namespace Lafez {
         WindowClose = 50
     };
 
+    enum class MouseButton: uint8_t {
+        Unknown,
+        Left, Right, Mid
+    };
+
     class LAFEZLIB Event {
     public:
 
         /**
-         * @brief The ID of the Event object
-        */
-        const long mID;
+         * @brief The Type of the event. Each event can only be of ONE type
+         */
+        const EventType mType;
 
 
 
@@ -61,21 +66,20 @@ namespace Lafez {
 
 
         /**
-         * @brief Get the Type of the event object
-         * 
-         * @return EventType 
+         * @brief Mark the event object as already handled
          */
-        virtual EventType getType() const;
+        virtual void handle();
 
 
 
         /**
-         * @brief Mark the event object as already handled
+         * @brief Debug information of the Event
+         * -
+         * @return std::string& 
          */
-        virtual void handle();
+        virtual std::string toString() const = 0;
     
     protected:
-        EventType mType;
         bool mIsHandled;
 
         Event(EventType type);
@@ -92,7 +96,7 @@ namespace Lafez {
         virtual bool isOfCategory(EventCategory category) const = 0;
 
     private:
-        static long sCount;
+
     };
 
     template<typename ... Args>

@@ -10,6 +10,8 @@ namespace Lafez {
         MouseMoveEvent(float x, float y);
         ~MouseMoveEvent();
 
+        std::string toString() const override;
+
     protected:
         bool isOfCategory(EventCategory category) const override;
 

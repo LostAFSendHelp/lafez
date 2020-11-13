@@ -20,8 +20,9 @@ int main() {
 
     Lafez::DisposeBag bag{ };
     auto eventCenter = Lafez::EventCenter::getInstance();
-    auto sub = eventCenter->subscribe([=](Lafez::Event& event) {
-        if (event.getType() == Lafez::EventType::KeyDown) {
+    
+    auto closeSub = eventCenter->subscribe([=](Lafez::Event& event) {
+        if (event.mType == Lafez::EventType::KeyDown) {
             auto keyEvent = (Lafez::KeyEvent&)event;
             if (keyEvent.mKeyCode == GLFW_KEY_Q) {
                 window->close();
@@ -29,7 +30,11 @@ int main() {
         }
     });
 
-    bag.dispose(sub);
+    auto testSub = eventCenter->subscribe([=](Lafez::Event& event) {
+        LZ_CLIENT_INFO(event.toString());
+    });
+
+    bag.dispose(closeSub);
 
     while (!window->shouldClose()) {
         window->update();

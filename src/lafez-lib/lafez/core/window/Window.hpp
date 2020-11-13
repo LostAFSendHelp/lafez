@@ -37,7 +37,7 @@ namespace Lafez {
 
 
         /**
-         * @brief Whether the window should close in the ne--xt iteration
+         * @brief Whether the window should close in the next iteration
          */
         virtual bool shouldClose() const = 0;
 
