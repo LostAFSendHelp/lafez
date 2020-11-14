@@ -1,5 +1,5 @@
 #pragma once
-#include "Event.hpp"
+#include <lafez/core/event/data/Event.hpp>
 
 namespace Lafez {
     using EventCallback = std::function<void(Event&)>;

@@ -117,7 +117,7 @@ namespace Lafez {
             EventCenter::getInstance()->emit(event);
         });
 
-        glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
+        glfwSetMouseButtonCallback(mWindow, [](GLFWwindow *window, int button, int action, int mods) {
             auto type = EventType::None;
             auto mouseButton = MouseButton::Unknown;
 
@@ -154,13 +154,18 @@ namespace Lafez {
             MouseButtonEvent event{ type, mouseButton };
             EventCenter::getInstance()->emit(event);
         });
+
+        glfwSetScrollCallback(mWindow, [](GLFWwindow *window, double offsetX, double offsetY) {
+            MouseScrollEvent event{ (float)offsetY };
+            EventCenter::getInstance()->emit(event);
+        });
         
-        glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double x, double y) {
+        glfwSetCursorPosCallback(mWindow, [](GLFWwindow *window, double x, double y) {
             MouseMoveEvent event{ (float)x, (float)y };
             EventCenter::getInstance()->emit(event);
         });
 
-        glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
+        glfwSetWindowSizeCallback(mWindow, [](GLFWwindow *window, int width, int height) {
             auto& info = *((WindowInfo*)glfwGetWindowUserPointer(window));
             info.mWidth = width;
             info.mHeight = height;
@@ -169,7 +174,7 @@ namespace Lafez {
             EventCenter::getInstance()->emit(event);
         });
 
-        glfwSetWindowCloseCallback(mWindow,[](GLFWwindow* window) {
+        glfwSetWindowCloseCallback(mWindow,[](GLFWwindow *window) {
             WindowCloseEvent event{ };
             EventCenter::getInstance()->emit(event);
         });

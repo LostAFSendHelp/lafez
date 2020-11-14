@@ -9,28 +9,30 @@ add_library(
     lafez/core/lafez_event.hpp
     lafez/core/lafez_window.hpp
     
-    lafez/core/event/Event.hpp
-    lafez/core/event/Event.cpp
+    lafez/core/event/data/Event.hpp
+    lafez/core/event/data/Event.cpp
 
-    lafez/core/event/MouseButtonEvent.hpp
-    lafez/core/event/MouseButtonEvent.cpp
-    lafez/core/event/MouseMoveEvent.hpp
-    lafez/core/event/MouseMoveEvent.cpp
+    lafez/core/event/data/MouseButtonEvent.hpp
+    lafez/core/event/data/MouseButtonEvent.cpp
+    lafez/core/event/data/MouseMoveEvent.hpp
+    lafez/core/event/data/MouseMoveEvent.cpp
+    lafez/core/event/data/MouseScrollEvent.hpp
+    lafez/core/event/data/MouseScrollEvent.cpp
     
-    lafez/core/event/KeyEvent.hpp
-    lafez/core/event/KeyEvent.cpp
+    lafez/core/event/data/KeyEvent.hpp
+    lafez/core/event/data/KeyEvent.cpp
     
-    lafez/core/event/WindowCloseEvent.hpp
-    lafez/core/event/WindowCloseEvent.cpp
-    lafez/core/event/WindowResizeEvent.hpp
-    lafez/core/event/WindowResizeEvent.cpp
+    lafez/core/event/data/WindowCloseEvent.hpp
+    lafez/core/event/data/WindowCloseEvent.cpp
+    lafez/core/event/data/WindowResizeEvent.hpp
+    lafez/core/event/data/WindowResizeEvent.cpp
     
-    lafez/core/event/EventCenter.hpp
-    lafez/core/event/EventCenter.cpp
-    lafez/core/event/EventSubscription.hpp
-    lafez/core/event/EventSubscription.cpp
-    lafez/core/event/DisposeBag.hpp
-    lafez/core/event/DisposeBag.cpp
+    lafez/core/event/control/EventCenter.hpp
+    lafez/core/event/control/EventCenter.cpp
+    lafez/core/event/control/EventSubscription.hpp
+    lafez/core/event/control/EventSubscription.cpp
+    lafez/core/event/control/DisposeBag.hpp
+    lafez/core/event/control/DisposeBag.cpp
 
     lafez/core/window/Window.hpp
     lafez/core/window/Window.cpp
