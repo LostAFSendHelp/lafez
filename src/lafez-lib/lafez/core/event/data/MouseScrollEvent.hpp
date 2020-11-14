@@ -2,7 +2,7 @@
 #include "Event.hpp"
 
 namespace Lafez {
-    class MouseScrollEvent : public Event {
+    class LAFEZLIB MouseScrollEvent : public Event {
     public:
         const float mOffset;
 

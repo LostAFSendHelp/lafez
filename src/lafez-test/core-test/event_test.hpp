@@ -18,7 +18,8 @@ namespace Lafez {
     class EventTest : public ::testing::Test {
     protected:
         ::Lafez::KeyEvent mKeyUp, mKeyDown, mKeyRepeat, mKeyInvalid;
-        ::Lafez::MouseButtonEvent mMouseUp, mMouseDown, mMouseScroll, mMouseInvalid;
+        ::Lafez::MouseButtonEvent mMouseUp, mMouseDown, mMouseInvalid;
+        ::Lafez::MouseScrollEvent mMouseScroll;
         ::Lafez::MouseMoveEvent mMouseMove;
         ::Lafez::WindowCloseEvent mWindowClose;
         ::Lafez::WindowResizeEvent mWindowResize;
@@ -30,7 +31,7 @@ namespace Lafez {
         mKeyInvalid(LZTM(Up), 0),
         mMouseUp(LZTM(Up), ::Lafez::MouseButton::Left),
         mMouseDown(LZTM(Down), ::Lafez::MouseButton::Left),
-        mMouseScroll(LZTM(Scroll), ::Lafez::MouseButton::Left),
+        mMouseScroll(1.0f),
         mMouseMove(0, 0),
         mMouseInvalid(LZTK(Up), ::Lafez::MouseButton::Left),
         mWindowResize(0, 0),
