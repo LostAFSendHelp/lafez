@@ -1,14 +1,10 @@
 #include "MouseButtonEvent.hpp"
 
 namespace Lafez {
-    MouseButtonEvent::MouseButtonEvent(EventType type, MouseButton button):
-    Event(
-        [](const EventType& type) {
-            auto rawValue = static_cast<uint8_t>(type);
-            return (rawValue >= 20 && rawValue < 30) ? type : EventType::None;
-        }(type)
-    ),
-    mButton(mType != EventType::None ? button : MouseButton::Unknown) {
+    MouseButtonEvent::MouseButtonEvent(MouseButton button, ButtonAction action):
+    Event(LZT_MOUSE_BUTTON),
+    mButton(button),
+    mAction(action) {
 
     }
 
@@ -17,21 +13,17 @@ namespace Lafez {
     }
 
     std::string MouseButtonEvent::toString() const {
-        if (mType == EventType::None) {
-            return "[INVALID MOUSE EVENT]";
-        }
-
         std::string buttonName{ "UNKNOWN" };
         switch (mButton) {
-        case MouseButton::Left:
+        case LZ_MOUSE_LEFT:
             buttonName = "LEFT";
             break;
 
-        case MouseButton::Right:
+        case LZ_MOUSE_RIGHT:
             buttonName = "RIGHT";
             break;
 
-        case MouseButton::Mid:
+        case LZ_MOUSE_MID:
             buttonName = "MIDDLE";
             break;
 
@@ -39,10 +31,18 @@ namespace Lafez {
             break;
         }
 
-        std::string action{ "UP" };
-        switch (mType) {
-        case EventType::MouseDown:
-            action = "DOWN";
+        std::string action{ "UNKNOWN" };
+        switch (mAction) {
+        case LZ_BUTTON_PRESS:
+            action = "PRESS";
+            break;
+
+        case LZ_BUTTON_RELEASE:
+            action = "RELEASE";
+            break;
+
+        case LZ_BUTTON_REPEAT:
+            action = "REPEAT";
             break;
 
         default:
@@ -53,10 +53,6 @@ namespace Lafez {
     }
 
     bool MouseButtonEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Input || category == EventCategory::MouseInput;
-        }
+        return category == LZC_INPUT || category == LZC_MOUSE;
     }
 }

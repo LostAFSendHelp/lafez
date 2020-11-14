@@ -6,8 +6,9 @@ namespace Lafez {
     class LAFEZLIB MouseButtonEvent : public Event {
     public:
         const MouseButton mButton;
+        const ButtonAction mAction;
 
-        MouseButtonEvent(EventType type, MouseButton button);
+        MouseButtonEvent(MouseButton button, ButtonAction action);
         ~MouseButtonEvent();
 
         std::string toString() const override;

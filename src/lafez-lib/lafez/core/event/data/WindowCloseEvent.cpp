@@ -2,7 +2,7 @@
 
 namespace Lafez {
     WindowCloseEvent::WindowCloseEvent():
-    Event(EventType::WindowClose) {
+    Event(LZT_WINDOW_CLOSE) {
 
     }
 
@@ -15,10 +15,6 @@ namespace Lafez {
     }
 
     bool WindowCloseEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Application;
-        }
+        return category == LZC_APPLICATION;
     }
 }

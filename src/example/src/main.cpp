@@ -22,9 +22,9 @@ int main() {
     auto eventCenter = Lafez::EventCenter::getInstance();
     
     auto closeSub = eventCenter->subscribe([=](Lafez::Event& event) {
-        if (event.mType == Lafez::EventType::KeyDown) {
+        if (event.mType == Lafez::EventType::Key) {
             auto keyEvent = (Lafez::KeyEvent&)event;
-            if (keyEvent.mKeyCode == GLFW_KEY_Q) {
+            if (keyEvent.mKeyCode == GLFW_KEY_Q && keyEvent.mAction == Lafez::ButtonAction::Release) {
                 window->close();
             }
         }

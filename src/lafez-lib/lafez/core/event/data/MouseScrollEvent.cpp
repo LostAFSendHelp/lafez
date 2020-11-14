@@ -2,7 +2,7 @@
 
 namespace Lafez {
     MouseScrollEvent::MouseScrollEvent(float offset):
-    Event(EventType::MouseScroll),
+    Event(LZT_MOUSE_SCROLL),
     mOffset(offset) {
 
     }
@@ -16,10 +16,6 @@ namespace Lafez {
     }
 
     bool MouseScrollEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Input || category == EventCategory::MouseInput;
-        }
+        return category == LZC_INPUT || category == LZC_MOUSE;
     }
 }

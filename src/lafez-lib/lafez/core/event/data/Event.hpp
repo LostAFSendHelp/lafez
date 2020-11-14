@@ -2,6 +2,30 @@
 #include <lafezlib_export.h>
 #include <lafez/lafez_pch.hpp>
 
+#define LZT_KEY             ::Lafez::EventType::Key
+#define LZT_MOUSE_BUTTON    ::Lafez::EventType::MouseButton
+#define LZT_MOUSE_MOVE      ::Lafez::EventType::MouseMove
+#define LZT_MOUSE_SCROLL    ::Lafez::EventType::MouseScroll
+#define LZT_WINDOW_RESIZE   ::Lafez::EventType::WindowResize
+#define LZT_WINDOW_CLOSE    ::Lafez::EventType::WindowClose
+#define LZT_NONE            ::Lafez::EventType::None
+
+#define LZC_KEY             ::Lafez::EventCategory::KeyInput
+#define LZC_MOUSE           ::Lafez::EventCategory::MouseInput
+#define LZC_INPUT           ::Lafez::EventCategory::Input
+#define LZC_APPLICATION     ::Lafez::EventCategory::Application
+#define LZC_NONE            ::Lafez::EventCategory::None
+
+#define LZ_MOUSE_LEFT       ::Lafez::MouseButton::Left
+#define LZ_MOUSE_RIGHT      ::Lafez::MouseButton::Right
+#define LZ_MOUSE_MID        ::Lafez::MouseButton::Mid
+#define LZ_MOUSE_UNKNOWN    ::Lafez::MouseButton::Unknown
+
+#define LZ_BUTTON_PRESS     ::Lafez::ButtonAction::Press
+#define LZ_BUTTON_RELEASE   ::Lafez::ButtonAction::Release
+#define LZ_BUTTON_REPEAT    ::Lafez::ButtonAction::Repeat
+#define LZ_BUTTON_UNKNOWN   ::Lafez::ButtonAction::Unknown
+
 namespace Lafez {
     enum class EventCategory: uint8_t {
         None,
@@ -13,16 +37,22 @@ namespace Lafez {
 
     enum class EventType: uint8_t {
         None,
-        KeyUp = 10, KeyDown, KeyRepeat,
-        MouseUp = 20, MouseDown, MouseScroll,
-        MouseMove = 30,
-        WindowResize = 40, 
-        WindowClose = 50
+        Key,
+        MouseButton,
+        MouseMove,
+        MouseScroll,
+        WindowResize, 
+        WindowClose
     };
 
     enum class MouseButton: uint8_t {
         Unknown,
         Left, Right, Mid
+    };
+
+    enum class ButtonAction: uint8_t {
+        Unknown,
+        Release, Press, Repeat
     };
 
     class LAFEZLIB Event {

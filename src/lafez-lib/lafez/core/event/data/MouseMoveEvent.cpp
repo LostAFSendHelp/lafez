@@ -2,7 +2,7 @@
 
 namespace Lafez {
     MouseMoveEvent::MouseMoveEvent(float x, float y):
-    Event(EventType::MouseMove),
+    Event(LZT_MOUSE_MOVE),
     mX(x),
     mY(y) {
 
@@ -13,18 +13,10 @@ namespace Lafez {
     }
 
     std::string MouseMoveEvent::toString() const {
-        if (mType == EventType::None) {
-            return "[INVALID MOUSE EVENT]";
-        }
-
         return "[MOUSE MOVE EVENT] [ x: " + std::to_string(mX) + ", y: " + std::to_string(mY) + " ]";
     }
 
     bool MouseMoveEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Input || category == EventCategory::MouseInput;
-        }
+        return category == LZC_INPUT || category == LZC_MOUSE;
     }
 }

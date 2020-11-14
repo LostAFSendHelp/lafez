@@ -5,8 +5,9 @@ namespace Lafez {
     class LAFEZLIB KeyEvent : public Event {
     public:
         const int mKeyCode;
+        const ButtonAction mAction;
         
-        KeyEvent(EventType type, int keyCode);
+        KeyEvent(int keyCode, ButtonAction action);
         ~KeyEvent();
 
         std::string toString() const override;

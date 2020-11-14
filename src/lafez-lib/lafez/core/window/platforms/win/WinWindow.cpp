@@ -94,40 +94,44 @@ namespace Lafez {
         }
         
         glfwSetKeyCallback(mWindow, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
-            auto type = EventType::None;
-            
+            auto keyAction = LZ_BUTTON_UNKNOWN;
+
             switch (action) {
             case GLFW_PRESS:
-                type = EventType::KeyDown;
+                keyAction = LZ_BUTTON_PRESS;
                 break;
 
             case GLFW_RELEASE:
-                type = EventType::KeyUp;
+                keyAction = LZ_BUTTON_RELEASE;
                 break;
 
             case GLFW_REPEAT:
-                type = EventType::KeyRepeat;
+                keyAction = LZ_BUTTON_REPEAT;
                 break;
             
             default:
                 break;
             }
 
-            KeyEvent event{ type, key };
+            KeyEvent event{ key, keyAction };
             EventCenter::getInstance()->emit(event);
         });
 
         glfwSetMouseButtonCallback(mWindow, [](GLFWwindow *window, int button, int action, int mods) {
-            auto type = EventType::None;
-            auto mouseButton = MouseButton::Unknown;
+            auto mouseButton = LZ_MOUSE_UNKNOWN;
+            auto mouseButtonAction = LZ_BUTTON_UNKNOWN;
 
             switch (action) {
             case GLFW_PRESS:
-                type = EventType::MouseDown;
+                mouseButtonAction = LZ_BUTTON_PRESS;
                 break;
 
             case GLFW_RELEASE:
-                type = EventType::MouseUp;
+                mouseButtonAction = LZ_BUTTON_RELEASE;
+                break;
+
+            case GLFW_REPEAT:
+                mouseButtonAction = LZ_BUTTON_REPEAT;
                 break;
 
             default:
@@ -136,22 +140,22 @@ namespace Lafez {
 
             switch (button) {
             case GLFW_MOUSE_BUTTON_LEFT:
-                mouseButton = MouseButton::Left;
+                mouseButton = LZ_MOUSE_LEFT;
                 break;
 
             case GLFW_MOUSE_BUTTON_RIGHT:
-                mouseButton = MouseButton::Right;
+                mouseButton = LZ_MOUSE_RIGHT;
                 break;
 
             case GLFW_MOUSE_BUTTON_MIDDLE:
-                mouseButton = MouseButton::Mid;
+                mouseButton = LZ_MOUSE_MID;
                 break;
 
             default:
                 break;
             }
 
-            MouseButtonEvent event{ type, mouseButton };
+            MouseButtonEvent event{ mouseButton, mouseButtonAction };
             EventCenter::getInstance()->emit(event);
         });
 

@@ -1,14 +1,10 @@
 #include "KeyEvent.hpp"
 
 namespace Lafez {
-    KeyEvent::KeyEvent(EventType type, int keyCode):
-    Event(
-        [](const EventType& type) {
-            auto rawValue = static_cast<uint8_t>(type);
-            return (rawValue >= 10 && rawValue < 20) ? type : EventType::None;
-        }(type)
-    ),
-    mKeyCode((mType != EventType::None) ? keyCode : -1) {
+    KeyEvent::KeyEvent(int keyCode, ButtonAction action):
+    Event(LZT_KEY),
+    mKeyCode(keyCode),
+    mAction(action) {
 
     }
 
@@ -17,19 +13,20 @@ namespace Lafez {
     }
 
     std::string KeyEvent::toString() const {
-        if (mType == EventType::None) {
-            return "[INVALID KEY EVENT]";
-        }
-
-        std::string action{ "REPEAT" };
-        switch (mType)
+        std::string action{ "UNKNOWN" };
+        
+        switch (mAction)
         {
-        case EventType::KeyDown:
-            action = "DOWN";
+        case LZ_BUTTON_PRESS:
+            action = "PRESS";
             break;
 
-        case EventType::KeyUp:
-            action = "UP";
+        case LZ_BUTTON_RELEASE:
+            action = "RELEASE";
+            break;
+
+        case LZ_BUTTON_REPEAT:
+            action = "REPEAT";
             break;
 
         default:
@@ -40,10 +37,6 @@ namespace Lafez {
     }
 
     bool KeyEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Input || category == EventCategory::KeyInput;
-        }
+        return category == LZC_KEY || category == LZC_INPUT;
     }
 }

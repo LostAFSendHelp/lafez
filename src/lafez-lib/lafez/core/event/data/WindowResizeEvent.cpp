@@ -2,7 +2,7 @@
 
 namespace Lafez {
     WindowResizeEvent::WindowResizeEvent(int width, int height):
-    Event(EventType::WindowResize),
+    Event(LZT_WINDOW_RESIZE),
     mWidth(width),
     mHeight(height) {
 
@@ -17,10 +17,6 @@ namespace Lafez {
     }
 
     bool WindowResizeEvent::isOfCategory(EventCategory category) const {
-        if (mType == EventType::None) {
-            return category == EventCategory::None;
-        } else {
-            return category == EventCategory::Application;
-        }
+        return category == LZC_APPLICATION;
     }
 }
