@@ -29,12 +29,28 @@ namespace Lafez {
 
 
         /**
+         * @brief Remove all subscriptions
+         */
+        void flush();
+
+
+
+        /**
          * @brief Subscribe to the Event Center to get notified when a Event is emitted.
          * 
          * @param callback The handler for the emitted event
          * @return std::shared_ptr<EventSubscription> 
          */
         std::shared_ptr<EventSubscription> subscribe(EventCallback callback);
+
+
+
+        /**
+         * @brief Number of currently held subscriptions, for debugging use only
+         * 
+         * @return std::size_t 
+         */
+        std::size_t subscriptionCount() const;
 
 
 

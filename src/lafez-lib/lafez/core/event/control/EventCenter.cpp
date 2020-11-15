@@ -25,6 +25,11 @@ namespace Lafez {
         cleanUp();
     }
 
+    void EventCenter::flush() {
+        mSubscriptions.clear();
+        mDied.clear();
+    }
+
     std::shared_ptr<EventSubscription> EventCenter::subscribe(EventCallback callback) {
         return mSubscriptions.emplace_back(std::make_shared<EventSubscription>(callback));
     }
@@ -32,11 +37,35 @@ namespace Lafez {
     void EventCenter::cleanUp() {
         if (mDied.empty()) return;
 
-        for (const auto& idx : mDied) {
-            mSubscriptions[idx] = *(mSubscriptions.end() - 1);
-            mSubscriptions.pop_back();
+        if (mDied.size() == mSubscriptions.size()) {
+            flush();
+            return;
         }
 
+        // move all dead subs to the end
+        std::size_t right = mSubscriptions.size() - 1;
+        for (const auto& idx : mDied) {
+            if (idx >= right) break;
+
+            while (!mSubscriptions[right]->isAlive() && right > idx + 1) {
+                --right;
+            }
+
+            if (mSubscriptions[right]->isAlive()) {
+                std::swap(mSubscriptions[idx], mSubscriptions[right]);
+            } else {
+                break;
+            }
+        }
+
+        // remove all dead subs
+        mSubscriptions.erase(mSubscriptions.end() - mDied.size(),
+                             mSubscriptions.end());
+
         mDied.clear();
+    }
+
+    std::size_t EventCenter::subscriptionCount() const {
+        return mSubscriptions.size();
     }
 }

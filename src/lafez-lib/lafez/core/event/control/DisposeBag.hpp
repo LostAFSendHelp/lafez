@@ -34,6 +34,15 @@ namespace Lafez {
          */
         void dump();
 
+
+
+        /**
+         * @brief The number of subscriptions currently held, which will be killed when dump() is called. For debugging use only
+         * 
+         * @return std::size_t 
+         */
+        std::size_t subscriptionCount() const;
+
     private:
         std::vector<std::shared_ptr<EventSubscription>> mSubscriptions;
     };

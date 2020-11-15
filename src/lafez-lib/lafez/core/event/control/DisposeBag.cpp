@@ -22,4 +22,8 @@ namespace Lafez {
 
         mSubscriptions.clear();
     }
+
+    std::size_t DisposeBag::subscriptionCount() const {
+        return mSubscriptions.size();
+    }
 }
