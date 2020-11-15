@@ -4,9 +4,9 @@ add_executable(
     lafez-test
 
     lafez_test.cpp
-    core-test/event/mouse_event_test.hpp
-    core-test/event/key_event_test.hpp
-    core-test/event/application_event_test.hpp
+    core-test/event/MouseEventTest.hpp
+    core-test/event/KeyEventTest.hpp
+    core-test/event/ApplicationEventTest.hpp
 )
 
 target_precompile_headers(

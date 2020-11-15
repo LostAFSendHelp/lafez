@@ -1,6 +1,6 @@
-#include <core-test/event/mouse_event_test.hpp>
-#include <core-test/event/key_event_test.hpp>
-#include <core-test/event/application_event_test.hpp>
+#include <core-test/event/MouseEventTest.hpp>
+#include <core-test/event/KeyEventTest.hpp>
+#include <core-test/event/ApplicationEventTest.hpp>
 #include <lafez/utils/Log.hpp>
 
 int main(int argc, char **argv) {
