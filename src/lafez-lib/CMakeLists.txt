@@ -60,9 +60,6 @@ generate_export_header(
     EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/exports/lafezlib_export.h
 )
 
-find_package(spdlog CONFIG REQUIRED)
-find_package(glfw3 CONFIG REQUIRED)
-
 target_link_libraries(
     lafez-lib
 

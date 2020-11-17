@@ -23,8 +23,6 @@ set_target_properties(
     EXCLUDE_FROM_ALL TRUE
 )
 
-find_package(GTest CONFIG REQUIRED)
-
 target_include_directories(
     lafez-test
 
@@ -37,8 +35,7 @@ target_link_libraries(
  
     PRIVATE
     lafez-lib
-    GTest::gtest_main
-    GTest::gtest
+    gtest
 )
 
 gtest_discover_tests(
