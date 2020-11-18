@@ -39,6 +39,11 @@ add_library(
 
     lafez/core/window/platforms/win/WinWindow.hpp
     lafez/core/window/platforms/win/WinWindow.cpp
+
+    lafez/core/layers/Layer.hpp
+    lafez/core/layers/Layer.cpp
+    lafez/core/layers/LayerStack.hpp
+    lafez/core/layers/LayerStack.cpp
 )
 
 set_target_properties(
