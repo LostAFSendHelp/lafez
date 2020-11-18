@@ -1,0 +1,7 @@
+{
+    "C_Cpp.default.defines": [
+        "__LZ_DEBUG",
+        "__LZ_WIN",
+        "lafez_lib_EXPORTS"
+    ]
+}
