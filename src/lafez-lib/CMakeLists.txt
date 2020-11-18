@@ -41,6 +41,13 @@ add_library(
     lafez/core/window/platforms/win/WinWindow.cpp
 )
 
+set_target_properties(
+    lafez-lib
+
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
 target_precompile_headers(
     lafez-lib
     

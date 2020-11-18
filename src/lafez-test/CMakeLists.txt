@@ -21,6 +21,7 @@ set_target_properties(
     
     PROPERTIES
     EXCLUDE_FROM_ALL TRUE
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
 target_include_directories(

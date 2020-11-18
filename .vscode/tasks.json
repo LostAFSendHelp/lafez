@@ -25,7 +25,10 @@
             "label": "test",
             "type": "shell",
             "command": "cmake --build build --target lafez-test && ${workspaceFolder}\\build\\debug\\lafez-test.exe",
-            "group": "test",
+            "group": {
+                "isDefault": true,
+                "kind": "test"
+            },
             "presentation": {
                 "reveal": "always",
                 "focus": true,
