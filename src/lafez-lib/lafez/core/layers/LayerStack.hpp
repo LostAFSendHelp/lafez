@@ -30,6 +30,19 @@ namespace Lafez {
 
 
         /**
+         * @brief Push multiple Layers onto the stack
+         * 
+         * @tparam Args Must be Layer-derived
+         * @param args the Layer objects to be pushed
+         */
+        template<typename ... Args>
+        void pushLayers(Args&& ...args) {
+            bool dummy[]{ false, (pushLayer(std::forward<Args>(args)), false)... };
+        }
+
+
+
+        /**
          * @brief Remove the top-most Layer object from the stack. Call Layer::onDetach() before removal
          */
         LzShrPtr<Layer> popLayer();

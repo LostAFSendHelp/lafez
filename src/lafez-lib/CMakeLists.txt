@@ -7,6 +7,7 @@ add_library(
     lafez/utils/Log.cpp
 
     lafez/core/lafez_event.hpp
+    lafez/core/lafez_layer.hpp
     lafez/core/lafez_window.hpp
     
     lafez/core/event/data/Event.hpp

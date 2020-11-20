@@ -53,6 +53,11 @@ namespace Lafez {
 
 
 
+        template<typename T, typename... Args>
+        static LzShrPtr<Layer> create(Args&& ...args);
+
+
+
     protected:
 
         /**
@@ -83,4 +88,10 @@ namespace Lafez {
     private:
         static uint8_t sCount;
     };
+
+    template<typename T, typename ... Args>
+    LzShrPtr<Layer> Layer::create(Args&& ...args) {
+        auto layer = std::make_shared<T>(std::forward<Args...>(args...));
+        return std::static_pointer_cast<Layer>(layer);
+    }
 };

@@ -4,9 +4,17 @@ add_executable(
     lafez-test
 
     lafez_test.cpp
+
+    core-test/event_tests.hpp
+    core-test/event/EventControlTest.hpp
     core-test/event/MouseEventTest.hpp
     core-test/event/KeyEventTest.hpp
     core-test/event/ApplicationEventTest.hpp
+
+    core-test/layer_tests.hpp
+    core-test/layers/mnl-mocks/ConsumingLayer.hpp
+    core-test/layers/mnl-mocks/NonConsumingLayer.hpp
+    core-test/layers/tests/LayerStackTest.hpp
 )
 
 target_precompile_headers(
