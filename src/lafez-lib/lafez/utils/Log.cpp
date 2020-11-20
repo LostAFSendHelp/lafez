@@ -1,8 +1,8 @@
 #include "Log.hpp"
 
 namespace Lafez {
-    std::shared_ptr<spdlog::logger> Log::mEngineLog{ nullptr };
-    std::shared_ptr<spdlog::logger> Log::mClientLog{ nullptr };
+    LzShrPtr<spdlog::logger> Log::mEngineLog{ nullptr };
+    LzShrPtr<spdlog::logger> Log::mClientLog{ nullptr };
 
     Log::Log() {
 
@@ -27,12 +27,12 @@ namespace Lafez {
         mClientLog->info("CLIENT LOG initialized");
     }
 
-    std::shared_ptr<spdlog::logger> Log::getEngineLog() {
+    LzShrPtr<spdlog::logger> Log::getEngineLog() {
         if (mEngineLog == nullptr) init();
         return mEngineLog;
     }
 
-    std::shared_ptr<spdlog::logger> Log::getClientLog() {
+    LzShrPtr<spdlog::logger> Log::getClientLog() {
         if (mClientLog == nullptr) init();
         return mClientLog;
     }

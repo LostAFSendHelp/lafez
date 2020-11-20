@@ -10,7 +10,7 @@ namespace Lafez {
         WindowResizeEvent(int width, int height);
         ~WindowResizeEvent();
 
-        std::string toString() const override;
+        LzString toString() const override;
 
     protected:
         bool isOfCategory(EventCategory category) const override;

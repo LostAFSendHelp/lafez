@@ -20,7 +20,7 @@ namespace Lafez {
         /**
          * @brief The name of the Layer for debugging purposes
          */
-        const std::string mTag;
+        const LzString mTag;
 
 
         /**

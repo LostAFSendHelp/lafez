@@ -1,8 +1,8 @@
 #include "EventCenter.hpp"
 
 namespace Lafez {
-    std::shared_ptr<EventCenter> EventCenter::getInstance() {
-        static std::shared_ptr<EventCenter> instance{ nullptr };
+    LzShrPtr<EventCenter> EventCenter::getInstance() {
+        static LzShrPtr<EventCenter> instance{ nullptr };
         if (instance == nullptr) {
             instance = std::make_shared<EventCenter>();
         }
@@ -11,7 +11,7 @@ namespace Lafez {
     }
 
     void EventCenter::emit(Event& event) {
-        std::vector<uint16_t> indices{ };
+        LzVec<uint16_t> indices{ };
         for (uint16_t idx = 0; idx < mSubscriptions.size(); ++idx) {
             auto sub = mSubscriptions[idx];
             if (!sub->isAlive()) {
@@ -30,7 +30,7 @@ namespace Lafez {
         mDied.clear();
     }
 
-    std::shared_ptr<EventSubscription> EventCenter::subscribe(EventCallback callback) {
+    LzShrPtr<EventSubscription> EventCenter::subscribe(const LzFunc<void, Event&>& callback) {
         return mSubscriptions.emplace_back(std::make_shared<EventSubscription>(callback));
     }
 

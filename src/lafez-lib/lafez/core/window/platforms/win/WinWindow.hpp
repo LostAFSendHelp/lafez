@@ -4,7 +4,7 @@
 
 namespace Lafez {
     struct WindowInfo {
-        const std::string mName;
+        const LzString mName;
         uint16_t mWidth;
         uint16_t mHeight;
         bool mShouldClose;
@@ -19,7 +19,7 @@ namespace Lafez {
 
         uint16_t getWidth() const override;
         uint16_t getHeight() const override;
-        const std::string& getName() const override;
+        const LzString& getName() const override;
         bool shouldClose() const override;
 
         void init() override;

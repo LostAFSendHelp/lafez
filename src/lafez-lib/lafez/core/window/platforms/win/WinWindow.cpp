@@ -40,7 +40,7 @@ namespace Lafez {
         return mInfo->mHeight;
     }
 
-    const std::string& WinWindow::getName() const {
+    const LzString& WinWindow::getName() const {
         return mInfo->mName;
     }
 

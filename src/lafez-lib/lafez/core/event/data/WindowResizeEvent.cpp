@@ -12,7 +12,7 @@ namespace Lafez {
 
     }
 
-    std::string WindowResizeEvent::toString() const {
+    LzString WindowResizeEvent::toString() const {
         return "[WINDOW RESIZE EVENT] [ width: " + std::to_string(mWidth) + ", height: " + std::to_string(mHeight) + " ]";
     }
 

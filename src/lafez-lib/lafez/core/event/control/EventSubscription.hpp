@@ -2,8 +2,6 @@
 #include <lafez/core/event/data/Event.hpp>
 
 namespace Lafez {
-    using EventCallback = std::function<void(Event&)>;
-
     class LAFEZLIB EventSubscription final {
     public:
 
@@ -19,7 +17,7 @@ namespace Lafez {
          * 
          * @param callback the callback to handle the emitted Event
          */
-        EventSubscription(EventCallback callback);
+        EventSubscription(const LzFunc<void, Event&>& callback);
 
 
 
@@ -55,7 +53,7 @@ namespace Lafez {
         bool isAlive() const;
 
     private:
-        EventCallback mCallback;
+        LzFunc<void, Event&> mCallback;
         bool mIsAlive;
         static uint16_t sCount;
     };

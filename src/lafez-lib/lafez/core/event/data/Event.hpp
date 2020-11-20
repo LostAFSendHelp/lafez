@@ -105,9 +105,9 @@ namespace Lafez {
         /**
          * @brief Debug information of the Event
          * -
-         * @return std::string& 
+         * @return LzString& 
          */
-        virtual std::string toString() const = 0;
+        virtual LzString toString() const = 0;
     
     protected:
         bool mIsHandled;

@@ -12,8 +12,8 @@ namespace Lafez {
 
     }
 
-    std::string KeyEvent::toString() const {
-        std::string action{ "UNKNOWN" };
+    LzString KeyEvent::toString() const {
+        LzString action{ "UNKNOWN" };
         
         switch (mAction)
         {

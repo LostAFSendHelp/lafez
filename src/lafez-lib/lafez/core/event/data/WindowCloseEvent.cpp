@@ -10,7 +10,7 @@ namespace Lafez {
 
     }
 
-    std::string WindowCloseEvent::toString() const {
+    LzString WindowCloseEvent::toString() const {
         return "[WINDOW CLOSE EVENT]";
     }
 

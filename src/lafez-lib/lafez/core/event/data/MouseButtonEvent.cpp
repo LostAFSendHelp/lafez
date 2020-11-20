@@ -12,8 +12,8 @@ namespace Lafez {
 
     }
 
-    std::string MouseButtonEvent::toString() const {
-        std::string buttonName{ "UNKNOWN" };
+    LzString MouseButtonEvent::toString() const {
+        LzString buttonName{ "UNKNOWN" };
         switch (mButton) {
         case LZ_MOUSE_LEFT:
             buttonName = "LEFT";
@@ -31,7 +31,7 @@ namespace Lafez {
             break;
         }
 
-        std::string action{ "UNKNOWN" };
+        LzString action{ "UNKNOWN" };
         switch (mAction) {
         case LZ_BUTTON_PRESS:
             action = "PRESS";

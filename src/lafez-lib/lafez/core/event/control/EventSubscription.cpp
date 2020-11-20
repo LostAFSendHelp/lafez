@@ -3,7 +3,7 @@
 namespace Lafez {
     uint16_t EventSubscription::sCount = 0;
 
-    EventSubscription::EventSubscription(EventCallback callback):
+    EventSubscription::EventSubscription(const LzFunc<void, Event&>& callback):
     mCallback(callback),
     mIsAlive(true),
     mID(sCount++) {

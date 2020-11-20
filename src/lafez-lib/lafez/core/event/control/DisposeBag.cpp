@@ -5,7 +5,7 @@ namespace Lafez {
         dump();
     }
 
-    void DisposeBag::dispose(const std::shared_ptr<EventSubscription>& subscription) {
+    void DisposeBag::dispose(const LzShrPtr<EventSubscription>& subscription) {
         for (const auto& sub : mSubscriptions) {
             if (sub->mID == subscription->mID) {
                 return;

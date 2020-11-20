@@ -11,7 +11,7 @@ namespace Lafez {
 
     }
 
-    std::string MouseScrollEvent::toString() const {
+    LzString MouseScrollEvent::toString() const {
         return "[MOUSE SCROLL EVENT] [ offset: " + std::to_string(mOffset) + " ]";
     }
 

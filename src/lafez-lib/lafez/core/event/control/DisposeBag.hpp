@@ -25,7 +25,7 @@ namespace Lafez {
          * 
          * @param subscription 
          */
-        void dispose(const std::shared_ptr<EventSubscription>& subscription);
+        void dispose(const LzShrPtr<EventSubscription>& subscription);
 
 
 
@@ -44,6 +44,6 @@ namespace Lafez {
         std::size_t subscriptionCount() const;
 
     private:
-        std::vector<std::shared_ptr<EventSubscription>> mSubscriptions;
+        LzShrPtrVec<EventSubscription> mSubscriptions;
     };
 };

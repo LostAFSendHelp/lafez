@@ -37,4 +37,7 @@ using LzUnMap = ::std::unordered_map<Key, Value>;
 template<typename Key, typename Value>
 using LzMap = ::std::map<Key, Value>;
 
+template<typename RType, typename ... Args>
+using LzFunc = ::std::function<RType(Args...)>;
+
 using LzString = ::std::string;

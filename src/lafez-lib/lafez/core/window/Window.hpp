@@ -30,9 +30,9 @@ namespace Lafez {
         /**
          * @brief Get the Name of the window
          * 
-         * @return const std::string& 
+         * @return const LzString& 
          */
-        virtual const std::string& getName() const = 0;
+        virtual const LzString& getName() const = 0;
 
 
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <lafezlib_export.h>
-#include <memory>
+#include <lafez/lafez_pch.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
@@ -23,18 +23,18 @@ namespace Lafez {
         /**
          * @brief Get the Engine Log object used for logging messages within the engine
          * 
-         * @return std::shared_ptr<Log> 
+         * @return LzShrPtr<Log> 
          */
-        static std::shared_ptr<spdlog::logger> getEngineLog();
+        static LzShrPtr<spdlog::logger> getEngineLog();
 
 
 
         /**
          * @brief Get the Client Log object used for logging messages arising on client side
          * 
-         * @return std::shared_ptr<Log> 
+         * @return LzShrPtr<Log> 
          */
-        static std::shared_ptr<spdlog::logger> getClientLog();
+        static LzShrPtr<spdlog::logger> getClientLog();
 
 
 
@@ -60,14 +60,14 @@ namespace Lafez {
         /**
          * @brief Used for logging messages within the engine
          */
-        static std::shared_ptr<spdlog::logger> mEngineLog;
+        static LzShrPtr<spdlog::logger> mEngineLog;
 
 
 
         /**
          * @brief Used for logging messages arising on client side
          */
-        static std::shared_ptr<spdlog::logger> mClientLog;
+        static LzShrPtr<spdlog::logger> mClientLog;
     };
 };
 

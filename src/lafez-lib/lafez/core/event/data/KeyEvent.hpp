@@ -10,7 +10,7 @@ namespace Lafez {
         KeyEvent(int keyCode, ButtonAction action);
         ~KeyEvent();
 
-        std::string toString() const override;
+        LzString toString() const override;
 
     protected:
         bool isOfCategory(EventCategory category) const override;

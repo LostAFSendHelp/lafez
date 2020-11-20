@@ -39,9 +39,9 @@ namespace Lafez {
          * @brief Subscribe to the Event Center to get notified when a Event is emitted.
          * 
          * @param callback The handler for the emitted event
-         * @return std::shared_ptr<EventSubscription> 
+         * @return LzShrPtr<EventSubscription> 
          */
-        std::shared_ptr<EventSubscription> subscribe(EventCallback callback);
+        LzShrPtr<EventSubscription> subscribe(const LzFunc<void, Event&>& callback);
 
 
 
@@ -57,13 +57,13 @@ namespace Lafez {
         /**
          * @brief The EventCenter singleton
          * 
-         * @return std::shared_ptr<EventCenter> 
+         * @return LzShrPtr<EventCenter> 
          */
-        static std::shared_ptr<EventCenter> getInstance();
+        static LzShrPtr<EventCenter> getInstance();
 
     private:
-        std::vector<std::shared_ptr<EventSubscription>> mSubscriptions;
-        std::vector<uint16_t> mDied;
+        LzShrPtrVec<EventSubscription> mSubscriptions;
+        LzVec<uint16_t> mDied;
 
         void cleanUp();
     };

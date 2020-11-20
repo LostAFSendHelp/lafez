@@ -15,7 +15,7 @@ int main() {
     LZ_CLIENT_ERR("Test Error message");
 
 
-    std::shared_ptr<Lafez::Window> window{ Lafez::Window::createWindow("LAFEZ", 800, 600) };
+    LzShrPtr<Lafez::Window> window{ Lafez::Window::createWindow("LAFEZ", 800, 600) };
     window->init();
 
     Lafez::DisposeBag bag{ };

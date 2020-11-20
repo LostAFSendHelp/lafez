@@ -11,7 +11,7 @@ namespace Lafez {
         MouseButtonEvent(MouseButton button, ButtonAction action);
         ~MouseButtonEvent();
 
-        std::string toString() const override;
+        LzString toString() const override;
 
     protected:
         bool isOfCategory(EventCategory category) const override;

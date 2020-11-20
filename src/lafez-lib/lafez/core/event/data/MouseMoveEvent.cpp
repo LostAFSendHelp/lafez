@@ -12,7 +12,7 @@ namespace Lafez {
 
     }
 
-    std::string MouseMoveEvent::toString() const {
+    LzString MouseMoveEvent::toString() const {
         return "[MOUSE MOVE EVENT] [ x: " + std::to_string(mX) + ", y: " + std::to_string(mY) + " ]";
     }
 
