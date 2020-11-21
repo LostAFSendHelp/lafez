@@ -21,24 +21,13 @@ namespace Lafez {
 
 
         /**
-         * @brief Push a Layer onto the top of the stack. Call Layer::onAttach() upon completion
-         * 
-         * @param layer The Layer object to be pushed onto the stack
-         */
-        void pushLayer(const LzShrPtr<Layer>& layer);
-
-
-
-        /**
          * @brief Push multiple Layers onto the stack
          * 
          * @tparam Args Must be Layer-derived
          * @param args the Layer objects to be pushed
          */
         template<typename ... Args>
-        void pushLayers(Args&& ...args) {
-            bool dummy[]{ false, (pushLayer(std::forward<Args>(args)), false)... };
-        }
+        void pushLayers(Args&& ...args);
 
 
 
@@ -103,7 +92,24 @@ namespace Lafez {
          */
         void flush();
 
+
+
+
     private:
         LzShrPtrList<Layer> mLayers;
+
+
+
+        /**
+         * @brief Push a Layer onto the top of the stack. Call Layer::onAttach() upon completion
+         * 
+         * @param layer The Layer object to be pushed onto the stack
+         */
+        void pushLayer(const LzShrPtr<Layer>& layer);
     };
+
+    template<typename ... Args>
+    void LayerStack::pushLayers(Args&& ... args) {
+        bool dummy[]{ false, (pushLayer(std::forward<Args>(args)), false)... };
+    }
 };

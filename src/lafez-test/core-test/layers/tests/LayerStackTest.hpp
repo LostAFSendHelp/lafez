@@ -54,7 +54,7 @@ namespace Lafez {
     };
 
     TEST_F(LayerStackTest, ShouldCallOnAttach) {
-        mStack.pushLayer(mCL1);
+        mStack.pushLayers(mCL1);
         EXPECT_TRUE(mCLP1->mAttached);
 
         mStack.popLayer();
