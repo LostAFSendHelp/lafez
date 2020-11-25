@@ -78,6 +78,7 @@ target_link_libraries(
 
     PUBLIC
     spdlog::spdlog
+    glad
     glfw
 )
 

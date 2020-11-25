@@ -35,6 +35,13 @@ else()
     add_subdirectory(src/vendor/gtest)
 endif()
 
+## glad check
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/glad)
+    message(FATAL_ERROR "Could not find GLAD")
+else()
+    add_subdirectory(src/vendor/glad)
+endif()
+
 add_subdirectory(src/lafez-lib)
 add_subdirectory(src/example)
 add_subdirectory(src/lafez-test)

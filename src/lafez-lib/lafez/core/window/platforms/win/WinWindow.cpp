@@ -60,6 +60,10 @@ namespace Lafez {
         glfwMakeContextCurrent(mWindow);
         glfwSetWindowUserPointer(mWindow, mInfo);
         setup();
+
+        LZ_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "FAILED TO LOAD OPENGL FUNCTIONS");
+        LZ_ENGINE_INFO("OPENGL version {0}", glGetString(GL_VERSION));
+        glViewport(0, 0, mInfo->mWidth, mInfo->mHeight);
     }
 
     void WinWindow::terminate() {

@@ -1,5 +1,6 @@
 #pragma once
 #include <lafez/core/window/Window.hpp>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Lafez {

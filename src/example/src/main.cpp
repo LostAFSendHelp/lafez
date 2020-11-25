@@ -30,7 +30,7 @@ int main() {
         }
     });
 
-    auto testSub = eventCenter->subscribe([=](Lafez::Event& event) {
+    auto testSub = eventCenter->subscribe([](Lafez::Event& event) {
         LZ_CLIENT_INFO(event.toString());
     });
 
