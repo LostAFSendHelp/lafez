@@ -99,6 +99,12 @@ namespace Lafez {
         }
     }
 
+    void LayerStack::update() const {
+        for (const auto& layer : mLayers) {
+            layer->onUpdate();
+        }
+    }
+
     void LayerStack::flush() {
         while (!mLayers.empty()) {
             mLayers.back()->onDetach();

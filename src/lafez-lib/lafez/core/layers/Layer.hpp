@@ -42,7 +42,7 @@ namespace Lafez {
          * 
          * @param name the name of the Layer, for debugging purposes
          */
-        Layer(const char *name = "LafezLayer");
+        Layer(const LzString& = "LafezLayer");
 
 
 
@@ -84,6 +84,13 @@ namespace Lafez {
 
 
 
+        /**
+         * @brief Called every frame
+         */
+        virtual void onUpdate() const;
+
+
+
 
     private:
         static uint8_t sCount;
@@ -91,7 +98,7 @@ namespace Lafez {
 
     template<typename T, typename ... Args>
     LzShrPtr<Layer> Layer::create(Args&& ...args) {
-        auto layer = std::make_shared<T>(std::forward<Args...>(args...));
+        auto layer = LzShrPtr<T>{ new T{ std::forward<Args>(args)... } };
         return std::static_pointer_cast<Layer>(layer);
     }
 };

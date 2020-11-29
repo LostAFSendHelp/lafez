@@ -28,6 +28,8 @@ namespace Lafez {
         void update() const override;
         void close() override;
 
+        GLFWwindow* getGLFWwindow() const;
+
     private:
         WindowInfo *mInfo;
         GLFWwindow *mWindow;

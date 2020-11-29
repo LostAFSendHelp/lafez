@@ -45,6 +45,9 @@ add_library(
     lafez/core/layers/Layer.cpp
     lafez/core/layers/LayerStack.hpp
     lafez/core/layers/LayerStack.cpp
+
+    lafez/core/layers/impl/ImGuiLayer.hpp
+    lafez/core/layers/impl/ImGuiLayer.cpp
 )
 
 set_target_properties(
@@ -80,6 +83,7 @@ target_link_libraries(
     spdlog::spdlog
     glad
     glfw
+    lafez-imgui
 )
 
 target_include_directories(

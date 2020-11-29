@@ -3,7 +3,7 @@
 namespace Lafez {
     uint8_t Layer::sCount = 0;
 
-    Layer::Layer(const char *tag):
+    Layer::Layer(const LzString& tag):
     mID(sCount++),
     mTag(tag),
     mIsEnabled(true),
@@ -25,5 +25,9 @@ namespace Lafez {
 
     void Layer::onEvent(Event& event) const {
         
+    }
+
+    void Layer::onUpdate() const {
+
     }
 }

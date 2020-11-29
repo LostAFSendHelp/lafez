@@ -77,6 +77,9 @@ namespace Lafez {
         LZ_ENGINE_ASSERT(mWindow, "GLFW WINDOW NOT INITIALIZED FOR UPDATING");
         glfwSwapBuffers(mWindow);
         glfwPollEvents();
+
+        glClearColor(.0f, .0f, .0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     void WinWindow::close() {
@@ -85,6 +88,10 @@ namespace Lafez {
         }
 
         mInfo->mShouldClose = true;
+    }
+
+    GLFWwindow* WinWindow::getGLFWwindow() const {
+        return mWindow;
     }
 
     void WinWindow::setup() {

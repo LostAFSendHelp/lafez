@@ -1,6 +1,7 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/core/lafez_event.hpp>
 #include <lafez/core/lafez_window.hpp>
+#include <lafez/core/lafez_layer.hpp>
 #include <iostream>
 
 int main() {
@@ -17,6 +18,10 @@ int main() {
 
     LzShrPtr<Lafez::Window> window{ Lafez::Window::createWindow("LAFEZ", 800, 600) };
     window->init();
+
+    Lafez::LayerStack layerStack{ };
+    
+    layerStack.pushLayers(Lafez::Layer::create<Lafez::ImGuiLayer>(LzString("test layer"), window));
 
     Lafez::DisposeBag bag{ };
     auto eventCenter = Lafez::EventCenter::getInstance();
@@ -38,8 +43,10 @@ int main() {
 
     while (!window->shouldClose()) {
         window->update();
+        layerStack.update();
     }
 
+    layerStack.flush();
     window->terminate();
 
     return 0;

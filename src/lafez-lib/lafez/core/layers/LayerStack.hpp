@@ -88,6 +88,13 @@ namespace Lafez {
 
 
         /**
+         * @brief Call onUpdate on all enabled Layer objects on the stack
+         */
+        void update() const;
+
+
+
+        /**
          * @brief Remove all Layer objects, calling onDetach per removal
          */
         void flush();
