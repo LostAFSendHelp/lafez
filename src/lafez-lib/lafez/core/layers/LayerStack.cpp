@@ -101,7 +101,9 @@ namespace Lafez {
 
     void LayerStack::update() const {
         for (const auto& layer : mLayers) {
-            layer->onUpdate();
+            if (layer->mIsEnabled) {
+                layer->onUpdate();
+            }
         }
     }
 

@@ -24,7 +24,7 @@ namespace Lafez {
 
 
         /**
-         * @brief Whether the Layer is up for consuming Events. Defaulted to TRUE
+         * @brief Whether the Layer is up for consuming Events or should be updated. Defaulted to TRUE
          */
         bool mIsEnabled;
 

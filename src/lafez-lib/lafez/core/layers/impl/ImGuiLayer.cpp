@@ -41,7 +41,7 @@ namespace Lafez {
     }
 
     void ImGuiLayer::onUpdate() const {
-        if (mWindow == nullptr) return;
+        if (mWindow == nullptr || !mIsEnabled) return;
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
