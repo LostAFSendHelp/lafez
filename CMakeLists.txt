@@ -42,6 +42,13 @@ else()
     add_subdirectory(src/vendor/glad)
 endif()
 
+## imgui check
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/imgui)
+    message(FATAL_ERROR "Could not find IMGUI")
+else()
+    add_subdirectory(src/vendor/imgui)
+endif()
+
 add_subdirectory(src/lafez-lib)
 add_subdirectory(src/example)
 add_subdirectory(src/lafez-test)

@@ -7,3 +7,6 @@
 [submodule "src/vendor/gtest"]
 	path = src/vendor/gtest
 	url = git@github.com:google/googletest.git
+[submodule "src/vendor/imgui"]
+	path = src/vendor/imgui
+	url = git@github.com:LostAFSendHelp/imgui.git
