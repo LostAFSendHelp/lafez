@@ -98,7 +98,7 @@ namespace Lafez {
 
     template<typename T, typename ... Args>
     LzShrPtr<Layer> Layer::create(Args&& ...args) {
-        auto layer = LzShrPtr<T>{ new T{ std::forward<Args>(args)... } };
+        auto layer = std::make_shared<T>(std::forward<Args>(args)...);
         return std::static_pointer_cast<Layer>(layer);
     }
 };
