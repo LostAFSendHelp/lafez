@@ -106,3 +106,15 @@ namespace Lafez {
     #define LZ_ENGINE_ASSERT(statement, message)
 
 #endif
+
+#define LZ_ENGINE_GUARD_VOID(statement, ...)\
+    if (!statement) {\
+        LZ_ENGINE_WARN(__VA_ARGS__);\
+        return;\
+    }
+
+#define LZ_ENGINE_GUARD_VAL(statement, val, ...)\
+    if (!statement) {\
+        LZ_ENGINE_WARN(__VA_ARGS__);\
+        return val;\
+    }

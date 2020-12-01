@@ -1,20 +1,12 @@
-#include "ImGuiLayer.hpp"
 #include <lafez/utils/Log.hpp>
-#include <lafez-imgui/impl/imgui_impl_opengl3.h>
-#include <lafez-imgui/impl/imgui_impl_glfw.h>
+#include <lafez/core/lafez_foundation.hpp>
+#include "ImGuiLayer.hpp"
 
 namespace Lafez {
-    ImGuiLayer::ImGuiLayer(const LzString& tag, const LzShrPtr<Window>& window):
-    Layer(tag),
-    mWindow(nullptr) {
-        #ifdef __LZ_WIN
-            if (auto w = std::dynamic_pointer_cast<WinWindow>(window)) {
-                mWindow = w->getGLFWwindow();
-            }
-        #endif
-        
-        if (mWindow == nullptr) {
-            LZ_ENGINE_WARN("IMGUI WINDOW INITIALIZED TO NULLPTR");
+    ImGuiLayer::ImGuiLayer(const LzString& tag):
+    Layer(tag) {
+        if (!ImGuiBackend::isInitialized()) {
+            LZ_ENGINE_WARN("IMGUIBACKEND NOT INITIALIZED, IMGUI FUNCTIONALITIES WILL NOT WORK BACKEND IS INITIALIZED");
         }
     }
 
@@ -23,16 +15,12 @@ namespace Lafez {
     }
 
     void ImGuiLayer::onAttach() {
-        if (mWindow == nullptr) return;
         ImGui::CreateContext();
-        ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
-        ImGui_ImplOpenGL3_Init();
+        ImGuiBackend::init();
     }
 
     void ImGuiLayer::onDetach() {
-        if (mWindow == nullptr) return;
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
+        ImGuiBackend::terminate();
         ImGui::DestroyContext();
     }
 
@@ -41,9 +29,7 @@ namespace Lafez {
     }
 
     void ImGuiLayer::onUpdate() const {
-        if (mWindow == nullptr || !mIsEnabled) return;
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
+        ImGuiBackend::newFrame();
         ImGui::NewFrame();
 
         // render your GUI
@@ -53,6 +39,6 @@ namespace Lafez {
 
         // Render dear imgui into screen
         ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ImGuiBackend::renderDrawData(ImGui::GetDrawData());
     }
 }

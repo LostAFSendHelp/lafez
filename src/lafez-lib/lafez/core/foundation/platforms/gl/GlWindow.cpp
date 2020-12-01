@@ -1,17 +1,9 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/core/lafez_event.hpp>
-#include "WinWindow.hpp"
+#include "GlWindow.hpp"
 
 namespace Lafez {
-    bool WinWindow::sGLFWInitialized = false;
-
-    #ifdef __LZ_WIN
-
-        Window* Window::createWindow(const char* name, uint16_t width, uint16_t height) {
-            return new WinWindow(name, width, height);
-        }
-
-    #endif
+    bool GlWindow::sGLFWInitialized = false;
     
     WindowInfo::WindowInfo(const char* name, uint16_t width, uint16_t height):
     mName(name),
@@ -21,34 +13,34 @@ namespace Lafez {
 
     }
 
-    WinWindow::WinWindow(const char* name, uint16_t width, uint16_t height):
+    GlWindow::GlWindow(const char* name, uint16_t width, uint16_t height):
     Window(),
     mInfo(new WindowInfo(name, width, height)),
     mWindow(nullptr) {
 
     }
 
-    WinWindow::~WinWindow() {
-        terminate();
+    GlWindow::~GlWindow() {
+        terminateImpl();
     }
 
-    uint16_t WinWindow::getWidth() const {
+    uint16_t GlWindow::getWidthImpl() const {
         return mInfo->mWidth;
     }
 
-    uint16_t WinWindow::getHeight() const {
+    uint16_t GlWindow::getHeightImpl() const {
         return mInfo->mHeight;
     }
 
-    const LzString& WinWindow::getName() const {
+    const LzString& GlWindow::getNameImpl() const {
         return mInfo->mName;
     }
 
-    bool WinWindow::shouldClose() const {
+    bool GlWindow::shouldCloseImpl() const {
         return mInfo->mShouldClose;
     }
 
-    void WinWindow::init() {
+    void GlWindow::initImpl() {
         if (!sGLFWInitialized) {
             auto result = glfwInit();
             LZ_ENGINE_ASSERT(result, "FAILED TO INITIALIZE GLFW");
@@ -66,14 +58,14 @@ namespace Lafez {
         glViewport(0, 0, mInfo->mWidth, mInfo->mHeight);
     }
 
-    void WinWindow::terminate() {
+    void GlWindow::terminateImpl() {
         if (mWindow != nullptr) {
             glfwDestroyWindow(mWindow);
             mWindow = nullptr;
         }
     }
 
-    void WinWindow::update() const {
+    void GlWindow::updateImpl() {
         LZ_ENGINE_ASSERT(mWindow, "GLFW WINDOW NOT INITIALIZED FOR UPDATING");
         glfwSwapBuffers(mWindow);
         glfwPollEvents();
@@ -82,19 +74,19 @@ namespace Lafez {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void WinWindow::close() {
+    void GlWindow::closeImpl() {
         if (mWindow == nullptr) {
-            LZ_ENGINE_WARN("ATTEMPTING TO CLOSE UNINITIALIZED WINDOW");
+            LZ_ENGINE_WARN("ATTEMPT TO CLOSE UNINITIALIZED WINDOW, ABORTING...");
         }
 
         mInfo->mShouldClose = true;
     }
 
-    GLFWwindow* WinWindow::getGLFWwindow() const {
+    void* GlWindow::getWindowPointerImpl() const {
         return mWindow;
     }
 
-    void WinWindow::setup() {
+    void GlWindow::setup() {
         // GLFW error
         glfwSetErrorCallback([](int code, const char* message) {
             LZ_ENGINE_ERR("GLFW WINDOW ERROR [code {0}]: {1}", code, message);

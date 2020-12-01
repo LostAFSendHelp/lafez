@@ -1,11 +1,11 @@
 #pragma once
 #include <lafez/core/layers/Layer.hpp>
-#include <lafez/core/lafez_window.hpp>
+#include <lafez/core/lafez_foundation.hpp>
 
 namespace Lafez {
     class LAFEZLIB ImGuiLayer : public Layer {
     public:
-        ImGuiLayer(const LzString& tag, const LzShrPtr<Window>& window);
+        ImGuiLayer(const LzString& tag);
         ~ImGuiLayer();
 
         void onAttach() override;
@@ -14,6 +14,6 @@ namespace Lafez {
         void onUpdate() const override;
 
     private:
-        GLFWwindow* mWindow;
+
     };
 };

@@ -40,4 +40,7 @@ using LzMap = ::std::map<Key, Value>;
 template<typename RType, typename ... Args>
 using LzFunc = ::std::function<RType(Args...)>;
 
+template<typename First, typename Second>
+using LzPair = ::std::pair<First, Second>;
+
 using LzString = ::std::string;

@@ -1,7 +1,6 @@
 {
     "C_Cpp.default.defines": [
-        "__LZ_DEBUG",
-        "__LZ_WIN",
+        "__LZ_DBG",
         "lafez_lib_EXPORTS"
     ],
     "files.associations": {

@@ -8,7 +8,7 @@ add_library(
 
     lafez/core/lafez_event.hpp
     lafez/core/lafez_layer.hpp
-    lafez/core/lafez_window.hpp
+    lafez/core/lafez_foundation.hpp
     
     lafez/core/event/data/Event.hpp
     lafez/core/event/data/Event.cpp
@@ -35,11 +35,22 @@ add_library(
     lafez/core/event/control/DisposeBag.hpp
     lafez/core/event/control/DisposeBag.cpp
 
-    lafez/core/window/Window.hpp
-    lafez/core/window/Window.cpp
+    lafez/core/foundation/Foundation.hpp
+    lafez/core/foundation/Foundation.cpp
 
-    lafez/core/window/platforms/win/WinWindow.hpp
-    lafez/core/window/platforms/win/WinWindow.cpp
+    lafez/core/foundation/Window.hpp
+    lafez/core/foundation/Window.cpp
+    lafez/core/foundation/Input.hpp
+    lafez/core/foundation/Input.cpp
+    lafez/core/foundation/ImGuiBackend.hpp
+    lafez/core/foundation/ImGuiBackend.cpp
+
+    lafez/core/foundation/platforms/gl/GlWindow.hpp
+    lafez/core/foundation/platforms/gl/GlWindow.cpp
+    lafez/core/foundation/platforms/gl/GlImGui.hpp
+    lafez/core/foundation/platforms/gl/GlImGui.cpp
+    lafez/core/foundation/platforms/gl/GlInput.hpp
+    lafez/core/foundation/platforms/gl/GlInput.cpp
 
     lafez/core/layers/Layer.hpp
     lafez/core/layers/Layer.cpp
