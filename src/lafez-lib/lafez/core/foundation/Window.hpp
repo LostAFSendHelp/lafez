@@ -68,15 +68,6 @@ namespace Lafez {
 
 
         /**
-         * @brief Get the Window object
-         * 
-         * @return LzShrPtr<Window> 
-         */
-        static LzShrPtr<Window> getWindow();
-
-
-
-        /**
          * @brief Initialize the Singleton Window object of a specific implementation T
          * 
          * @tparam T The implementation of the window to be initialized
@@ -120,7 +111,7 @@ namespace Lafez {
         virtual void updateImpl() = 0;
 
     private:
-        static LzShrPtr<Window> sShared;
+        static LzUniPtr<Window> sShared;
     };
 
 
@@ -129,7 +120,7 @@ namespace Lafez {
     void Window::startUp(Args&& ...args) {
         LZ_ENGINE_GUARD_VOID((sShared == nullptr), "ATTEMPT TO RE-STARTUP NON-NULL WINDOW INSTANCE, ABORTING...");
 
-        Window::sShared = std::make_shared<T>(std::forward<Args>(args)...);
+        Window::sShared = std::make_unique<T>(std::forward<Args>(args)...);
         Window::sShared->initImpl();
     }
 };
