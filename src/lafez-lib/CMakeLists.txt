@@ -77,6 +77,8 @@ target_precompile_headers(
 
 add_compile_definitions(
     $<$<PLATFORM_ID:Windows>:__LZ_WIN>
+    $<$<PLATFORM_ID:Darwin>:__LZ_MAC>
+    $<$<PLATFORM_ID:Linux>:__LZ_LNX>
 )
 
 generate_export_header(

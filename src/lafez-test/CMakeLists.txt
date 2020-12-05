@@ -15,6 +15,14 @@ add_executable(
     core-test/layers/mnl-mocks/ConsumingLayer.hpp
     core-test/layers/mnl-mocks/NonConsumingLayer.hpp
     core-test/layers/tests/LayerStackTest.hpp
+
+    core-test/foundation_tests.hpp
+    core-test/foundation/mnl-mocks/WindowMock.hpp
+    core-test/foundation/mnl-mocks/InputMock.hpp
+    core-test/foundation/mnl-mocks/ImGuiBackendMock.hpp
+    core-test/foundation/tests/WindowTest.hpp
+    core-test/foundation/tests/InputTest.hpp
+    core-test/foundation/tests/ImGuiBackendTest.hpp
 )
 
 target_precompile_headers(
