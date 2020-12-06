@@ -35,7 +35,7 @@ namespace Lafez {
 
     LzShrPtrVec<Layer> LayerStack::removeByTag(const LzString& tag) {
         LzShrPtrVec<Layer> removed{ };
-        mLayers.remove_if([tag, &removed](const LzShrPtr<Layer>& layer) {
+        mLayers.remove_if([&tag, &removed](const LzShrPtr<Layer>& layer) {
             if (layer->mTag == tag) {
                 layer->onDetach();
                 removed.push_back(layer);
