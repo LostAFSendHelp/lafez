@@ -15,6 +15,7 @@ namespace Lafez {
     }
 
     void GlImGui::initImpl() {
+        ImGui::CreateContext();
         ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
         ImGui_ImplOpenGL3_Init();
     }
@@ -22,6 +23,10 @@ namespace Lafez {
     void GlImGui::terminateImpl() {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+
+        if (ImGui::GetCurrentContext() != nullptr) {
+            ImGui::DestroyContext();
+        }
     }
 
     void GlImGui::newFrameImpl() {

@@ -15,13 +15,11 @@ namespace Lafez {
     }
 
     void ImGuiLayer::onAttach() {
-        ImGui::CreateContext();
         ImGuiBackend::init();
     }
 
     void ImGuiLayer::onDetach() {
         ImGuiBackend::terminate();
-        ImGui::DestroyContext();
     }
 
     void ImGuiLayer::onEvent(Event& event) const {

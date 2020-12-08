@@ -177,6 +177,7 @@ namespace Lafez {
             info.mWidth = width;
             info.mHeight = height;
 
+            glViewport(0, 0, width, height);
             WindowResizeEvent event{ width, height };
             EventCenter::getInstance()->emit(event);
         });
