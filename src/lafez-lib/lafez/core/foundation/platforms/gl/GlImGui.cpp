@@ -21,10 +21,9 @@ namespace Lafez {
     }
 
     void GlImGui::terminateImpl() {
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-
         if (ImGui::GetCurrentContext() != nullptr) {
+            ImGui_ImplOpenGL3_Shutdown();
+            ImGui_ImplGlfw_Shutdown();
             ImGui::DestroyContext();
         }
     }

@@ -16,6 +16,10 @@ namespace Lafez {
 
     void ImGuiLayer::onAttach() {
         ImGuiBackend::init();
+
+        auto& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigDockingWithShift = false;
     }
 
     void ImGuiLayer::onDetach() {
@@ -35,8 +39,21 @@ namespace Lafez {
         ImGui::Button("Hello!");
         ImGui::End();
 
+        static float z;
+        ImGui::Begin("Another");
+        ImGui::SliderFloat("Slide", &z, .0f, 1.0f, NULL, 1.0f);
+        ImGui::SliderFloat("AnotherSlide", &z, .0f, 1.0f, NULL, 1.0f);
+        ImGui::End();
+
         // Render dear imgui into screen
         ImGui::Render();
         ImGuiBackend::renderDrawData(ImGui::GetDrawData());
+		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
     }
 }
