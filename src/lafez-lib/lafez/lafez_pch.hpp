@@ -44,3 +44,5 @@ template<typename First, typename Second>
 using LzPair = ::std::pair<First, Second>;
 
 using LzString = ::std::string;
+
+using LzSizeT = ::std::size_t;
