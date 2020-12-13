@@ -1,20 +1,17 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
+#include <lafez/core/renderer/Shader.hpp>
+#include <lafez/core/renderer/Buffer.hpp>
 
 namespace Lafez {
 
-    // Forward declaration
-    class Shader;
-    class ArrayBuffer;
-    class IndexBuffer;
-
-    class RendererBackend {
+    class LAFEZLIB RendererBackend {
     public:
         
         /**
          * @brief Destroy the Renderer Backend object
          */
-        virtual ~RendererBackend();
+        virtual ~RendererBackend() = default;
         
         /**
          * @brief Initialize the renderer backend singleton
@@ -148,10 +145,10 @@ namespace Lafez {
 
 
     template<typename T, typename ... Args>
-    static void RendererBackend::startUp(Args&& ... args) {
+    void RendererBackend::startUp(Args&& ... args) {
         LZ_ENGINE_GUARD_VOID((sShared == nullptr), "ATTEMPT TO RE-STARTUP NON-NULL RENDERER BACKEND INSTANCE, ABORTING...");
 
-        RendererBackend::sShared == std::make_shared<T>(std::forward<Args>(args)...);
+        RendererBackend::sShared = std::make_unique<T>(std::forward<Args>(args)...);
         RendererBackend::sShared->initImpl();
     }
 };

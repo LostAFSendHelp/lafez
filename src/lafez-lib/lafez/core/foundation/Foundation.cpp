@@ -6,6 +6,7 @@ namespace Lafez {
 
         switch (platform) {
         case LZ_PLATFORM_GL: {
+            RendererBackend::startUp<GlRenderer>();
             Window::startUp<GlWindow>("Lafez GL", 1024, 768);
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
             ImGuiBackend::startUp<GlImGui>(window);
@@ -31,5 +32,6 @@ namespace Lafez {
         Input::shutDown();
         ImGuiBackend::shutDown();
         Window::shutDown();
+        RendererBackend::shutDown();
     }
 }

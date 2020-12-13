@@ -2,7 +2,7 @@
 #include <lafez/core/renderer/RendererBackend.hpp>
 
 namespace Lafez {
-    class VsRenderer : public RendererBackend {
+    class VkRenderer : public RendererBackend {
 
     };
 };

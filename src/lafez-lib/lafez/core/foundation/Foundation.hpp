@@ -2,6 +2,7 @@
 #include <lafez/core/foundation/platforms/gl/GlWindow.hpp>
 #include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
 #include <lafez/core/foundation/platforms/gl/GlInput.hpp>
+#include <lafez/core/renderer/platforms/GlRenderer.hpp>
 
 #define LZ_PLATFORM_NONE    ::Lafez::FoundationPlatform::None
 #define LZ_PLATFORM_GL      ::Lafez::FoundationPlatform::GL

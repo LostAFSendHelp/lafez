@@ -8,11 +8,13 @@
 namespace Lafez {
     LzUniPtr<RendererBackend> RendererBackend::sShared{ nullptr };
 
-    RendererBackend::~RendererBackend() {
-        terminateImpl();
+    void RendererBackend::shutDown() {
+        if (sShared != nullptr) {
+            sShared->terminateImpl();
+        }
     }
 
-    Shader* RendererBackend::genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) {
+    Shader* RendererBackend::genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain) {
         LZ_LOCAL_GUARD;
 
         return sShared->genShaderImpl(name, vSource, fSource, retain);
@@ -46,12 +48,6 @@ namespace Lafez {
         LZ_LOCAL_GUARD;
 
         sShared->resetShaderImpl();
-    }
-
-    void RendererBackend::deleteShader(const Shader& shader) {
-        LZ_LOCAL_GUARD;
-
-        sShared->deleteShaderImpl(shader);
     }
 
     void RendererBackend::bindArrayBuffer(const ArrayBuffer& arrayBuffer) {

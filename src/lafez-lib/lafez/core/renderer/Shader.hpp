@@ -1,10 +1,14 @@
 #pragma once
+#include <lafezlib_export.h>
 #include <lafez/lafez_pch.hpp>
 
 namespace Lafez {
-    class Shader {
+    class LAFEZLIB Shader {
     public:
         friend class RendererBackend;
+        friend class GlRenderer;
+        friend class DxRenderer;
+        friend class VkRenderer;
 
         /// The renderer ID of the shader
         const uint32_t mID;
@@ -24,8 +28,6 @@ namespace Lafez {
         void use() const;
 
     private:
-
-
 
         /**
          * @brief Construct a new Shader object

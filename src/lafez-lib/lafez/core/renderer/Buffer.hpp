@@ -1,4 +1,5 @@
 #pragma once
+#include <lafezlib_export.h>
 #include <lafez/lafez_pch.hpp>
 
 namespace Lafez {
@@ -7,9 +8,12 @@ namespace Lafez {
     //*                     ArrayBuffer                     *
     //*******************************************************
 
-    class ArrayBuffer {
+    class LAFEZLIB ArrayBuffer {
     public:
         friend class RendererBackend;
+        friend class GlRenderer;
+        friend class DxRenderer;
+        friend class VkRenderer;
 
         /// The renderer ID of the array buffer
         const uint32_t mID;
@@ -43,9 +47,12 @@ namespace Lafez {
     //*                     Indexbuffer                     *
     //*******************************************************
 
-    class IndexBuffer {
+    class LAFEZLIB IndexBuffer {
     public:
         friend class RendererBackend;
+        friend class GlRenderer;
+        friend class DxRenderer;
+        friend class VkRenderer;
 
         /// The renderer ID of the index buffer
         const uint32_t mID;

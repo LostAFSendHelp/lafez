@@ -2,6 +2,7 @@
 #include <lafez/core/lafez_event.hpp>
 #include <lafez/core/lafez_foundation.hpp>
 #include <lafez/core/lafez_layer.hpp>
+#include <lafez/core/lafez_renderer.hpp>
 #include <iostream>
 
 int main() {

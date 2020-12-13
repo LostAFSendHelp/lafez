@@ -9,6 +9,7 @@ add_library(
     lafez/core/lafez_event.hpp
     lafez/core/lafez_layer.hpp
     lafez/core/lafez_foundation.hpp
+    lafez/core/lafez_renderer.hpp
     
     lafez/core/event/data/Event.hpp
     lafez/core/event/data/Event.cpp
@@ -59,6 +60,20 @@ add_library(
 
     lafez/core/layers/impl/ImGuiLayer.hpp
     lafez/core/layers/impl/ImGuiLayer.cpp
+
+    lafez/core/renderer/Buffer.hpp
+    lafez/core/renderer/Buffer.cpp
+    lafez/core/renderer/RendererBackend.hpp
+    lafez/core/renderer/RendererBackend.cpp
+    lafez/core/renderer/Shader.hpp
+    lafez/core/renderer/Shader.cpp
+
+    lafez/core/renderer/platforms/GlRenderer.hpp
+    lafez/core/renderer/platforms/GlRenderer.cpp
+    lafez/core/renderer/platforms/DxRenderer.hpp
+    lafez/core/renderer/platforms/DxRenderer.cpp
+    lafez/core/renderer/platforms/VkRenderer.hpp
+    lafez/core/renderer/platforms/VkRenderer.cpp
 )
 
 set_target_properties(
