@@ -6,6 +6,10 @@
 #define LZ_LOCAL_GUARD LZ_ENGINE_ASSERT(sShared, "ATTEMPTING TO CALL RENDERER BACKEND FUNCTIONS BEFORE STARTUP")
 
 namespace Lafez {
+
+    /********************************************************
+    *                      Singleton                        *
+    ********************************************************/
     LzUniPtr<RendererBackend> RendererBackend::sShared{ nullptr };
 
     void RendererBackend::shutDown() {
@@ -14,22 +18,20 @@ namespace Lafez {
         }
     }
 
+    bool RendererBackend::isInitialized() {
+        return sShared != nullptr;
+    }
+
+
+
+    /********************************************************
+    *                        Shader                         *
+    ********************************************************/
+
     Shader* RendererBackend::genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain) {
         LZ_LOCAL_GUARD;
 
         return sShared->genShaderImpl(name, vSource, fSource, retain);
-    }
-
-    ArrayBuffer* RendererBackend::genArrayBuffer(float* data, LzSizeT size) {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genArrayBufferImpl(data, size);
-    }
-
-    IndexBuffer* RendererBackend::genIndexBuffer(uint32_t* indices, LzSizeT count) {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genIndexBufferImpl(indices, count);
     }
 
     void RendererBackend::deleteShader(const Shader& shader) {
@@ -50,22 +52,46 @@ namespace Lafez {
         sShared->resetShaderImpl();
     }
 
+
+
+    /********************************************************
+    *                      ArrayBuffer                      *
+    ********************************************************/
+
+    ArrayBuffer* RendererBackend::genArrayBuffer(float* data, LzSizeT size) {
+        LZ_LOCAL_GUARD;
+
+        return sShared->genArrayBufferImpl(data, size);
+    }
+
     void RendererBackend::bindArrayBuffer(const ArrayBuffer& arrayBuffer) {
         LZ_LOCAL_GUARD;
 
         sShared->bindArrayBufferImpl(arrayBuffer);
     }
 
-    void RendererBackend::bindIndexBuffer(const IndexBuffer& indexBuffer) {
-        LZ_LOCAL_GUARD;
-
-        sShared->bindIndexBufferImpl(indexBuffer);
-    }
-
     void RendererBackend::resetArrayBuffer() {
         LZ_LOCAL_GUARD;
 
         sShared->resetArrayBufferImpl();
+    }
+
+
+
+    /********************************************************
+    *                      IndexBuffer                      *
+    ********************************************************/
+
+    IndexBuffer* RendererBackend::genIndexBuffer(uint32_t* indices, LzSizeT count) {
+        LZ_LOCAL_GUARD;
+
+        return sShared->genIndexBufferImpl(indices, count);
+    }
+
+    void RendererBackend::bindIndexBuffer(const IndexBuffer& indexBuffer) {
+        LZ_LOCAL_GUARD;
+
+        sShared->bindIndexBufferImpl(indexBuffer);
     }
 
     void RendererBackend::resetIndexBuffer() {

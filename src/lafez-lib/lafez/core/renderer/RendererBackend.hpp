@@ -12,6 +12,12 @@ namespace Lafez {
          * @brief Destroy the Renderer Backend object
          */
         virtual ~RendererBackend() = default;
+
+
+
+        /********************************************************
+        *                      Singleton                        *
+        ********************************************************/
         
         /**
          * @brief Initialize the renderer backend singleton
@@ -29,8 +35,22 @@ namespace Lafez {
          * @brief Terminate the renderer backend singleton 
          */
         static void shutDown();
-        
 
+
+
+        /**
+         * @brief Whether the Renderer backend singleton has been initialized
+         * 
+         * @return true If it has
+         * @return false Otherwise
+         */
+        static bool isInitialized();
+
+
+
+        /********************************************************
+        *                        Shader                         *
+        ********************************************************/
 
         /**
          * @brief Create a Shader program
@@ -42,28 +62,6 @@ namespace Lafez {
          * @return Shader*
          */
         static Shader* genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false);
-
-
-
-        /**
-         * @brief Create an array buffer object
-         * 
-         * @param data The buffer data
-         * @param size The size of the buffer in byte
-         * @return ArrayBuffer*
-         */
-        static ArrayBuffer* genArrayBuffer(float* data, LzSizeT size);
-
-
-
-        /**
-         * @brief Create an array buffer object
-         * 
-         * @param indices The buffer indices
-         * @param count The number of indices
-         * @return ArrayBuffer*
-         */
-        static IndexBuffer* genIndexBuffer(uint32_t* indices, LzSizeT count);
 
 
 
@@ -92,12 +90,49 @@ namespace Lafez {
 
 
 
+        /********************************************************
+        *                      ArrayBuffer                      *
+        ********************************************************/
+
+        /**
+         * @brief Create an array buffer object
+         * 
+         * @param data The buffer data
+         * @param size The size of the buffer in byte
+         * @return ArrayBuffer*
+         */
+        static ArrayBuffer* genArrayBuffer(float* data, LzSizeT size);
+
+
+
         /**
          * @brief Bind an ArrayBuffer object for rendering
          * 
          * @param arrayBuffer The array buffer to bind
          */
         static void bindArrayBuffer(const ArrayBuffer& arrayBuffer);
+
+
+
+        /**
+         * @brief Bind array buffer to 0
+         */
+        static void resetArrayBuffer();
+
+
+
+        /********************************************************
+        *                      IndexBuffer                      *
+        ********************************************************/
+
+        /**
+         * @brief Create an array buffer object
+         * 
+         * @param indices The buffer indices
+         * @param count The number of indices
+         * @return ArrayBuffer*
+         */
+        static IndexBuffer* genIndexBuffer(uint32_t* indices, LzSizeT count);
 
 
 
@@ -111,13 +146,6 @@ namespace Lafez {
 
 
         /**
-         * @brief Bind array buffer to 0
-         */
-        static void resetArrayBuffer();
-
-
-
-        /**
          * @brief Bind index buffer to 0
          */
         static void resetIndexBuffer();
@@ -125,16 +153,22 @@ namespace Lafez {
     protected:
         RendererBackend() = default;
 
+        // Shader
         virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;
-        virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) = 0;
-        virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) = 0;
         virtual void deleteShaderImpl(const Shader& shader) const = 0;
         virtual void useShaderImpl(const Shader& shader) const = 0;
         virtual void resetShaderImpl() const = 0;
+
+        // ArrayBuffer
+        virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) = 0;
         virtual void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const = 0;
-        virtual void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const = 0;
         virtual void resetArrayBufferImpl() const = 0;
+
+        // IndexBuffer
+        virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) = 0;
+        virtual void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const = 0;
         virtual void resetIndexBufferImpl() const = 0;
+
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;
 
