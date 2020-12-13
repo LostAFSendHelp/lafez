@@ -12,6 +12,11 @@ namespace Lafez {
     public:
         
         /**
+         * @brief Destroy the Renderer Backend object
+         */
+        virtual ~RendererBackend();
+        
+        /**
          * @brief Initialize the renderer backend singleton
          * 
          * @tparam T RendererBackend derived
@@ -122,7 +127,6 @@ namespace Lafez {
 
     protected:
         RendererBackend() = default;
-        ~RendererBackend();
 
         virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) = 0;
