@@ -2,7 +2,42 @@
 #include <lafezlib_export.h>
 #include <lafez/lafez_pch.hpp>
 
+#define LZ_PTYPE_NONE       ::Lafez::PrimitiveType::None
+#define LZ_PTYPE_INT        ::Lafez::PrimitiveType::Int
+#define LZ_PTYPE_VEC2I      ::Lafez::PrimitiveType::Vec2i
+#define LZ_PTYPE_VEC3I      ::Lafez::PrimitiveType::Vec3i
+#define LZ_PTYPE_VEC4I      ::Lafez::PrimitiveType::Vec4i
+#define LZ_PTYPE_FLOAT      ::Lafez::PrimitiveType::Float
+#define LZ_PTYPE_VEC2F      ::Lafez::PrimitiveType::Vec2f
+#define LZ_PTYPE_VEC3F      ::Lafez::PrimitiveType::Vec3f
+#define LZ_PTYPE_VEC4F      ::Lafez::PrimitiveType::Vec4f
+
 namespace Lafez {
+
+    /********************************************************
+    *                     BufferLayout                      *
+    ********************************************************/
+
+    enum class PrimitiveType {
+        None,
+        Int, Vec2i, Vec3i, Vec4i,
+        Float, Vec2f, Vec3f, Vec4f
+    };
+
+    struct LAFEZLIB BufferLayout {
+    public:
+        BufferLayout(const LzVec<PrimitiveType>& types);
+        BufferLayout(LzVec<PrimitiveType>&& types);
+        ~BufferLayout() = default;
+
+        const LzVec<PrimitiveType>& getTypes() const;
+        static LzSizeT getSizeFor(const PrimitiveType& type);
+        
+    private:
+        LzVec<PrimitiveType> mTypes;
+    };
+
+
 
     /********************************************************
     *                     ArrayBuffer                       *
