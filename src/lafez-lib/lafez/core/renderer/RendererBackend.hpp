@@ -115,6 +115,16 @@ namespace Lafez {
 
 
         /**
+         * @brief Apply a buffer layout to an array buffer
+         * 
+         * @param buffer The buffer to which to apply the layout
+         * @param layout The layout to apply to the array buffer
+         */
+        static void setBufferLayout(const ArrayBuffer& buffer, const VertexBufferLayout& layout);
+
+
+
+        /**
          * @brief Bind array buffer to 0
          */
         static void resetArrayBuffer();
@@ -162,6 +172,7 @@ namespace Lafez {
         // ArrayBuffer
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) = 0;
         virtual void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const = 0;
+        virtual void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const = 0;
         virtual void resetArrayBufferImpl() const = 0;
 
         // IndexBuffer

@@ -28,6 +28,7 @@ namespace Lafez {
         // ArrayBuffer
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override;
         virtual void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override;
+        virtual void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const override;
         virtual void resetArrayBufferImpl() const override;
 
         // IndexBuffer
@@ -39,6 +40,7 @@ namespace Lafez {
         virtual void terminateImpl() override;
 
     private:
-        uint32_t createShader(uint32_t type, const LzString& source) const;
+        static uint32_t createShader(uint32_t type, const LzString& source);
+        static uint32_t glTypeForPrimitiveType(const PrimitiveType& type);
     };
 };

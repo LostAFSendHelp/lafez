@@ -86,6 +86,21 @@ namespace Lafez {
         glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer.mID);
     }
 
+    void GlRenderer::setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const {
+        bindArrayBufferImpl(buffer);
+
+        auto attribs = layout.getAttributes();
+        for(const auto& attrib : attribs) {
+            glVertexAttribPointer(attrib.mIndex,
+                                  attrib.mSize,
+                                  glTypeForPrimitiveType(attrib.mType),
+                                  GL_FALSE,
+                                  attrib.mStride,
+                                  (void*)attrib.mOffset);
+            glEnableVertexAttribArray(attrib.mIndex);
+        }
+    }
+
     void GlRenderer::resetArrayBufferImpl() const {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
@@ -120,7 +135,7 @@ namespace Lafez {
     *                        Private                        *
     ********************************************************/
 
-    uint32_t GlRenderer::createShader(uint32_t type, const LzString& source) const {
+    uint32_t GlRenderer::createShader(uint32_t type, const LzString& source) {
         auto shader = glCreateShader(type);
         auto shaderSource = source.c_str();
         glShaderSource(shader, 1, &shaderSource, NULL);
@@ -140,5 +155,24 @@ namespace Lafez {
         }
 
         return shader;
+    }
+
+    uint32_t GlRenderer::glTypeForPrimitiveType(const PrimitiveType& type) {
+        switch (type)
+        {
+        case LZ_PTYPE_INT:
+        case LZ_PTYPE_VEC2I:
+        case LZ_PTYPE_VEC3I:
+        case LZ_PTYPE_VEC4I:
+            return GL_INT;
+        case LZ_PTYPE_FLOAT:
+        case LZ_PTYPE_VEC2F:
+        case LZ_PTYPE_VEC3F:
+        case LZ_PTYPE_VEC4F:
+            return GL_FLOAT;
+        }
+
+        LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
+        return 0;
     }
 }

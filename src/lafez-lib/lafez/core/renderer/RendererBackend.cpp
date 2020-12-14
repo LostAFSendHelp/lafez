@@ -70,6 +70,12 @@ namespace Lafez {
         sShared->bindArrayBufferImpl(arrayBuffer);
     }
 
+    void RendererBackend::setBufferLayout(const ArrayBuffer& buffer, const VertexBufferLayout& layout) {
+        LZ_LOCAL_GUARD;
+
+        sShared->setBufferLayoutImpl(buffer, layout);
+    }
+
     void RendererBackend::resetArrayBuffer() {
         LZ_LOCAL_GUARD;
 

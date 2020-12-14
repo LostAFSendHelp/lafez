@@ -15,7 +15,7 @@
 namespace Lafez {
 
     /********************************************************
-    *                     BufferLayout                      *
+    *                  VertexBufferLayout                   *
     ********************************************************/
 
     enum class PrimitiveType {
@@ -24,17 +24,26 @@ namespace Lafez {
         Float, Vec2f, Vec3f, Vec4f
     };
 
-    struct LAFEZLIB BufferLayout {
-    public:
-        BufferLayout(const LzVec<PrimitiveType>& types);
-        BufferLayout(LzVec<PrimitiveType>&& types);
-        ~BufferLayout() = default;
+    struct LAFEZLIB VertexAttribute {
+        uint32_t mIndex;
+        LzSizeT mSize;
+        LzSizeT mElementSize;
+        LzSizeT mStride;
+        LzSizeT mOffset;
+        PrimitiveType mType;
+    };
 
-        const LzVec<PrimitiveType>& getTypes() const;
+    struct LAFEZLIB VertexBufferLayout {
+    public:
+        VertexBufferLayout(const LzVec<PrimitiveType>& types);
+        ~VertexBufferLayout() = default;
+
+        const LzVec<VertexAttribute>& getAttributes() const;
         static LzSizeT getSizeFor(const PrimitiveType& type);
-        
+        static LzSizeT getElementSizeFor(const PrimitiveType& type);
+
     private:
-        LzVec<PrimitiveType> mTypes;
+        LzVec<VertexAttribute> mAttributes;
     };
 
 
@@ -66,6 +75,15 @@ namespace Lafez {
          * @brief Bind the array buffer for rendering, equivalent to calling RendererBackend::bindArrayBuffer(*this)
          */
         void bind() const;
+
+
+
+        /**
+         * @brief Set the Buffer Layout for the ArrayBuffer. Only changes data in the backend, does not retain any data on the array buffer itself. Equivalent to calling RendererBackend::setBufferLayout(*this, layout)
+         * 
+         * @param layout The buffer layout to apply to the array buffer
+         */
+        void setBufferLayout(const VertexBufferLayout& layout) const;
 
     private:
 
