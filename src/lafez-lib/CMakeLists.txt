@@ -109,9 +109,11 @@ target_link_libraries(
 
     PUBLIC
     spdlog::spdlog
+    lafez-imgui # strip this from client side for release build
+    
+    PRIVATE
     glad
     glfw
-    lafez-imgui
 )
 
 target_include_directories(

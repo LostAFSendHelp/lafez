@@ -1,8 +1,6 @@
 #pragma once
-#include <lafez/core/foundation/platforms/gl/GlWindow.hpp>
-#include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
-#include <lafez/core/foundation/platforms/gl/GlInput.hpp>
-#include <lafez/core/renderer/platforms/GlRenderer.hpp>
+#include <lafez/lafez_pch.hpp>
+#include <lafezlib_export.h>
 
 #define LZ_PLATFORM_NONE    ::Lafez::FoundationPlatform::None
 #define LZ_PLATFORM_GL      ::Lafez::FoundationPlatform::GL

@@ -1,3 +1,7 @@
+#include <lafez/core/foundation/platforms/gl/GlWindow.hpp>
+#include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
+#include <lafez/core/foundation/platforms/gl/GlInput.hpp>
+#include <lafez/core/renderer/platforms/GlRenderer.hpp>
 #include "Foundation.hpp"
 
 namespace Lafez {
