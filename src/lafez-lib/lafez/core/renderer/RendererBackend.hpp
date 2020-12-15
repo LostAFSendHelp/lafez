@@ -1,5 +1,6 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
+#include <lafez/utils/Log.hpp>
 #include <lafez/core/renderer/Shader.hpp>
 #include <lafez/core/renderer/Buffer.hpp>
 

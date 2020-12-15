@@ -1,4 +1,3 @@
-#include <lafez/utils/Log.hpp>
 #include <lafez/core/renderer/Shader.hpp>
 #include <lafez/core/renderer/Buffer.hpp>
 #include "RendererBackend.hpp"
@@ -10,12 +9,15 @@ namespace Lafez {
     /********************************************************
     *                      Singleton                        *
     ********************************************************/
+
     LzUniPtr<RendererBackend> RendererBackend::sShared{ nullptr };
 
     void RendererBackend::shutDown() {
         if (sShared != nullptr) {
             sShared->terminateImpl();
         }
+
+        sShared.reset();
     }
 
     bool RendererBackend::isInitialized() {

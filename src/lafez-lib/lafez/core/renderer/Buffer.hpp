@@ -65,6 +65,15 @@ namespace Lafez {
 
 
         /**
+         * @brief Construct a new Array Buffer object. Only for testing purposes should this constructor be called directly by client. For actual use, prefer RendererBackend::genArrayBuffer(...) instead
+         * 
+         * @param id The renderer ID of the array buffer
+         */
+        ArrayBuffer(uint32_t id);
+
+
+
+        /**
          * @brief Destroy the Array Buffer object
          */
         ~ArrayBuffer() = default;
@@ -87,13 +96,6 @@ namespace Lafez {
 
     private:
 
-        /**
-         * @brief Construct a new Array Buffer object
-         * 
-         * @param id The renderer ID of the array buffer
-         */
-        ArrayBuffer(uint32_t id);
-
     };
 
     /********************************************************
@@ -113,6 +115,15 @@ namespace Lafez {
 
 
         /**
+         * @brief Construct a new Index Buffer object. Only for testing purposes should this constructor be called directly by client. For actual use, prefer RendererBackend::genIndexBuffer(...) instead
+         * 
+         * @param id The renderer ID of the index buffer
+         */
+        IndexBuffer(uint32_t id);
+
+
+
+        /**
          * @brief Destroy the Index Buffer object
          */
         ~IndexBuffer() = default;
@@ -125,13 +136,6 @@ namespace Lafez {
         void bind() const;
 
     private:
-
-        /**
-         * @brief Construct a new Index Buffer object
-         * 
-         * @param id The renderer ID of the index buffer
-         */
-        IndexBuffer(uint32_t id);
 
     };
 };

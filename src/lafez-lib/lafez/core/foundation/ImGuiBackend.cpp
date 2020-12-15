@@ -1,4 +1,3 @@
-#include <lafez/utils/Log.hpp>
 #include "ImGuiBackend.hpp"
 
 #define LZ_LOCAL_GUARD LZ_ENGINE_ASSERT(sShared, "ATTEMPTING TO CALL IMGUIBACKEND BEFORE STARTUP IS CALLED");

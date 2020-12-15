@@ -2,6 +2,7 @@
 #include <lafez/lafez_pch.hpp>
 #include <lafezlib_export.h>
 #include <lafez-imgui/imgui.h>
+#include <lafez/utils/Log.hpp>
 
 namespace Lafez {
     class LAFEZLIB ImGuiBackend {

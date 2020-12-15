@@ -92,7 +92,7 @@ namespace Lafez {
         auto attribs = layout.getAttributes();
         for(const auto& attrib : attribs) {
             glVertexAttribPointer(attrib.mIndex,
-                                  attrib.mSize,
+                                  attrib.mElementSize,
                                   glTypeForPrimitiveType(attrib.mType),
                                   GL_FALSE,
                                   attrib.mStride,

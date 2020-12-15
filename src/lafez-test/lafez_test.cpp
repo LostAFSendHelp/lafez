@@ -1,6 +1,7 @@
 #include <core-test/event_tests.hpp>
 #include <core-test/layer_tests.hpp>
 #include <core-test/foundation_tests.hpp>
+#include <core-test/renderer_tests.hpp>
 #include <lafez/utils/Log.hpp>
 
 int main(int argc, char **argv) {

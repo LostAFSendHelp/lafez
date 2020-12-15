@@ -23,6 +23,10 @@ add_executable(
     core-test/foundation/tests/WindowTest.hpp
     core-test/foundation/tests/InputTest.hpp
     core-test/foundation/tests/ImGuiBackendTest.hpp
+
+    core-test/renderer/mnl-mocks/RendererBackendMock.hpp
+    core-test/renderer/tests/BufferTest.hpp
+    core-test/renderer/tests/ShaderTest.hpp
 )
 
 target_precompile_headers(

@@ -5,7 +5,7 @@
 namespace Lafez {
 
     /********************************************************
-    *                     VertexBufferLayout                      *
+    *                   VertexBufferLayout                  *
     ********************************************************/
 
     VertexBufferLayout::VertexBufferLayout(const LzVec<PrimitiveType>& types):
@@ -20,9 +20,10 @@ namespace Lafez {
             attrib.mElementSize = getElementSizeFor(type);
             attrib.mOffset = stride;
             attrib.mType = type;
+            attrib.mSize = getSizeFor(type);
             mAttributes.push_back(attrib);
 
-            stride += getSizeFor(type);
+            stride += attrib.mSize;
             ++iteration;
         }
 

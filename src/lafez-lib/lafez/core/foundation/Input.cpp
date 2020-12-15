@@ -1,4 +1,3 @@
-#include <lafez/utils/Log.hpp>
 #include "Input.hpp"
 
 namespace Lafez {

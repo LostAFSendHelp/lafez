@@ -1,5 +1,6 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
+#include <lafez/utils/Log.hpp>
 #include <lafezlib_export.h>
 
 namespace Lafez {
