@@ -54,10 +54,6 @@ namespace Lafez {
 
     class LAFEZLIB ArrayBuffer {
     public:
-        friend class RendererBackend;
-        friend class GlRenderer;
-        friend class DxRenderer;
-        friend class VkRenderer;
 
         /// The renderer ID of the array buffer
         const uint32_t mID;

@@ -5,10 +5,6 @@
 namespace Lafez {
     class LAFEZLIB Shader {
     public:
-        friend class RendererBackend;
-        friend class GlRenderer;
-        friend class DxRenderer;
-        friend class VkRenderer;
 
         /// The renderer ID of the shader
         const uint32_t mID;

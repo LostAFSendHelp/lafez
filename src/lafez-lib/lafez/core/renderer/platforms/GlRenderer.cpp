@@ -132,6 +132,35 @@ namespace Lafez {
 
 
     /********************************************************
+    *                      VertexArray                      *
+    ********************************************************/
+
+    VertexArray* GlRenderer::genVertexArrayImpl() {
+        uint32_t id = 0;
+        glGenVertexArrays(1, &id);
+        return new VertexArray(id);
+    }
+
+    void GlRenderer::bindVertexArrayImpl(const VertexArray& vertexArray) const {
+        glBindVertexArray(vertexArray.mID);
+    }
+
+    void GlRenderer::unbindVertexArrayImpl(const VertexArray& vertexArray) const {
+        int id = 0;
+        glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &id);
+
+        if (vertexArray.mID == id) {
+            glBindVertexArray(0);
+        }
+    }
+
+    void GlRenderer::resetVertexArrayImpl() const {
+        glBindVertexArray(0);
+    }
+
+
+
+    /********************************************************
     *                        Private                        *
     ********************************************************/
 

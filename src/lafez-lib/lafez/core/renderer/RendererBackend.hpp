@@ -3,6 +3,7 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/core/renderer/Shader.hpp>
 #include <lafez/core/renderer/Buffer.hpp>
+#include <lafez/core/renderer/VertexArray.hpp>
 
 namespace Lafez {
 
@@ -161,6 +162,44 @@ namespace Lafez {
          */
         static void resetIndexBuffer();
 
+
+
+        /********************************************************
+        *                      ArrayBuffer                      *
+        ********************************************************/
+
+        /**
+         * @brief Create a Vertex Array object
+         * 
+         * @return VertexArray* 
+         */
+        static VertexArray* genVertexArray();
+
+
+
+        /**
+         * @brief Bind a vertex array object for renderering
+         * 
+         * @param vertexArray the vertex array to be bound
+         */
+        static void bindVertexArray(const VertexArray& vertexArray);
+
+
+
+        /**
+         * @brief Unbind a vertex array object
+         * 
+         * @param vertexArray the vertex array object to be unbound
+         */
+        static void unbindVertexArray(const VertexArray& vertexArray);
+
+
+
+        /**
+         * @brief Unbind the currently bound vertex array object
+         */
+        static void resetVertexArray();
+
     protected:
         RendererBackend() = default;
 
@@ -180,6 +219,12 @@ namespace Lafez {
         virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) = 0;
         virtual void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const = 0;
         virtual void resetIndexBufferImpl() const = 0;
+
+        // VertexArray
+        virtual VertexArray* genVertexArrayImpl() = 0;
+        virtual void bindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
+        virtual void unbindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
+        virtual void resetVertexArrayImpl() const = 0;
 
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;

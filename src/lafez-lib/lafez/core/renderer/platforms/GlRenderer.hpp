@@ -20,24 +20,30 @@ namespace Lafez {
     protected:
 
         // Shader
-        virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) override;
-        virtual void deleteShaderImpl(const Shader& shader) const override;
-        virtual void useShaderImpl(const Shader& shader) const override;
-        virtual void resetShaderImpl() const override;
+        Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) override;
+        void deleteShaderImpl(const Shader& shader) const override;
+        void useShaderImpl(const Shader& shader) const override;
+        void resetShaderImpl() const override;
 
         // ArrayBuffer
-        virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override;
-        virtual void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override;
-        virtual void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const override;
-        virtual void resetArrayBufferImpl() const override;
+        ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override;
+        void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override;
+        void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const override;
+        void resetArrayBufferImpl() const override;
 
         // IndexBuffer
-        virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) override;
-        virtual void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const override;
-        virtual void resetIndexBufferImpl() const override;
+        IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) override;
+        void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const override;
+        void resetIndexBufferImpl() const override;
 
-        virtual void initImpl() override;
-        virtual void terminateImpl() override;
+        // VertexArray
+        VertexArray* genVertexArrayImpl() override;
+        void bindVertexArrayImpl(const VertexArray& vertexArray) const override;
+        void unbindVertexArrayImpl(const VertexArray& vertexArray) const override;
+        void resetVertexArrayImpl() const override;
+
+        void initImpl() override;
+        void terminateImpl() override;
 
     private:
         static uint32_t createShader(uint32_t type, const LzString& source);

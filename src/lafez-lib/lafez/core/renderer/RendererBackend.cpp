@@ -107,6 +107,36 @@ namespace Lafez {
 
         sShared->resetIndexBufferImpl();
     }
+
+
+
+    /********************************************************
+    *                      VertexArray                      *
+    ********************************************************/
+
+    VertexArray* RendererBackend::genVertexArray() {
+        LZ_LOCAL_GUARD;
+
+        return sShared->genVertexArrayImpl();
+    }
+
+    void RendererBackend::bindVertexArray(const VertexArray& vertexArray) {
+        LZ_LOCAL_GUARD;
+
+        sShared->bindVertexArrayImpl(vertexArray);
+    }
+
+    void RendererBackend::unbindVertexArray(const VertexArray& vertexArray) {
+        LZ_LOCAL_GUARD;
+
+        sShared->unbindVertexArrayImpl(vertexArray);
+    }
+
+    void RendererBackend::resetVertexArray() {
+        LZ_LOCAL_GUARD;
+
+        sShared->resetVertexArrayImpl();
+    }
 }
 
 #undef LZ_LOCAL_GUARD

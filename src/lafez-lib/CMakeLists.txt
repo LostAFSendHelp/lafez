@@ -67,6 +67,8 @@ add_library(
     lafez/core/renderer/RendererBackend.cpp
     lafez/core/renderer/Shader.hpp
     lafez/core/renderer/Shader.cpp
+    lafez/core/renderer/VertexArray.hpp
+    lafez/core/renderer/VertexArray.cpp
 
     lafez/core/renderer/platforms/GlRenderer.hpp
     lafez/core/renderer/platforms/GlRenderer.cpp
