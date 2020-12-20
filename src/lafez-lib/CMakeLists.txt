@@ -76,6 +76,9 @@ add_library(
     lafez/core/renderer/platforms/DxRenderer.cpp
     lafez/core/renderer/platforms/VkRenderer.hpp
     lafez/core/renderer/platforms/VkRenderer.cpp
+
+    lafez/core/assets/Asset.hpp
+    lafez/core/assets/Asset.cpp
 )
 
 set_target_properties(

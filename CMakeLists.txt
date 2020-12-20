@@ -10,6 +10,17 @@ add_compile_definitions(
     $<$<CONFIG:RelWithDebInfo>:__LZ_RELDBG>
 )
 
+
+
+
+
+
+
+
+
+
+## ---------------------------------------LIBRARIES---------------------------------------
+
 ## GLFW check
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/glfw)
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
@@ -49,6 +60,57 @@ else()
     add_subdirectory(src/vendor/imgui)
 endif()
 
+## ---------------------------------------LIBRARIES---------------------------------------
+
+
+
+
+
+
+
+
+
+
+## ---------------------------------------CUSTOM TARGETS---------------------------------------
+
+add_custom_target(
+    lafez-copy-files
+    ALL
+    COMMAND scripts\\lafez-copy-files $<TARGET_FILE_DIR:example>
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
+## ---------------------------------------CUSTOM TARGETS---------------------------------------
+
+
+
+
+
+
+
+
+## ---------------------------------------SUBDIRS---------------------------------------
+
 add_subdirectory(src/lafez-lib)
 add_subdirectory(src/example)
 add_subdirectory(src/lafez-test)
+
+## ---------------------------------------SUBDIRS---------------------------------------
+
+
+
+
+
+
+
+
+
+
+## ---------------------------------------TARGET DEPENDENCIES---------------------------------------
+
+add_dependencies(
+    lafez-copy-files
+    lafez-lib
+)
+
+## ---------------------------------------TARGET DEPENDENCIES---------------------------------------
