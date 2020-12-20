@@ -29,10 +29,10 @@ namespace Lafez {
     TEST_F(ShaderTest, ShouldCallBackendFunctions) {
         EXPECT_FALSE(RendererBackend::genShader("", "", ""));
         mShader.use();
-        EXPECT_EQ(mVal, 1);
+        EXPECT_TRUE(mVal & (1 << 1));
         RendererBackend::resetShader();
-        EXPECT_EQ(mVal, -1);
+        EXPECT_TRUE(mVal & (1 << 2));
         RendererBackend::deleteShader(mShader);
-        EXPECT_EQ(mVal, 0);
+        EXPECT_TRUE(mVal & (1 << 0));
     }
 };

@@ -27,6 +27,7 @@ add_executable(
     core-test/renderer/mnl-mocks/RendererBackendMock.hpp
     core-test/renderer/tests/BufferTest.hpp
     core-test/renderer/tests/ShaderTest.hpp
+    core-test/renderer/tests/VertexArrayTest.hpp
 )
 
 target_precompile_headers(

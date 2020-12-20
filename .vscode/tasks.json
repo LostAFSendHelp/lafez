@@ -6,10 +6,13 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cmake-build d",
+            "command": "scripts\\lafez-build d",
             "group": {
                 "isDefault": true,
                 "kind": "build",
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
@@ -24,10 +27,13 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "cmake --build build --target lafez-test && ${workspaceFolder}\\build\\debug\\lafez-test.exe",
+            "command": "scripts\\lafez-test",
             "group": {
                 "isDefault": true,
                 "kind": "test"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "presentation": {
                 "reveal": "always",

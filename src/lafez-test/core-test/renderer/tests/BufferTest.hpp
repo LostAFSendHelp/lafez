@@ -32,16 +32,16 @@ namespace Lafez {
         EXPECT_FALSE(RendererBackend::genIndexBuffer(nullptr, 0));
         
         mArrayBuffer.bind();
-        EXPECT_EQ(mVal, 2);
+        EXPECT_TRUE(mVal & (1 << 3));
         RendererBackend::resetArrayBuffer();
-        EXPECT_EQ(mVal, -2);
+        EXPECT_TRUE(mVal & (1 << 5));
         RendererBackend::setBufferLayout(mArrayBuffer, { { } });
-        EXPECT_EQ(mVal, 3);
+        EXPECT_TRUE(mVal & (1 << 4));
         
         mIndexBuffer.bind();
-        EXPECT_EQ(mVal, 4);
+        EXPECT_TRUE(mVal & (1 << 6));
         RendererBackend::resetIndexBuffer();
-        EXPECT_EQ(mVal, -4);
+        EXPECT_TRUE(mVal & (1 << 7));
     }
 
     TEST_F(BufferTest, ShouldSetupLayoutCorrectly) {

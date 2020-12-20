@@ -3,7 +3,7 @@
 #include <lafez/core/renderer/Buffer.hpp>
 
 namespace Lafez {
-    class VertexArray {
+    class LAFEZLIB VertexArray {
     public:
 
         /// The renderer ID of the Vertex Array

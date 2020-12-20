@@ -1,6 +1,8 @@
 #pragma once
 #include <lafez/core/lafez_renderer.hpp>
 
+#define XAND(num, bit) num |= (1 << bit)
+
 namespace Lafez {
     class RendererBackendMock : public RendererBackend {
     public:
@@ -17,15 +19,15 @@ namespace Lafez {
         }
 
         void deleteShaderImpl(const Shader& shader) const override {
-            *mVal = 0;
+            XAND(*mVal, 0);
         }
 
         void useShaderImpl(const Shader& shader) const override {
-            *mVal = 1;
+            XAND(*mVal, 1);
         }
 
         void resetShaderImpl() const override {
-            *mVal = -1;
+            XAND(*mVal, 2);
         }
 
         ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override {
@@ -33,15 +35,15 @@ namespace Lafez {
         }
 
         void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override {
-            *mVal = 2;
+            XAND(*mVal, 3);
         }
 
         void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const override {
-            *mVal = 3;
+            XAND(*mVal, 4);
         }
 
         void resetArrayBufferImpl() const override {
-            *mVal = -2;
+            XAND(*mVal, 5);
         }
 
         IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) override {
@@ -49,11 +51,27 @@ namespace Lafez {
         }
 
         void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const override {
-            *mVal = 4;
+            XAND(*mVal, 6);
         }
 
         void resetIndexBufferImpl() const override {
-            *mVal = -4;
+            XAND(*mVal, 7);
+        }
+
+        VertexArray* genVertexArrayImpl() override {
+            return nullptr;
+        }
+
+        void bindVertexArrayImpl(const VertexArray& vertexArray) const override {
+            XAND(*mVal, 8);
+        }
+
+        void unbindVertexArrayImpl(const VertexArray& vertexArray) const override {
+            XAND(*mVal, 9);
+        }
+
+        void resetVertexArrayImpl() const override {
+            XAND(*mVal, 10);
         }
 
         void initImpl() override {
