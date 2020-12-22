@@ -7,7 +7,7 @@ namespace Lafez {
     public:
         int mVal = 0;
         ArrayBuffer mArrayBuffer{ 0 };
-        IndexBuffer mIndexBuffer{ 0 };
+        IndexBuffer mIndexBuffer{ 0, 5 };
 
         BufferTest() = default;
         ~BufferTest() = default;
@@ -27,7 +27,7 @@ namespace Lafez {
 
     };
 
-    TEST_F(BufferTest, ShouldCallBackendFunctions) {
+    TEST_F(BufferTest, BuffersShouldCallBackendFunctions) {
         EXPECT_FALSE(RendererBackend::genArrayBuffer(nullptr, 0));
         EXPECT_FALSE(RendererBackend::genIndexBuffer(nullptr, 0));
         
@@ -42,9 +42,12 @@ namespace Lafez {
         EXPECT_TRUE(mVal & (1 << 6));
         RendererBackend::resetIndexBuffer();
         EXPECT_TRUE(mVal & (1 << 7));
+
+        // Check index count, snuck this in here because I'm too lazy to create a separate test for it
+        EXPECT_EQ(mIndexBuffer.mIndexCount, 5);
     }
 
-    TEST_F(BufferTest, ShouldSetupLayoutCorrectly) {
+    TEST_F(BufferTest, ArrayBufferShouldSetupLayoutCorrectly) {
         VertexBufferLayout layout({
             LZ_PTYPE_INT,
             LZ_PTYPE_VEC2I,

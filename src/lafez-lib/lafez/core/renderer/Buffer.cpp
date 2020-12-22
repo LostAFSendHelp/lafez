@@ -95,8 +95,9 @@ namespace Lafez {
     //*                     IndexBuffer                     *
     //*******************************************************
 
-    IndexBuffer::IndexBuffer(uint32_t id):
-    mID(id) {
+    IndexBuffer::IndexBuffer(uint32_t id, LzSizeT count):
+    mID(id),
+    mIndexCount(count) {
 
     }
 

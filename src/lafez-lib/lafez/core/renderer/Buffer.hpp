@@ -107,6 +107,8 @@ namespace Lafez {
 
         /// The renderer ID of the index buffer
         const uint32_t mID;
+        /// The index count of the index buffer
+        const LzSizeT mIndexCount;
 
 
 
@@ -115,7 +117,7 @@ namespace Lafez {
          * 
          * @param id The renderer ID of the index buffer
          */
-        IndexBuffer(uint32_t id);
+        IndexBuffer(uint32_t id, LzSizeT count);
 
 
 

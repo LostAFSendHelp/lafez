@@ -118,7 +118,7 @@ namespace Lafez {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count, indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-        return nullptr;
+        return new IndexBuffer{ buffer, count };
     }
 
     void GlRenderer::bindIndexBufferImpl(const IndexBuffer& indexBuffer) const {
