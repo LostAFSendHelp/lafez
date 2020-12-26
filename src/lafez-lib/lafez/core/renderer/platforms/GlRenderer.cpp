@@ -72,22 +72,22 @@ namespace Lafez {
     *                      ArrayBuffer                      *
     ********************************************************/
 
-    ArrayBuffer* GlRenderer::genArrayBufferImpl(float* data, LzSizeT size) {
+    ArrayBuffer* GlRenderer::genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) {
         uint32_t buffer;
         glGenBuffers(1, &buffer);
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        return new ArrayBuffer{ buffer };
+        return new ArrayBuffer{ buffer, vertexCount };
     }
 
     void GlRenderer::bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const {
         glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer.mID);
     }
 
-    void GlRenderer::setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const {
-        bindArrayBufferImpl(buffer);
+    void GlRenderer::setBufferLayoutImpl(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) const {
+        bindArrayBufferImpl(arrayBuffer);
 
         auto attribs = layout.getAttributes();
         for(const auto& attrib : attribs) {
@@ -159,7 +159,11 @@ namespace Lafez {
     }
 
     void GlRenderer::drawVertexArrayImpl(const VertexArray& vertexArray) const {
-        glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
+        if (vertexArray.getIndexBuffer()) {
+            glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
+        } else {
+            glDrawArrays(GL_TRIANGLES, 0, vertexArray.getArrayBuffer()->mVertexCount);
+        }
     }
 
 

@@ -85,8 +85,9 @@ namespace Lafez {
     //*                     ArrayBuffer                     *
     //*******************************************************
 
-    ArrayBuffer::ArrayBuffer(uint32_t id):
-    mID(id) {
+    ArrayBuffer::ArrayBuffer(uint32_t id, LzSizeT vertexCount):
+    mID(id),
+    mVertexCount(vertexCount) {
 
     }
 

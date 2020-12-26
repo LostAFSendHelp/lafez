@@ -26,13 +26,13 @@ namespace Lafez {
         void resetShaderImpl() const override;
 
         // ArrayBuffer
-        ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override;
+        ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) override;
         void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override;
-        void setBufferLayoutImpl(const ArrayBuffer& buffer, const VertexBufferLayout& layout) const override;
+        void setBufferLayoutImpl(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) const override;
         void resetArrayBufferImpl() const override;
 
         // IndexBuffer
-        IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT count) override;
+        IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT indexCount) override;
         void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const override;
         void resetIndexBufferImpl() const override;
 

@@ -57,6 +57,8 @@ namespace Lafez {
 
         /// The renderer ID of the array buffer
         const uint32_t mID;
+        /// The vertex count of the array buffer
+        const LzSizeT mVertexCount;
 
 
 
@@ -65,7 +67,7 @@ namespace Lafez {
          * 
          * @param id The renderer ID of the array buffer
          */
-        ArrayBuffer(uint32_t id);
+        ArrayBuffer(uint32_t id, LzSizeT vertexCount);
 
 
 

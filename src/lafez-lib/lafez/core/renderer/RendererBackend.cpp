@@ -60,10 +60,10 @@ namespace Lafez {
     *                      ArrayBuffer                      *
     ********************************************************/
 
-    ArrayBuffer* RendererBackend::genArrayBuffer(float* data, LzSizeT size) {
+    ArrayBuffer* RendererBackend::genArrayBuffer(float* data, LzSizeT dataSize, LzSizeT vertexCount) {
         LZ_LOCAL_GUARD;
 
-        return sShared->genArrayBufferImpl(data, size);
+        return sShared->genArrayBufferImpl(data, dataSize, vertexCount);
     }
 
     void RendererBackend::bindArrayBuffer(const ArrayBuffer& arrayBuffer) {
@@ -72,10 +72,10 @@ namespace Lafez {
         sShared->bindArrayBufferImpl(arrayBuffer);
     }
 
-    void RendererBackend::setBufferLayout(const ArrayBuffer& buffer, const VertexBufferLayout& layout) {
+    void RendererBackend::setBufferLayout(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) {
         LZ_LOCAL_GUARD;
 
-        sShared->setBufferLayoutImpl(buffer, layout);
+        sShared->setBufferLayoutImpl(arrayBuffer, layout);
     }
 
     void RendererBackend::resetArrayBuffer() {
@@ -90,10 +90,10 @@ namespace Lafez {
     *                      IndexBuffer                      *
     ********************************************************/
 
-    IndexBuffer* RendererBackend::genIndexBuffer(uint32_t* indices, LzSizeT count) {
+    IndexBuffer* RendererBackend::genIndexBuffer(uint32_t* indices, LzSizeT indexCount) {
         LZ_LOCAL_GUARD;
 
-        return sShared->genIndexBufferImpl(indices, count);
+        return sShared->genIndexBufferImpl(indices, indexCount);
     }
 
     void RendererBackend::bindIndexBuffer(const IndexBuffer& indexBuffer) {

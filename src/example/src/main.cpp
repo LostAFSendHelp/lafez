@@ -51,7 +51,7 @@ int main() {
 
     auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
     vertexArray->bind();
-    auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18) };
+    auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
     arrayBuffer->bind();
     Lafez::VertexBufferLayout layout{ { LZ_PTYPE_VEC3F, LZ_PTYPE_VEC3F } };
     arrayBuffer->setBufferLayout(layout);
