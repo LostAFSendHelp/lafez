@@ -41,11 +41,10 @@ namespace Lafez {
         void bindVertexArrayImpl(const VertexArray& vertexArray) const override;
         void unbindVertexArrayImpl(const VertexArray& vertexArray) const override;
         void resetVertexArrayImpl() const override;
+        void drawVertexArrayImpl(const VertexArray& vertexArray) const override;
 
         void initImpl() override;
         void terminateImpl() override;
-
-        void renderExampleImpl(const VertexArray& vertexArray) const override;
 
     private:
         static uint32_t createShader(uint32_t type, const LzString& source);

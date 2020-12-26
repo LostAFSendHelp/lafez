@@ -71,7 +71,7 @@ int main() {
 
     while (!Lafez::Window::shouldClose()) {
         Lafez::Window::update();
-        Lafez::RendererBackend::renderExample(*vertexArray);
+        Lafez::RendererBackend::drawVertexArray(*vertexArray);
         layerStack.update();
     }
 

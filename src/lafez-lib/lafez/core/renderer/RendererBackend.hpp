@@ -200,7 +200,14 @@ namespace Lafez {
          */
         static void resetVertexArray();
 
-        static void renderExample(const VertexArray& vertexArray);
+
+
+        /**
+         * @brief Draw using states bound by the vertex array object. Abort if array buffer data unavailable. Draw array if no indices found, draw indexed otherwise. The vertex array object is only bound if the state it holds has array buffer data
+         * 
+         * @param vertexArray The vertex array object to be bound and with whose data the renderer to draw from
+         */
+        static void drawVertexArray(const VertexArray& vertexArray);
 
     protected:
         RendererBackend() = default;
@@ -227,11 +234,10 @@ namespace Lafez {
         virtual void bindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
         virtual void unbindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
         virtual void resetVertexArrayImpl() const = 0;
+        virtual void drawVertexArrayImpl(const VertexArray& vertexArray) const = 0;
 
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;
-
-        virtual void renderExampleImpl(const VertexArray& vertexArray) const = 0;
 
     private:
         static LzUniPtr<RendererBackend> sShared;

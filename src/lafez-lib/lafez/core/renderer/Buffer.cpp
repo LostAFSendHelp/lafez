@@ -37,41 +37,46 @@ namespace Lafez {
     }
 
     LzSizeT VertexBufferLayout::getSizeFor(const PrimitiveType& type) {
-        switch (type)
-        {
-        case LZ_PTYPE_INT:      return sizeof(int32_t);
-        case LZ_PTYPE_VEC2I:    return sizeof(int32_t) * 2;
-        case LZ_PTYPE_VEC3I:    return sizeof(int32_t) * 3;
-        case LZ_PTYPE_VEC4I:    return sizeof(int32_t) * 4;
-        case LZ_PTYPE_FLOAT:    return sizeof(float);
-        case LZ_PTYPE_VEC2F:    return sizeof(float) * 2;
-        case LZ_PTYPE_VEC3F:    return sizeof(float) * 3;
-        case LZ_PTYPE_VEC4F:    return sizeof(float) * 4;
-        }
+        switch (type) {
+            case LZ_PTYPE_INT:      return sizeof(int32_t);
+            case LZ_PTYPE_VEC2I:    return sizeof(int32_t) * 2;
+            case LZ_PTYPE_VEC3I:    return sizeof(int32_t) * 3;
+            case LZ_PTYPE_VEC4I:    return sizeof(int32_t) * 4;
+            case LZ_PTYPE_FLOAT:    return sizeof(float);
+            case LZ_PTYPE_VEC2F:    return sizeof(float) * 2;
+            case LZ_PTYPE_VEC3F:    return sizeof(float) * 3;
+            case LZ_PTYPE_VEC4F:    return sizeof(float) * 4;
 
-        LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
-        return 0;
+            default: {
+                LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
+                return 0;
+            }
+        }
     }
 
     LzSizeT VertexBufferLayout::getElementSizeFor(const PrimitiveType& type) {
-        switch (type)
-        {
-        case LZ_PTYPE_FLOAT:
-        case LZ_PTYPE_INT:
-            return 1;
-        case LZ_PTYPE_VEC2F:
-        case LZ_PTYPE_VEC2I:
-            return 2;
-        case LZ_PTYPE_VEC3F:
-        case LZ_PTYPE_VEC3I:
-            return 3;
-        case LZ_PTYPE_VEC4F:
-        case LZ_PTYPE_VEC4I:
-            return 4;
-        }
+        switch (type) {
+            case LZ_PTYPE_FLOAT:
+            case LZ_PTYPE_INT:
+                return 1;
 
-        LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
-        return 0;
+            case LZ_PTYPE_VEC2F:
+            case LZ_PTYPE_VEC2I:
+                return 2;
+
+            case LZ_PTYPE_VEC3F:
+            case LZ_PTYPE_VEC3I:
+                return 3;
+
+            case LZ_PTYPE_VEC4F:
+            case LZ_PTYPE_VEC4I:
+                return 4;
+
+            default: {
+                LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
+                return 0;
+            }
+        }
     }
 
 

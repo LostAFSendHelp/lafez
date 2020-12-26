@@ -138,10 +138,12 @@ namespace Lafez {
         sShared->resetVertexArrayImpl();
     }
 
-    void RendererBackend::renderExample(const VertexArray& vertexArray) {
+    void RendererBackend::drawVertexArray(const VertexArray& vertexArray) {
         LZ_LOCAL_GUARD;
+        LZ_ENGINE_GUARD_VOID(vertexArray.getArrayBuffer(), "Vertex array object [ID {0}] contains no buffer data, aborting draw call...", vertexArray.mID);
 
-        sShared->renderExampleImpl(vertexArray);
+        vertexArray.bind();
+        sShared->drawVertexArrayImpl(vertexArray);
     }
 }
 

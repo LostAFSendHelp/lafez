@@ -158,6 +158,10 @@ namespace Lafez {
         glBindVertexArray(0);
     }
 
+    void GlRenderer::drawVertexArrayImpl(const VertexArray& vertexArray) const {
+        glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
+    }
+
 
 
     /********************************************************
@@ -187,26 +191,23 @@ namespace Lafez {
     }
 
     uint32_t GlRenderer::glTypeForPrimitiveType(const PrimitiveType& type) {
-        switch (type)
-        {
-        case LZ_PTYPE_INT:
-        case LZ_PTYPE_VEC2I:
-        case LZ_PTYPE_VEC3I:
-        case LZ_PTYPE_VEC4I:
-            return GL_INT;
-        case LZ_PTYPE_FLOAT:
-        case LZ_PTYPE_VEC2F:
-        case LZ_PTYPE_VEC3F:
-        case LZ_PTYPE_VEC4F:
-            return GL_FLOAT;
+        switch (type) {
+            case LZ_PTYPE_INT:
+            case LZ_PTYPE_VEC2I:
+            case LZ_PTYPE_VEC3I:
+            case LZ_PTYPE_VEC4I:
+                return GL_INT;
+
+            case LZ_PTYPE_FLOAT:
+            case LZ_PTYPE_VEC2F:
+            case LZ_PTYPE_VEC3F:
+            case LZ_PTYPE_VEC4F:
+                return GL_FLOAT;
+
+            default: {
+                LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
+                return 0;
+            }
         }
-
-        LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
-        return 0;
-    }
-
-    void GlRenderer::renderExampleImpl(const VertexArray& vertexArray) const {
-        vertexArray.bind();
-        glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
     }
 }
