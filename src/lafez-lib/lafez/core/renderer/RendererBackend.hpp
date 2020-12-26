@@ -200,6 +200,8 @@ namespace Lafez {
          */
         static void resetVertexArray();
 
+        static void renderExample(const VertexArray& vertexArray);
+
     protected:
         RendererBackend() = default;
 
@@ -228,6 +230,8 @@ namespace Lafez {
 
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;
+
+        virtual void renderExampleImpl(const VertexArray& vertexArray) const = 0;
 
     private:
         static LzUniPtr<RendererBackend> sShared;

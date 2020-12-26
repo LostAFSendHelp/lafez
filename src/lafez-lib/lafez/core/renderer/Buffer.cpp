@@ -89,6 +89,10 @@ namespace Lafez {
         RendererBackend::bindArrayBuffer(*this);
     }
 
+    void ArrayBuffer::setBufferLayout(const VertexBufferLayout& layout) const {
+        RendererBackend::setBufferLayout(*this, layout);
+    }
+
 
 
     //*******************************************************

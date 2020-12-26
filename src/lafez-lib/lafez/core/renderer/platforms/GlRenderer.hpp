@@ -45,6 +45,8 @@ namespace Lafez {
         void initImpl() override;
         void terminateImpl() override;
 
+        void renderExampleImpl(const VertexArray& vertexArray) const override;
+
     private:
         static uint32_t createShader(uint32_t type, const LzString& source);
         static uint32_t glTypeForPrimitiveType(const PrimitiveType& type);

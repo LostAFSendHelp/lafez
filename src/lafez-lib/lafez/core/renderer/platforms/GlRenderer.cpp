@@ -115,7 +115,7 @@ namespace Lafez {
         uint32_t buffer;
         glGenBuffers(1, &buffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count, indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * count, indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         return new IndexBuffer{ buffer, count };
@@ -203,5 +203,10 @@ namespace Lafez {
 
         LZ_ENGINE_ASSERT(false, "PRIMITIVE TYPE [NONE] IS NOT SUPPORTED");
         return 0;
+    }
+
+    void GlRenderer::renderExampleImpl(const VertexArray& vertexArray) const {
+        vertexArray.bind();
+        glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
     }
 }

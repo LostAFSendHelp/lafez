@@ -1,8 +1,9 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
+#include <exports/lafezlib_export.h>
 
 namespace Lafez {
-    class Asset final {
+    class LAFEZLIB Asset final {
     public:
         Asset() = default;
         ~Asset() = default;

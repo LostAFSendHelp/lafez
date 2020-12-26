@@ -12,7 +12,7 @@
             "program": "${workspaceFolder}/build/Debug/example.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build/Debug",
             "environment": [],
             "externalConsole": false,
             "logging": {

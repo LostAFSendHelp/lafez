@@ -6,9 +6,10 @@ add_library(
     lafez/utils/Log.hpp
     lafez/utils/Log.cpp
 
+    lafez/core/lafez_asset.hpp
     lafez/core/lafez_event.hpp
-    lafez/core/lafez_layer.hpp
     lafez/core/lafez_foundation.hpp
+    lafez/core/lafez_layer.hpp
     lafez/core/lafez_renderer.hpp
     
     lafez/core/event/data/Event.hpp

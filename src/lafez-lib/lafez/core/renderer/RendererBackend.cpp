@@ -137,6 +137,12 @@ namespace Lafez {
 
         sShared->resetVertexArrayImpl();
     }
+
+    void RendererBackend::renderExample(const VertexArray& vertexArray) {
+        LZ_LOCAL_GUARD;
+
+        sShared->renderExampleImpl(vertexArray);
+    }
 }
 
 #undef LZ_LOCAL_GUARD

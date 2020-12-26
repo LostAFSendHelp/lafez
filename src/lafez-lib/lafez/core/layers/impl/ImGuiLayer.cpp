@@ -47,5 +47,6 @@ namespace Lafez {
 
         // Render dear imgui into screen
         ImGui::Render();
+        ImGuiBackend::renderDrawData(ImGui::GetDrawData());
     }
 }
