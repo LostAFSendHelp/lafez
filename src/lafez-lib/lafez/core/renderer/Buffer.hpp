@@ -57,7 +57,7 @@ namespace Lafez {
 
         /// The renderer ID of the array buffer
         const uint32_t mID;
-        /// The vertex count of the array buffer
+        /// The vertex count of the array buffer, used for non-indexed draw calls
         const LzSizeT mVertexCount;
 
 

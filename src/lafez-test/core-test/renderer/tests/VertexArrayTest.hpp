@@ -40,8 +40,11 @@ namespace Lafez {
 
     TEST_F(VertexArrayTest, ShouldHoldOnlyOneBuffer) {
         VertexArray vao{ 0 };
-        auto arrayBuffer = ::std::make_shared<ArrayBuffer>(0);
+        auto arrayBuffer = ::std::make_shared<ArrayBuffer>(0, 0);
         auto indexBuffer = ::std::make_shared<IndexBuffer>(0, 5);
+
+        RendererBackend::drawVertexArray(vao);
+        EXPECT_FALSE(mVal & (1 << 11));
 
         vao.addArrayBuffer(arrayBuffer);
         EXPECT_TRUE(mVal & (1 << 8));
@@ -53,5 +56,8 @@ namespace Lafez {
         EXPECT_TRUE(mVal & (1 << 8));
         EXPECT_TRUE(mVal & (1 << 7));
         EXPECT_TRUE(mVal & (1 << 6));
+
+        RendererBackend::drawVertexArray(vao);
+        EXPECT_TRUE(mVal & (1 << 11));
     }
 };

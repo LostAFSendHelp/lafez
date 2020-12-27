@@ -6,7 +6,7 @@ namespace Lafez {
     class BufferTest : public ::testing::Test {
     public:
         int mVal = 0;
-        ArrayBuffer mArrayBuffer{ 0 };
+        ArrayBuffer mArrayBuffer{ 0, 0 };
         IndexBuffer mIndexBuffer{ 0, 5 };
 
         BufferTest() = default;
@@ -28,7 +28,7 @@ namespace Lafez {
     };
 
     TEST_F(BufferTest, BuffersShouldCallBackendFunctions) {
-        EXPECT_FALSE(RendererBackend::genArrayBuffer(nullptr, 0));
+        EXPECT_FALSE(RendererBackend::genArrayBuffer(nullptr, 0, 0));
         EXPECT_FALSE(RendererBackend::genIndexBuffer(nullptr, 0));
         
         mArrayBuffer.bind();

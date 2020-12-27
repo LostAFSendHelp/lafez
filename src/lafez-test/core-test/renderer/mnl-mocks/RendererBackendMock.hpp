@@ -30,7 +30,7 @@ namespace Lafez {
             XAND(*mVal, 2);
         }
 
-        ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT size) override {
+        ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) override {
             return nullptr;
         }
 
@@ -72,6 +72,10 @@ namespace Lafez {
 
         void resetVertexArrayImpl() const override {
             XAND(*mVal, 10);
+        }
+
+        void drawVertexArrayImpl(const VertexArray& vertexArray) const override {
+            XAND(*mVal, 11);
         }
 
         void initImpl() override {
