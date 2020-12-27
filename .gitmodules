@@ -10,3 +10,6 @@
 [submodule "src/vendor/imgui"]
 	path = src/vendor/imgui
 	url = git@github.com:LostAFSendHelp/imgui.git
+[submodule "src/vendor/glm"]
+	path = src/vendor/glm
+	url = git@github.com:g-truc/glm.git

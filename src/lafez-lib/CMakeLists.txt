@@ -120,6 +120,7 @@ target_link_libraries(
     PRIVATE
     glad
     glfw
+    glm
 )
 
 target_include_directories(

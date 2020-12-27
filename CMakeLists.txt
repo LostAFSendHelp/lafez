@@ -60,6 +60,13 @@ else()
     add_subdirectory(src/vendor/imgui)
 endif()
 
+## glm check
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/glm)
+    message(FATAL_ERROR "Could not find GLM")
+else()
+    add_subdirectory(src/vendor/glm)
+endif()
+
 ## ---------------------------------------LIBRARIES---------------------------------------
 
 
