@@ -1,6 +1,6 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
-#include <exports/lafezlib_export.h>
+#include <lafezlib_export.h>
 
 namespace Lafez {
     class LAFEZLIB Asset final {

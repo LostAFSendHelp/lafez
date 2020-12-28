@@ -64,6 +64,8 @@ add_library(
 
     lafez/core/renderer/Buffer.hpp
     lafez/core/renderer/Buffer.cpp
+    lafez/core/renderer/Camera.hpp
+    lafez/core/renderer/Camera.cpp
     lafez/core/renderer/RendererBackend.hpp
     lafez/core/renderer/RendererBackend.cpp
     lafez/core/renderer/Shader.hpp
@@ -115,12 +117,12 @@ target_link_libraries(
 
     PUBLIC
     spdlog::spdlog
+    glm
     lafez-imgui # strip this from client side for release build
     
     PRIVATE
     glad
     glfw
-    glm
 )
 
 target_include_directories(
