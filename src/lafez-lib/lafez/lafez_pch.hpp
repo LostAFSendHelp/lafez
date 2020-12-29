@@ -12,6 +12,13 @@
 #include <fstream>
 #include <unordered_map>
 #include <map>
+#include <stdexcept>
+
+
+
+/********************************************************
+*                      Type Aliases                     *
+********************************************************/
 
 template<typename T>
 using LzShrPtr = ::std::shared_ptr<T>;
@@ -46,3 +53,14 @@ using LzPair = ::std::pair<First, Second>;
 using LzString = ::std::string;
 
 using LzSizeT = ::std::size_t;
+
+
+
+/********************************************************
+*                     Common macros                     *
+********************************************************/
+
+#define LZ_ENGINE_GUARD_FATAL(statement, message)\
+    if (!statement) {\
+        throw std::runtime_error{ message };\
+    }
