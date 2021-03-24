@@ -34,3 +34,7 @@
 # Build files
 build/**
 **/exports/**
+
+# Visual studio files
+.vs/
+CMakeSettings.json
