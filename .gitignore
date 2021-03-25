@@ -33,6 +33,7 @@
 
 # Build files
 build/**
+install/**
 **/exports/**
 
 # Visual studio files

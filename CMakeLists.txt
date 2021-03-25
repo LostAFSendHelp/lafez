@@ -4,6 +4,7 @@ project(lafez)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_VS_INCLUDE_INSTALL_TO_DEFAULT_BUILD 1)
 
 add_compile_definitions(
     $<$<CONFIG:Debug>:__LZ_DBG>
@@ -77,25 +78,6 @@ endif()
 
 
 
-
-## ---------------------------------------CUSTOM TARGETS---------------------------------------
-
-add_custom_target(
-    lafez-copy-files
-    ALL
-    COMMAND scripts\\lafez-copy-files $<TARGET_FILE_DIR:example>
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
-
-## ---------------------------------------CUSTOM TARGETS---------------------------------------
-
-
-
-
-
-
-
-
 ## ---------------------------------------SUBDIRS---------------------------------------
 
 add_subdirectory(src/lafez-lib)
@@ -113,11 +95,11 @@ add_subdirectory(src/lafez-test)
 
 
 
-## ---------------------------------------TARGET DEPENDENCIES---------------------------------------
+## --------------------------------------INSTALLS---------------------------------------
 
-add_dependencies(
-    lafez-copy-files
-    lafez-lib
+install(
+    TARGETS example
+    RUNTIME DESTINATION bin
 )
 
-## ---------------------------------------TARGET DEPENDENCIES---------------------------------------
+## --------------------------------------INSTALLS---------------------------------------
