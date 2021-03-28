@@ -41,7 +41,6 @@ set_target_properties(
     lafez-test
     
     PROPERTIES
-    EXCLUDE_FROM_ALL TRUE
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 

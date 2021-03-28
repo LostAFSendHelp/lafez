@@ -44,7 +44,7 @@ if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/spdlog)
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 else()
     set(BUILD_GMOCK OFF CACHE BOOL "Build Gtest without gmock")
-    add_subdirectory(src/vendor/gtest)
+    add_subdirectory(src/vendor/gtest EXCLUDE_FROM_ALL)
 endif()
 
 ## glad check
@@ -82,7 +82,7 @@ endif()
 
 add_subdirectory(src/lafez-lib)
 add_subdirectory(src/example)
-add_subdirectory(src/lafez-test)
+add_subdirectory(src/lafez-test EXCLUDE_FROM_ALL)
 
 ## ---------------------------------------SUBDIRS---------------------------------------
 
@@ -100,6 +100,11 @@ add_subdirectory(src/lafez-test)
 install(
     TARGETS example
     RUNTIME DESTINATION bin
+)
+
+install(
+    TARGETS lafez-test lafez-lib
+    RUNTIME DESTINATION tests
 )
 
 ## --------------------------------------INSTALLS---------------------------------------
