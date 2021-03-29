@@ -131,12 +131,4 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/exports
 )
 
-install(
-    TARGETS lafez-lib
-    RUNTIME DESTINATION bin
-)
-
-install(
-    DIRECTORY assets/renderer/shaders
-    DESTINATION bin/assets
-)
+set(LAFEZ_ASSET_PATH ${CMAKE_CURRENT_SOURCE_DIR}/assets PARENT_SCOPE)

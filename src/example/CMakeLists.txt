@@ -15,3 +15,13 @@ target_link_libraries(example
     PRIVATE
     lafez-lib
 )
+
+install(
+    TARGETS example lafez-lib
+    RUNTIME DESTINATION bin
+)
+
+install(
+    DIRECTORY ${LAFEZ_ASSET_PATH}/renderer/shaders
+    DESTINATION bin/assets
+)

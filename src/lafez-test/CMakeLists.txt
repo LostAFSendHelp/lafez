@@ -65,3 +65,8 @@ gtest_discover_tests(
     WORKING_DIRECTORY ${PROJECT_DIR}
     PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
 )
+
+install(
+    TARGETS lafez-test lafez-lib
+    RUNTIME DESTINATION tests
+)

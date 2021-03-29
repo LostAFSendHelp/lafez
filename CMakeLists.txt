@@ -20,6 +20,23 @@ add_compile_definitions(
 
 
 
+## ---------------------------------------OPTIONS-----------------------------------------
+
+option(LAFEZ_BUILD_TESTS "Build lafez-test target, using gtest" ON)
+option(LAFEZ_BUILD_EXAMPLE "Build the example target, using lafez-lib" ON)
+
+## ---------------------------------------OPTIONS-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 ## ---------------------------------------LIBRARIES---------------------------------------
 
 ## GLFW check
@@ -42,9 +59,10 @@ endif()
 ## GTEST check
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/spdlog)
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
-else()
+elseif(LAFEZ_BUILD_TESTS)
     set(BUILD_GMOCK OFF CACHE BOOL "Build Gtest without gmock")
-    add_subdirectory(src/vendor/gtest EXCLUDE_FROM_ALL)
+
+    add_subdirectory(src/vendor/gtest)
 endif()
 
 ## glad check
@@ -81,30 +99,13 @@ endif()
 ## ---------------------------------------SUBDIRS---------------------------------------
 
 add_subdirectory(src/lafez-lib)
-add_subdirectory(src/example)
-add_subdirectory(src/lafez-test EXCLUDE_FROM_ALL)
+
+if (LAFEZ_BUILD_EXAMPLE)
+    add_subdirectory(src/example)
+endif(LAFEZ_BUILD_EXAMPLE)
+
+if (LAFEZ_BUILD_TESTS)
+    add_subdirectory(src/lafez-test)
+endif(LAFEZ_BUILD_TESTS)
 
 ## ---------------------------------------SUBDIRS---------------------------------------
-
-
-
-
-
-
-
-
-
-
-## --------------------------------------INSTALLS---------------------------------------
-
-install(
-    TARGETS example
-    RUNTIME DESTINATION bin
-)
-
-install(
-    TARGETS lafez-test lafez-lib
-    RUNTIME DESTINATION tests
-)
-
-## --------------------------------------INSTALLS---------------------------------------
