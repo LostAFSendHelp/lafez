@@ -46,6 +46,8 @@ add_library(
     lafez/core/foundation/Input.cpp
     lafez/core/foundation/ImGuiBackend.hpp
     lafez/core/foundation/ImGuiBackend.cpp
+    lafez/core/foundation/Key.hpp
+    lafez/core/foundation/Key.cpp
 
     lafez/core/foundation/platforms/gl/GlWindow.hpp
     lafez/core/foundation/platforms/gl/GlWindow.cpp

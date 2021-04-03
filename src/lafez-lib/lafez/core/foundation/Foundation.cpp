@@ -1,6 +1,7 @@
 #include <lafez/core/foundation/platforms/gl/GlWindow.hpp>
 #include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
 #include <lafez/core/foundation/platforms/gl/GlInput.hpp>
+#include <lafez/core/foundation/Key.hpp>
 #include <lafez/core/renderer/platforms/GlRenderer.hpp>
 #include "Foundation.hpp"
 
@@ -30,10 +31,18 @@ namespace Lafez {
         default:
             return;
         }
+
+        /* Key starts up with function param instead of template param
+        * because it is a concrete type initialized with hard-set values
+        * rather than abstract type functioning via polymorphism (this is
+        * to avoid unnecessary vtable lookups)
+        */
+        Key::startUp(platform);
     }
 
     void shutDown() {
         Input::shutDown();
+        Key::shutDown();
         ImGuiBackend::shutDown();
         Window::shutDown();
         RendererBackend::shutDown();
