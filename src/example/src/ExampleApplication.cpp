@@ -1,32 +1,26 @@
-#include <lafez/utils/Log.hpp>
-#include <lafez/core/lafez_event.hpp>
-#include <lafez/core/lafez_foundation.hpp>
-#include <lafez/core/lafez_layer.hpp>
+#include "ExampleApplication.hpp"
 #include <lafez/core/lafez_renderer.hpp>
 #include <lafez/core/lafez_asset.hpp>
-#include <iostream>
+#include <lafez/Lafez.hpp>
 
-int main() {
-    Lafez::Log::init();
-    
-    LZ_ENGINE_INFO("Test Info message");
-    LZ_ENGINE_WARN("Test Warning message");
-    LZ_ENGINE_ERR("Test Error message");
-    
-    LZ_CLIENT_INFO("Test Info message");
-    LZ_CLIENT_WARN("Test Warning message");
-    LZ_CLIENT_ERR("Test Error message");
+	
+ExampleApplication::ExampleApplication():
+    Application(),
+	mLayerStack(),
+	mDisposeBag() {
+	LZ_CLIENT_INFO("EXAMPLE APPLICATION INITIALIZED");
+}
 
+ExampleApplication::~ExampleApplication() {
+	LZ_CLIENT_INFO("EXAMPLE APPLICATION TERMIANTED");
+}
 
-    Lafez::startUp(LZ_PLATFORM_GL);
+void ExampleApplication::startUp() {
+	Lafez::startUp(LZ_PLATFORM_GL);
+	auto eventCenter = Lafez::EventCenter::getInstance();
+    auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
+    mLayerStack.pushLayers(imguiLayer);
 
-    Lafez::LayerStack layerStack{ };
-    
-    layerStack.pushLayers(Lafez::Layer::create<Lafez::ImGuiLayer>(LzString("test layer")));
-
-    Lafez::DisposeBag bag{ };
-    auto eventCenter = Lafez::EventCenter::getInstance();
-    
     auto closeSub = eventCenter->subscribe([=](Lafez::Event& event) {
         if (event.mType == Lafez::EventType::Key) {
             auto keyEvent = (Lafez::KeyEvent&)event;
@@ -40,7 +34,10 @@ int main() {
         LZ_CLIENT_INFO(event.toString());
     });
 
-    bag.dispose(closeSub);
+    mDisposeBag.dispose(closeSub);
+}
+
+void ExampleApplication::run() {
     float data[] = {
         .0f, .5f, .0f, 1.0f, .0f, .0f,
         -.5f, -.5f, .0f, .0f, 1.0f, .0f,
@@ -67,16 +64,21 @@ int main() {
             Lafez::Asset::getString("assets/shaders/fragment_shader.glsl")
         )
     };
+
     shader->use();
 
     while (!Lafez::Window::shouldClose()) {
         Lafez::Window::update();
         Lafez::RendererBackend::drawVertexArray(*vertexArray);
-        layerStack.update();
+        mLayerStack.update();
     }
+}
 
-    layerStack.flush();
-    Lafez::shutDown();
+void ExampleApplication::shutDown() {
+	mLayerStack.flush();
+	Lafez::shutDown();
+}
 
-    return 0;
+Lafez::Application* Lafez::createApplication() {
+    return new ExampleApplication;
 }

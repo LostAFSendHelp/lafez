@@ -1,7 +1,8 @@
 add_executable(
     example
 
-    src/main.cpp
+    src/ExampleApplication.hpp
+    src/ExampleApplication.cpp
 )
 
 set_target_properties(

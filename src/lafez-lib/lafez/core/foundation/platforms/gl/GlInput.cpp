@@ -5,7 +5,7 @@ namespace Lafez {
     GlInput::GlInput(GLFWwindow* window):
     Input(),
     mWindow(window) {
-        LZ_ENGINE_ASSERT(mWindow, "ATTEMPTING TO INITIALIZE GLFW TO NULLPTR");
+        LZ_ENGINE_ASSERT(mWindow, "ABORTING ATTEMPT TO INITIALIZE GLFW TO NULLPTR...");
     }
 
     GlInput::~GlInput() {
@@ -13,11 +13,14 @@ namespace Lafez {
     }
 
     void GlInput::initImpl() {
-
+        LZ_ENGINE_INFO("GL INPUT INITIALIZED");
     }
 
     void GlInput::terminateImpl() {
-
+        if (mWindow) {
+            mWindow = nullptr;
+            LZ_ENGINE_INFO("GL INPUT TERMINATED");
+        }
     }
 
     bool GlInput::getKeyImpl(int keycode) const {

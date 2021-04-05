@@ -13,6 +13,7 @@ namespace Lafez {
 	void Key::shutDown() {
 		LZ_ENGINE_GUARD_VOID(sShared, "ABORTING ATTEMPT TO DOUBLE SHUTDOWN KEYCODE SET...");
 		delete sShared;
+		LZ_ENGINE_INFO("KEY CODE SET RESET");
 	}
 
 	Key* Key::getInstance() {

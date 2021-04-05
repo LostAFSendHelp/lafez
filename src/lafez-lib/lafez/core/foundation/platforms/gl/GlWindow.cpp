@@ -62,6 +62,7 @@ namespace Lafez {
         if (mWindow != nullptr) {
             glfwDestroyWindow(mWindow);
             mWindow = nullptr;
+            LZ_ENGINE_INFO("GL WINDOW TERMINATED");
         }
     }
 

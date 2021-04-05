@@ -25,6 +25,7 @@ namespace Lafez {
             ImGui_ImplOpenGL3_Shutdown();
             ImGui_ImplGlfw_Shutdown();
             ImGui::DestroyContext();
+            LZ_ENGINE_INFO("GL IMGUI TERMINATED");
         }
     }
 
