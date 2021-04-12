@@ -88,24 +88,11 @@ add_library(
     lafez/core/assets/Asset.cpp
 )
 
-set_target_properties(
-    lafez-lib
-
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
-)
-
 target_precompile_headers(
     lafez-lib
     
     PRIVATE
     lafez/lafez_pch.hpp
-)
-
-add_compile_definitions(
-    $<$<PLATFORM_ID:Windows>:__LZ_WIN>
-    $<$<PLATFORM_ID:Darwin>:__LZ_MAC>
-    $<$<PLATFORM_ID:Linux>:__LZ_LNX>
 )
 
 generate_export_header(

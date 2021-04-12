@@ -11,6 +11,11 @@ add_compile_definitions(
     $<$<CONFIG:RelWithDebInfo>:__LZ_RELDBG>
 )
 
+add_compile_definitions(
+    $<$<PLATFORM_ID:Windows>:__LZ_WIN>
+    $<$<PLATFORM_ID:Darwin>:__LZ_MAC>
+    $<$<PLATFORM_ID:Linux>:__LZ_LNX>
+)
 
 
 

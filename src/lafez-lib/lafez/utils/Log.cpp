@@ -1,5 +1,11 @@
 #include "Log.hpp"
 
+#ifdef __LZ_WIN
+    #include <spdlog/sinks/msvc_sink.h>
+#else
+    #include <spdlog/sinks/stdout_color_sinks.h>
+#endif
+
 namespace Lafez {
     LzShrPtr<spdlog::logger> Log::mEngineLog{ nullptr };
     LzShrPtr<spdlog::logger> Log::mClientLog{ nullptr };
@@ -18,9 +24,15 @@ namespace Lafez {
             return;
         }
 
-        mEngineLog = spdlog::stderr_color_mt("LAFEZ");
+        #ifdef __LZ_WIN
+            auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+        #else
+            auto sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        #endif
+
+        mEngineLog = std::make_shared<spdlog::logger>("LAFEZ", sink);
         mEngineLog->set_level(spdlog::level::trace);
-        mClientLog = spdlog::stderr_color_mt("CLIENT");
+        mClientLog = std::make_shared<spdlog::logger>("CLIENT", sink);
         mClientLog->set_level(spdlog::level::trace);
 
         mEngineLog->info("ENGINE LOG initialized");

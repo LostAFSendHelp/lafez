@@ -9,9 +9,22 @@
 #include "Application.hpp"
 #include <lafez/utils/Log.hpp>
 
-int main() {
+//#ifdef __LZ_WIN
+//	#include <Windows.h>
+//#endif
+
+#ifdef __LZ_WIN
+
+// for windows
+int WINAPI WinMain(
+	HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	PSTR pScmdline,
+	int iCmdshow) {
+
 	auto application = Lafez::createApplication();
 	LZ_ENGINE_GUARD_VAL(application, 0, "APPLICATION NOT INITIALIZED");
+	LZ_ENGINE_INFO("LAFEZ ENGINE - WINDOW BUILD");
 
 	application->startUp();
 	application->run();
@@ -19,3 +32,20 @@ int main() {
 
 	return 0;
 }
+
+#else
+
+// for non-windows systems
+int main() {
+	auto application = Lafez::createApplication();
+	LZ_ENGINE_GUARD_VAL(application, 0, "APPLICATION NOT INITIALIZED");
+	LZ_ENGINE_INFO("LAFEZ ENGINE - NON-WINDOW BUILD");
+
+	application->startUp();
+	application->run();
+	application->shutDown();
+
+	return 0;
+}
+
+#endif
