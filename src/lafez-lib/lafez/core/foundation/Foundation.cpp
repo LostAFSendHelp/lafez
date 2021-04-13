@@ -7,6 +7,8 @@
 
 namespace Lafez {
     void startUp(FoundationPlatform platform) {
+        Log::startUp();
+        LZ_ENGINE_INFO("[----------LAFEZ STARTING UP----------]");
         LZ_ENGINE_GUARD_VOID((!Window::isInitialized() && !Input::isInitialized() && !ImGuiBackend::isInitialized()), "ATTEMPT TO RE-INITIALIZE FOUNDATION, ABORTING...");
 
         switch (platform) {
@@ -41,10 +43,12 @@ namespace Lafez {
     }
 
     void shutDown() {
+        LZ_ENGINE_INFO("[----------LAFEZ SHUTTING DOWN----------]");
         Input::shutDown();
         Key::shutDown();
         ImGuiBackend::shutDown();
         Window::shutDown();
         RendererBackend::shutDown();
+        Log::shutDown();
     }
 }

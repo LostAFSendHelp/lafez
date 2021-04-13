@@ -13,7 +13,7 @@ namespace Lafez {
 	void Key::shutDown() {
 		LZ_ENGINE_GUARD_VOID(sShared, "ABORTING ATTEMPT TO DOUBLE SHUTDOWN KEYCODE SET...");
 		delete sShared;
-		LZ_ENGINE_INFO("KEY CODE SET RESET");
+		LZ_ENGINE_INFO("KEYCODE SET RESET");
 	}
 
 	Key* Key::getInstance() {
@@ -66,5 +66,30 @@ namespace Lafez {
 		DECIMAL(GLFW_KEY_KP_DECIMAL), DIVIDE(GLFW_KEY_KP_DIVIDE), MULTIPLY(GLFW_KEY_KP_MULTIPLY),
 		SUBTRACT(GLFW_KEY_KP_SUBTRACT), ADD(GLFW_KEY_KP_ADD) {
 
+		switch (platform)
+		{
+		case Lafez::FoundationPlatform::None: {
+			LZ_ENGINE_INFO("KEYCODE SET INITIALIZED WITH ERROR");
+			break;
+		}
+		case Lafez::FoundationPlatform::GL: {
+			LZ_ENGINE_INFO("GLFW KEYCODE SET INITIALIZED");
+			break;
+		}
+		case Lafez::FoundationPlatform::VK: {
+			LZ_ENGINE_INFO("GLFW KEYCODE SET INITIALIZED");
+			break;
+		}
+
+		#ifdef __LZ_WIN
+			case Lafez::FoundationPlatform::DX: {
+				LZ_ENGINE_INFO("WIN32 SET INITIALIZED WITH ERROR");
+				break;
+			}
+		#endif
+
+		default:
+			break;
+		}
 	}
 }

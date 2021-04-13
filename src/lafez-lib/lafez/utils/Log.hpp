@@ -16,7 +16,14 @@ namespace Lafez {
         /**
          * @brief Initialize engine logger and client logger
          */
-        static void init();
+        static void startUp();
+
+
+
+        /**
+         * @brief Shut the loggers down
+         */
+        static void shutDown();
 
 
 

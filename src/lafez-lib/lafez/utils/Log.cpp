@@ -18,9 +18,9 @@ namespace Lafez {
 
     }
 
-    void Log::init() {
+    void Log::startUp() {
         if (mEngineLog != nullptr || mClientLog != nullptr) {
-            spdlog::error("Logger(s) already initialized");
+            LZ_ENGINE_WARN("Logger(s) already initialized");
             return;
         }
 
@@ -39,13 +39,20 @@ namespace Lafez {
         mClientLog->info("CLIENT LOG initialized");
     }
 
+    void Log::shutDown() {
+        spdlog::shutdown();
+        mEngineLog.reset();
+        mClientLog.reset();
+        LZ_ENGINE_INFO("LOGGERS SHUT DOWN");
+    }
+
     LzShrPtr<spdlog::logger> Log::getEngineLog() {
-        if (mEngineLog == nullptr) init();
+        if (mEngineLog == nullptr) startUp();
         return mEngineLog;
     }
 
     LzShrPtr<spdlog::logger> Log::getClientLog() {
-        if (mClientLog == nullptr) init();
+        if (mClientLog == nullptr) startUp();
         return mClientLog;
     }
 

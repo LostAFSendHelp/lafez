@@ -18,6 +18,7 @@ namespace Lafez {
         ImGui::CreateContext();
         ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
         ImGui_ImplOpenGL3_Init();
+        LZ_ENGINE_INFO("GL IMGUI INITIALIZED");
     }
 
     void GlImGui::terminateImpl() {

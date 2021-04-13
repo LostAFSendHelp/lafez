@@ -30,10 +30,6 @@ void ExampleApplication::startUp() {
         }
     });
 
-    auto testSub = eventCenter->subscribe([](Lafez::Event& event) {
-        LZ_CLIENT_INFO(event.toString());
-    });
-
     mDisposeBag.dispose(closeSub);
 }
 

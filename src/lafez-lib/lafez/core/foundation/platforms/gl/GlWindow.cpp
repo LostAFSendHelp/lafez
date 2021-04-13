@@ -56,6 +56,7 @@ namespace Lafez {
         LZ_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "FAILED TO LOAD OPENGL FUNCTIONS");
         LZ_ENGINE_INFO("OPENGL version {0}", glGetString(GL_VERSION));
         glViewport(0, 0, mInfo->mWidth, mInfo->mHeight);
+        LZ_ENGINE_INFO("GL WINDOW INITIALIZED");
     }
 
     void GlWindow::terminateImpl() {
