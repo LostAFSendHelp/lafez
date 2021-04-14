@@ -83,7 +83,7 @@ namespace Lafez {
 
 		#ifdef __LZ_WIN
 			case Lafez::FoundationPlatform::DX: {
-				LZ_ENGINE_INFO("WIN32 SET INITIALIZED WITH ERROR");
+				LZ_ENGINE_INFO("WIN32 KEYCODE SET INITIALIZED WITH ERROR");
 				break;
 			}
 		#endif

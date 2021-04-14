@@ -7,7 +7,7 @@ namespace Lafez {
         const int mKeyCode;
         const ButtonAction mAction;
         
-        KeyEvent(int keyCode, ButtonAction action);
+        KeyEvent(unsigned int keyCode, ButtonAction action);
         ~KeyEvent();
 
         LzString toString() const override;

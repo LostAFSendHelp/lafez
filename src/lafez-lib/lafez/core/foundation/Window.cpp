@@ -2,7 +2,16 @@
 #include "Window.hpp"
 
 namespace Lafez {
-    LzUniPtr<Window> Window::sShared{ nullptr };
+    LzUniPtr<Window> Window::sShared = nullptr;
+
+    Window::Window(const char* name, uint16_t width, uint16_t height):
+        mWindowInfo(new WindowInfo{ name, width, height }) {
+
+    }
+
+    Window::~Window() {
+        delete mWindowInfo;
+    }
 
     uint16_t Window::getWidth() {
         LZ_ENGINE_GUARD_VAL(sShared, 0, "ATTEMPT TO GETWIDTH FROM UNITIALIZED WINDOW, DEFAULTING TO 0");
@@ -20,6 +29,12 @@ namespace Lafez {
         LZ_ENGINE_ASSERT(sShared, "ATTEMPTING TO GETNAME FROM UNITIALIZED WINDOW");
 
         return sShared->getNameImpl();
+    }
+
+    void Window::setName(const char* name) {
+        LZ_ENGINE_ASSERT(sShared, "ATTEMPTING TO SET NAME OF UNITIALIZED WINDOW");
+
+        sShared->setNameImpl(name);
     }
 
     bool Window::shouldClose() {

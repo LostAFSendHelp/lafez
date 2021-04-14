@@ -2,11 +2,12 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/lafez_pch.hpp>
 #include <lafezlib_export.h>
+#include "WindowInfo.hpp"
 
 namespace Lafez {
     class LAFEZLIB Window {
     public:
-        virtual ~Window() = default;
+        virtual ~Window();
 
 
 
@@ -29,11 +30,20 @@ namespace Lafez {
 
 
         /**
-         * @brief Get the Name of the window
+         * @brief Get the Name of the window, which is displayed on the title bar
          * 
          * @return const LzString& 
          */
         static const LzString& getName();
+
+
+
+        /**
+         * @brief Set the Name of the window, which changes the displayed name on the title bar accordingly
+         * 
+         * @param name the new name to be set for the window
+         */
+        static void setName(const char* name);
 
 
 
@@ -98,17 +108,20 @@ namespace Lafez {
 
 
     protected:
-        Window() = default;
+        Window(const char* name, uint16_t width, uint16_t height);
 
-        virtual uint16_t getWidthImpl() const = 0;
-        virtual uint16_t getHeightImpl() const = 0;
-        virtual const LzString& getNameImpl() const = 0;
+        virtual uint16_t getWidthImpl() const = 0;          // TODO: decide whether this should be non-pure
+        virtual uint16_t getHeightImpl() const = 0;         // TODO: decide whether this should be non-pure
+        virtual const LzString& getNameImpl() const = 0;    // TODO: decide whether this should be non-pure
+        virtual void setNameImpl(const char* name) = 0;
         virtual void* getWindowPointerImpl() const = 0;
         virtual bool shouldCloseImpl() const = 0;
         virtual void closeImpl() = 0;
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;
         virtual void updateImpl() = 0;
+
+        WindowInfo* mWindowInfo;
 
     private:
         static LzUniPtr<Window> sShared;

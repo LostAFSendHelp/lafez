@@ -5,8 +5,9 @@ namespace Lafez {
     class WindowMock : public Window {
     public:
         WindowMock(const char* name, int width, int height, int* ref):
-        mRef(ref),
-        mName(name) {
+            Window(name, width, height),
+            mRef(ref),
+            mName(name) {
 
         }
 

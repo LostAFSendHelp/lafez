@@ -1,7 +1,7 @@
 #include "KeyEvent.hpp"
 
 namespace Lafez {
-    KeyEvent::KeyEvent(int keyCode, ButtonAction action):
+    KeyEvent::KeyEvent(unsigned int keyCode, ButtonAction action):
     Event(LZT_KEY),
     mKeyCode(keyCode),
     mAction(action) {

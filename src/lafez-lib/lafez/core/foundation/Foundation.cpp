@@ -1,4 +1,5 @@
 #include <lafez/core/foundation/platforms/gl/GlWindow.hpp>
+#include <lafez/core/foundation/platforms/dx/DxWindow.hpp>
 #include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
 #include <lafez/core/foundation/platforms/gl/GlInput.hpp>
 #include <lafez/core/foundation/Key.hpp>
@@ -22,9 +23,12 @@ namespace Lafez {
             break;
         }
 
-        case LZ_PLATFORM_DX:
-            // TODO: setup for Direct3D
-            break;
+        #ifdef __LZ_WIN
+            case LZ_PLATFORM_DX:
+                Window::startUp<DxWindow>("Lafez DX", 1024, 768);
+                break;
+        #endif
+
 
         case LZ_PLATFORM_VK:
             // TODO: setup for Vulkan

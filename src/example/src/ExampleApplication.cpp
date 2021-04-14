@@ -1,6 +1,7 @@
 #include "ExampleApplication.hpp"
 #include <lafez/core/lafez_renderer.hpp>
 #include <lafez/core/lafez_asset.hpp>
+#include <lafez/core/lafez_event.hpp>
 #include <lafez/Lafez.hpp>
 
 	
@@ -16,10 +17,11 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_GL);
+	Lafez::startUp(LZ_PLATFORM_DX);
+    auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
-    auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
-    mLayerStack.pushLayers(imguiLayer);
+    //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
+    //mLayerStack.pushLayers(imguiLayer);
 
     auto closeSub = eventCenter->subscribe([=](Lafez::Event& event) {
         if (event.mType == Lafez::EventType::Key) {
@@ -27,6 +29,29 @@ void ExampleApplication::startUp() {
             if (keyEvent.mKeyCode == Lafez::Key::getInstance()->Q && keyEvent.mAction == Lafez::ButtonAction::Release) {
                 Lafez::Window::close();
             }
+        }
+
+        if (event.mType == Lafez::EventType::WindowClose) {
+            Lafez::Window::close();
+        }
+
+        if (event.mType == LZT_KEY
+            || event.mType == LZT_WINDOW_RESIZE
+            || event.mType == LZT_MOUSE_BUTTON
+            || event.mType == LZT_MOUSE_SCROLL) {
+            LZ_CLIENT_INFO(event.toString());
+        }
+
+        if (event.mType == LZT_MOUSE_MOVE) {
+            auto mouseEvent = dynamic_cast<Lafez::MouseMoveEvent*>(&event);
+            Lafez::Window::setName(
+                fmt::format(
+                    "{0} - Cursor at ({1}, {2})",
+                    baseWindowName,
+                    mouseEvent->mX,
+                    mouseEvent->mY
+                ).c_str()
+            );
         }
     });
 
@@ -42,36 +67,36 @@ void ExampleApplication::run() {
 
     uint32_t indices[] = { 0, 1, 2 };
 
-    auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
-    vertexArray->bind();
-    auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
-    arrayBuffer->bind();
-    Lafez::VertexBufferLayout layout{ { LZ_PTYPE_VEC3F, LZ_PTYPE_VEC3F } };
-    arrayBuffer->setBufferLayout(layout);
-    auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
-    indexBuffer->bind();
-    vertexArray->addArrayBuffer(arrayBuffer);
-    vertexArray->addIndexBuffer(indexBuffer);
+    //auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
+    //vertexArray->bind();
+    //auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
+    //arrayBuffer->bind();
+    //Lafez::VertexBufferLayout layout{ { LZ_PTYPE_VEC3F, LZ_PTYPE_VEC3F } };
+    //arrayBuffer->setBufferLayout(layout);
+    //auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
+    //indexBuffer->bind();
+    //vertexArray->addArrayBuffer(arrayBuffer);
+    //vertexArray->addIndexBuffer(indexBuffer);
 
-    auto shader = LzUniPtr<Lafez::Shader>{
-        Lafez::RendererBackend::genShader(
-            "basic shader",
-            Lafez::Asset::getString("assets/shaders/vertex_shader.glsl"),
-            Lafez::Asset::getString("assets/shaders/fragment_shader.glsl")
-        )
-    };
+    //auto shader = LzUniPtr<Lafez::Shader>{
+    //    Lafez::RendererBackend::genShader(
+    //        "basic shader",
+    //        Lafez::Asset::getString("assets/shaders/vertex_shader.glsl"),
+    //        Lafez::Asset::getString("assets/shaders/fragment_shader.glsl")
+    //    )
+    //};
 
-    shader->use();
+    //shader->use();
 
     while (!Lafez::Window::shouldClose()) {
         Lafez::Window::update();
-        Lafez::RendererBackend::drawVertexArray(*vertexArray);
-        mLayerStack.update();
+        //Lafez::RendererBackend::drawVertexArray(*vertexArray);
+        //mLayerStack.update();
     }
 }
 
 void ExampleApplication::shutDown() {
-	mLayerStack.flush();
+	//mLayerStack.flush();
 	Lafez::shutDown();
 }
 

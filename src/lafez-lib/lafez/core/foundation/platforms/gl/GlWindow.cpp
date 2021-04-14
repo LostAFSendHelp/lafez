@@ -4,19 +4,10 @@
 
 namespace Lafez {
     bool GlWindow::sGLFWInitialized = false;
-    
-    WindowInfo::WindowInfo(const char* name, uint16_t width, uint16_t height):
-    mName(name),
-    mWidth(width),
-    mHeight(height),
-    mShouldClose(false) {
-
-    }
 
     GlWindow::GlWindow(const char* name, uint16_t width, uint16_t height):
-    Window(),
-    mInfo(new WindowInfo(name, width, height)),
-    mWindow(nullptr) {
+        Window(name, width, height),
+        mWindow(nullptr) {
 
     }
 
@@ -25,19 +16,27 @@ namespace Lafez {
     }
 
     uint16_t GlWindow::getWidthImpl() const {
-        return mInfo->mWidth;
+        return mWindowInfo->mWidth;
     }
 
     uint16_t GlWindow::getHeightImpl() const {
-        return mInfo->mHeight;
+        return mWindowInfo->mHeight;
     }
 
     const LzString& GlWindow::getNameImpl() const {
-        return mInfo->mName;
+        return mWindowInfo->mName;
+    }
+
+    void GlWindow::setNameImpl(const char* name) {
+        mWindowInfo->mName = name;
+        
+        if (mWindow) {
+            glfwSetWindowTitle(mWindow, mWindowInfo->mName.c_str());
+        }
     }
 
     bool GlWindow::shouldCloseImpl() const {
-        return mInfo->mShouldClose;
+        return mWindowInfo->mShouldClose;
     }
 
     void GlWindow::initImpl() {
@@ -48,14 +47,21 @@ namespace Lafez {
 
         if (mWindow != nullptr) return;
 
-        mWindow = glfwCreateWindow(mInfo->mWidth, mInfo->mHeight, mInfo->mName.c_str(), nullptr, nullptr);
+        mWindow = glfwCreateWindow(
+            mWindowInfo->mWidth,
+            mWindowInfo->mHeight,
+            mWindowInfo->mName.c_str(),
+            nullptr,
+            nullptr
+        );
+
         glfwMakeContextCurrent(mWindow);
-        glfwSetWindowUserPointer(mWindow, mInfo);
+        glfwSetWindowUserPointer(mWindow, mWindowInfo);
         setup();
 
         LZ_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "FAILED TO LOAD OPENGL FUNCTIONS");
         LZ_ENGINE_INFO("OPENGL version {0}", glGetString(GL_VERSION));
-        glViewport(0, 0, mInfo->mWidth, mInfo->mHeight);
+        glViewport(0, 0, mWindowInfo->mWidth, mWindowInfo->mHeight);
         LZ_ENGINE_INFO("GL WINDOW INITIALIZED");
     }
 
@@ -78,10 +84,10 @@ namespace Lafez {
 
     void GlWindow::closeImpl() {
         if (mWindow == nullptr) {
-            LZ_ENGINE_WARN("ATTEMPT TO CLOSE UNINITIALIZED WINDOW, ABORTING...");
+            LZ_ENGINE_WARN("ABORTING ATTEMPT TO CLOSE UNINITIALIZED WINDOW...");
         }
 
-        mInfo->mShouldClose = true;
+        mWindowInfo->mShouldClose = true;
     }
 
     void* GlWindow::getWindowPointerImpl() const {
@@ -99,6 +105,7 @@ namespace Lafez {
         }
         
         glfwSetKeyCallback(mWindow, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            LZ_ENGINE_GUARD_VOID((key >= 0), "KEY NOT RECOGNIZED");
             auto keyAction = LZ_BUTTON_UNKNOWN;
 
             switch (action) {
@@ -118,7 +125,7 @@ namespace Lafez {
                 break;
             }
 
-            KeyEvent event{ key, keyAction };
+            KeyEvent event(key, keyAction); // implicit conversion is safe as key is guaranteed to be >= 0
             EventCenter::getInstance()->emit(event);
         });
 

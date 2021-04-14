@@ -60,6 +60,9 @@ add_library(
     lafez/core/foundation/platforms/gl/GlInput.hpp
     lafez/core/foundation/platforms/gl/GlInput.cpp
 
+    lafez/core/foundation/platforms/dx/DxWindow.hpp 
+    lafez/core/foundation/platforms/dx/DxWindow.cpp
+    
     lafez/core/layers/Layer.hpp
     lafez/core/layers/Layer.cpp
     lafez/core/layers/LayerStack.hpp
@@ -86,7 +89,7 @@ add_library(
 
     lafez/core/assets/Asset.hpp
     lafez/core/assets/Asset.cpp
-)
+  "lafez/core/foundation/WindowInfo.hpp" "lafez/core/foundation/WindowInfo.cpp")
 
 target_precompile_headers(
     lafez-lib
