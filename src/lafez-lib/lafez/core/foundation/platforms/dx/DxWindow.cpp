@@ -98,13 +98,15 @@ namespace Lafez {
 
 	void DxWindow::updateImpl() {
 		MSG msg;
-		if (GetMessage(&msg, nullptr, 0, 0)) {
-			// if GetMessage does not return 0, i.e not WM_QUIT
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		} else {
-			// if msg is WM_QUIT, notify the game loop so it stops
-			mWindowInfo->mShouldClose = true;
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if (msg.message == WM_QUIT) {
+				// if msg is WM_QUIT, notify the game loop so it stops
+				mWindowInfo->mShouldClose = true;
+			} else {
+				// if PeekMessage does not return 0, i.e not WM_QUIT
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
 		}
 	}
 

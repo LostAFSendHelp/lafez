@@ -3,7 +3,6 @@
 #include <lafez/core/lafez_asset.hpp>
 #include <lafez/core/lafez_event.hpp>
 #include <lafez/Lafez.hpp>
-
 	
 ExampleApplication::ExampleApplication():
     Application(),
