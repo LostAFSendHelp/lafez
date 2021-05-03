@@ -30,6 +30,23 @@ namespace Lafez {
     *                        Shader                         *
     ********************************************************/
 
+    void RendererBackend::clearBuffer(float red, float green, float blue, float alpha) {
+        LZ_LOCAL_GUARD;
+
+        sShared->clearBufferImpl(red, green, blue, alpha);
+    }
+
+    void RendererBackend::setViewport(int x, int y, LzSizeT width, LzSizeT height) {
+        LZ_LOCAL_GUARD;
+
+        sShared->setViewportImpl(x, y, width, height);
+    }
+
+
+    /********************************************************
+    *                        Shader                         *
+    ********************************************************/
+
     Shader* RendererBackend::genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain) {
         LZ_LOCAL_GUARD;
 

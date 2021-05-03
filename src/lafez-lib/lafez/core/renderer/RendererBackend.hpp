@@ -51,6 +51,32 @@ namespace Lafez {
 
 
         /********************************************************
+        *                        Generic                        *
+        ********************************************************/
+
+        /**
+         * @brief Clear the back buffer with specified color
+         * @param red component of the RGBA code
+         * @param green component of the RGBA code
+         * @param blue component of the RGBA code
+         * @param alpha component of the RGBA code
+         */
+        static void clearBuffer(float red, float green, float blue, float alpha);
+
+
+
+        /**
+         * @brief Set viewport for render area
+         * @param x horizontal origin, left to right
+         * @param y vertical origin, top down
+         * @param width width of the viewport
+         * @param height height of the viewport
+         */
+        static void setViewport(int x, int y, LzSizeT width, LzSizeT height);
+
+
+
+        /********************************************************
         *                        Shader                         *
         ********************************************************/
 
@@ -166,7 +192,7 @@ namespace Lafez {
 
 
         /********************************************************
-        *                      ArrayBuffer                      *
+        *                      VertexArray                      *
         ********************************************************/
 
         /**
@@ -212,6 +238,10 @@ namespace Lafez {
 
     protected:
         RendererBackend() = default;
+
+        // Generic
+        virtual void clearBufferImpl(float red, float green, float blue, float alpha) = 0;
+        virtual void setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) = 0;
 
         // Shader
         virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;

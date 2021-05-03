@@ -1,5 +1,6 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/core/lafez_event.hpp>
+#include <lafez/core/lafez_renderer.hpp>
 #include "GlWindow.hpp"
 
 namespace Lafez {
@@ -57,12 +58,8 @@ namespace Lafez {
 
         glfwMakeContextCurrent(mWindow);
         glfwSetWindowUserPointer(mWindow, mWindowInfo);
-        setup();
 
-        LZ_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "FAILED TO LOAD OPENGL FUNCTIONS");
-        LZ_ENGINE_INFO("OPENGL version {0}", glGetString(GL_VERSION));
-        glViewport(0, 0, mWindowInfo->mWidth, mWindowInfo->mHeight);
-        LZ_ENGINE_INFO("GL WINDOW INITIALIZED");
+        setup();
     }
 
     void GlWindow::terminateImpl() {
@@ -77,9 +74,6 @@ namespace Lafez {
         LZ_ENGINE_ASSERT(mWindow, "GLFW WINDOW NOT INITIALIZED FOR UPDATING");
         glfwSwapBuffers(mWindow);
         glfwPollEvents();
-
-        glClearColor(.0f, .0f, .0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     void GlWindow::closeImpl() {
@@ -186,7 +180,7 @@ namespace Lafez {
             info.mWidth = width;
             info.mHeight = height;
 
-            glViewport(0, 0, width, height);
+            RendererBackend::setViewport(0, 0, info.mWidth, info.mHeight);
             WindowResizeEvent event{ width, height };
             EventCenter::getInstance()->emit(event);
         });

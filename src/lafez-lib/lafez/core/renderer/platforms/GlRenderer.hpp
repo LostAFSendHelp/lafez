@@ -18,6 +18,9 @@ namespace Lafez {
         ~GlRenderer() = default;
 
     protected:
+        // Generic
+        void clearBufferImpl(float red, float green, float blue, float alpha) override;
+        void setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) override;
 
         // Shader
         Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) override;

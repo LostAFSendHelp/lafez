@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <lafez/utils/Log.hpp>
+#include <GLFW/glfw3.h>
 #include "GlRenderer.hpp"
 
 namespace Lafez {
@@ -9,11 +10,29 @@ namespace Lafez {
     ********************************************************/
 
     void GlRenderer::initImpl() {
+        LZ_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "FAILED TO LOAD OPENGL FUNCTIONS");
+        LZ_ENGINE_INFO("OPENGL version {0}", glGetString(GL_VERSION));
+        LZ_ENGINE_INFO("GL WINDOW INITIALIZED");
         LZ_ENGINE_INFO("RENDERER INITIALIZED TO OPENGL");
     }
 
     void GlRenderer::terminateImpl() {
         LZ_ENGINE_INFO("OPENGL RENDERER TERMINATED");
+    }
+
+
+
+    /********************************************************
+    *                        Shader                         *
+    ********************************************************/
+
+    void GlRenderer::clearBufferImpl(float red, float green, float blue, float alpha) {
+        glClearColor(red, green, blue, alpha);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    void GlRenderer::setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) {
+        glViewport(x, y, width, height);
     }
 
 

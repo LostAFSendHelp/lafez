@@ -16,7 +16,7 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_DX);
+	Lafez::startUp(LZ_PLATFORM_GL);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
@@ -89,7 +89,7 @@ void ExampleApplication::run() {
 
     while (!Lafez::Window::shouldClose()) {
         Lafez::Window::update();
-        //Lafez::RendererBackend::drawVertexArray(*vertexArray);
+        Lafez::RendererBackend::clearBuffer(.0f, .0f, .0f, 1.0f);
         //mLayerStack.update();
     }
 }

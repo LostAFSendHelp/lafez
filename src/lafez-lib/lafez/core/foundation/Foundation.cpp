@@ -14,11 +14,13 @@ namespace Lafez {
 
         switch (platform) {
         case LZ_PLATFORM_GL: {
-            RendererBackend::startUp<GlRenderer>();
             Window::startUp<GlWindow>("Lafez GL", 1024, 768);
+            RendererBackend::startUp<GlRenderer>();
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
             ImGuiBackend::startUp<GlImGui>(window);
             Input::startUp<GlInput>(window);
+
+            RendererBackend::setViewport(0, 0, Window::getWidth(), Window::getWidth());
 
             break;
         }
