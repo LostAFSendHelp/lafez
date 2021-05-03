@@ -76,6 +76,14 @@ namespace Lafez {
 
 
 
+        /**
+         * @brief Swap the window buffers, i.e present the back buffer.
+         * Should be called at the end of each render iteration
+         */
+        static void swapBuffers();
+
+
+
         /********************************************************
         *                        Shader                         *
         ********************************************************/
@@ -98,7 +106,7 @@ namespace Lafez {
          * 
          * @param shader The shader to be deleted
          */
-        static void deleteShader(const Shader& shader);
+        static void deleteShader(Shader* shader);
 
 
 
@@ -107,7 +115,7 @@ namespace Lafez {
          * 
          * @param shader The shader to use
          */
-        static void useShader(const Shader& shader);
+        static void useShader(const Shader* shader);
 
 
 
@@ -139,7 +147,7 @@ namespace Lafez {
          * 
          * @param arrayBuffer The array buffer to bind
          */
-        static void bindArrayBuffer(const ArrayBuffer& arrayBuffer);
+        static void bindArrayBuffer(const ArrayBuffer* arrayBuffer);
 
 
 
@@ -148,8 +156,9 @@ namespace Lafez {
          * 
          * @param arrayBuffer The buffer to which to apply the layout
          * @param layout The layout to apply to the array buffer
+         * @param shader The shader to match the layout with, not used by GL
          */
-        static void setBufferLayout(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout);
+        static void setBufferLayout(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader);
 
 
 
@@ -180,7 +189,7 @@ namespace Lafez {
          * 
          * @param indexBuffer The index buffer to bind
          */
-        static void bindIndexBuffer(const IndexBuffer& indexBuffer);
+        static void bindIndexBuffer(const IndexBuffer* indexBuffer);
 
 
 
@@ -209,7 +218,7 @@ namespace Lafez {
          * 
          * @param vertexArray the vertex array to be bound
          */
-        static void bindVertexArray(const VertexArray& vertexArray);
+        static void bindVertexArray(const VertexArray* vertexArray);
 
 
 
@@ -218,7 +227,7 @@ namespace Lafez {
          * 
          * @param vertexArray the vertex array object to be unbound
          */
-        static void unbindVertexArray(const VertexArray& vertexArray);
+        static void unbindVertexArray(const VertexArray* vertexArray);
 
 
 
@@ -234,7 +243,7 @@ namespace Lafez {
          * 
          * @param vertexArray The vertex array object to be bound and with whose data the renderer to draw from
          */
-        static void drawVertexArray(const VertexArray& vertexArray);
+        static void drawVertexArray(const VertexArray* vertexArray);
 
     protected:
         RendererBackend() = default;
@@ -242,30 +251,31 @@ namespace Lafez {
         // Generic
         virtual void clearBufferImpl(float red, float green, float blue, float alpha) = 0;
         virtual void setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) = 0;
+        virtual void swapBuffersImpl() = 0;
 
         // Shader
         virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;
-        virtual void deleteShaderImpl(const Shader& shader) const = 0;
-        virtual void useShaderImpl(const Shader& shader) const = 0;
+        virtual void deleteShaderImpl(Shader* shader) = 0;
+        virtual void useShaderImpl(const Shader* shader) const = 0;
         virtual void resetShaderImpl() const = 0;
 
         // ArrayBuffer
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) = 0;
-        virtual void bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const = 0;
-        virtual void setBufferLayoutImpl(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) const = 0;
+        virtual void bindArrayBufferImpl(const ArrayBuffer* arrayBuffer) const = 0;
+        virtual void setBufferLayoutImpl(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader*) const = 0;
         virtual void resetArrayBufferImpl() const = 0;
 
         // IndexBuffer
         virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT indexCount) = 0;
-        virtual void bindIndexBufferImpl(const IndexBuffer& indexBuffer) const = 0;
+        virtual void bindIndexBufferImpl(const IndexBuffer* indexBuffer) const = 0;
         virtual void resetIndexBufferImpl() const = 0;
 
         // VertexArray
         virtual VertexArray* genVertexArrayImpl() = 0;
-        virtual void bindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
-        virtual void unbindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
+        virtual void bindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
+        virtual void unbindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
         virtual void resetVertexArrayImpl() const = 0;
-        virtual void drawVertexArrayImpl(const VertexArray& vertexArray) const = 0;
+        virtual void drawVertexArrayImpl(const VertexArray* vertexArray) const = 0;
 
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;

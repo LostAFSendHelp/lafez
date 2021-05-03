@@ -3,7 +3,8 @@
 #include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
 #include <lafez/core/foundation/platforms/gl/GlInput.hpp>
 #include <lafez/core/foundation/Key.hpp>
-#include <lafez/core/renderer/platforms/GlRenderer.hpp>
+#include <lafez/core/renderer/platforms/gl/GlRenderer.hpp>
+#include <lafez/core/renderer/platforms/dx/DxRenderer.hpp>
 #include "Foundation.hpp"
 
 namespace Lafez {
@@ -15,20 +16,22 @@ namespace Lafez {
         switch (platform) {
         case LZ_PLATFORM_GL: {
             Window::startUp<GlWindow>("Lafez GL", 1024, 768);
-            RendererBackend::startUp<GlRenderer>();
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
+            RendererBackend::startUp<GlRenderer>(window);
             ImGuiBackend::startUp<GlImGui>(window);
             Input::startUp<GlInput>(window);
-
-            RendererBackend::setViewport(0, 0, Window::getWidth(), Window::getWidth());
 
             break;
         }
 
         #ifdef __LZ_WIN
-            case LZ_PLATFORM_DX:
-                Window::startUp<DxWindow>("Lafez DX", 1024, 768);
-                break;
+        case LZ_PLATFORM_DX: {
+            Window::startUp<DxWindow>("Lafez DX", 1024, 768);
+            auto window = static_cast<HWND>(Window::getWindowPointer());
+            RendererBackend::startUp<DxRenderer>(window);
+
+            break;
+        }
         #endif
 
 
@@ -46,6 +49,7 @@ namespace Lafez {
         * to avoid unnecessary vtable lookups)
         */
         Key::startUp(platform);
+        RendererBackend::setViewport(0, 0, Window::getWidth(), Window::getHeight());
     }
 
     void shutDown() {

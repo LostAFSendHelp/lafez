@@ -16,7 +16,7 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_GL);
+	Lafez::startUp(LZ_PLATFORM_DX);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
@@ -66,31 +66,40 @@ void ExampleApplication::run() {
 
     uint32_t indices[] = { 0, 1, 2 };
 
-    //auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
+    auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
     //vertexArray->bind();
-    //auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
-    //arrayBuffer->bind();
-    //Lafez::VertexBufferLayout layout{ { LZ_PTYPE_VEC3F, LZ_PTYPE_VEC3F } };
-    //arrayBuffer->setBufferLayout(layout);
+    auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
+    arrayBuffer->bind();
+
+    Lafez::VertexBufferLayout layout{
+        {
+            { "VS_POSITION", LZ_PTYPE_VEC3F },
+            { "VS_COLOR", LZ_PTYPE_VEC3F }
+        } 
+    };
     //auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
     //indexBuffer->bind();
-    //vertexArray->addArrayBuffer(arrayBuffer);
     //vertexArray->addIndexBuffer(indexBuffer);
 
-    //auto shader = LzUniPtr<Lafez::Shader>{
-    //    Lafez::RendererBackend::genShader(
-    //        "basic shader",
-    //        Lafez::Asset::getString("assets/shaders/vertex_shader.glsl"),
-    //        Lafez::Asset::getString("assets/shaders/fragment_shader.glsl")
-    //    )
-    //};
+    auto shader = LzUniPtr<Lafez::Shader>{
+        Lafez::RendererBackend::genShader(
+            "basic shader",
+            Lafez::Asset::getString("assets/shaders/hlsl/vertex_shader.hlsl"),
+            Lafez::Asset::getString("assets/shaders/hlsl/fragment_shader.hlsl")
+        )
+    };
 
-    //shader->use();
+    shader->use();
+    arrayBuffer->setBufferLayout(&layout, shader.get());
+    vertexArray->addArrayBuffer(arrayBuffer);
 
     while (!Lafez::Window::shouldClose()) {
         Lafez::Window::update();
-        Lafez::RendererBackend::clearBuffer(.0f, .0f, .0f, 1.0f);
-        //mLayerStack.update();
+        Lafez::RendererBackend::clearBuffer(.5f, .5f, .0f, 1.0f);
+        Lafez::RendererBackend::drawVertexArray(vertexArray.get());
+
+        // Render shits
+        Lafez::RendererBackend::swapBuffers();
     }
 }
 

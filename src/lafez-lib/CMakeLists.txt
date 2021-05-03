@@ -80,16 +80,24 @@ add_library(
     lafez/core/renderer/VertexArray.hpp
     lafez/core/renderer/VertexArray.cpp
 
-    lafez/core/renderer/platforms/GlRenderer.hpp
-    lafez/core/renderer/platforms/GlRenderer.cpp
-    lafez/core/renderer/platforms/DxRenderer.hpp
-    lafez/core/renderer/platforms/DxRenderer.cpp
-    lafez/core/renderer/platforms/VkRenderer.hpp
-    lafez/core/renderer/platforms/VkRenderer.cpp
+    lafez/core/renderer/platforms/gl/GlRenderer.hpp
+    lafez/core/renderer/platforms/gl/GlRenderer.cpp
+
+    lafez/core/renderer/platforms/dx/DxRenderer.hpp
+    lafez/core/renderer/platforms/dx/DxRenderer.cpp
+    lafez/core/renderer/platforms/dx/DxShaderContainer.hpp
+    lafez/core/renderer/platforms/dx/DxShaderContainer.cpp
+    lafez/core/renderer/platforms/dx/DxBuffer.hpp
+    lafez/core/renderer/platforms/dx/DxBuffer.cpp
+
+    lafez/core/renderer/platforms/vk/VkRenderer.hpp
+    lafez/core/renderer/platforms/vk/VkRenderer.cpp
 
     lafez/core/assets/Asset.hpp
     lafez/core/assets/Asset.cpp
-  "lafez/core/foundation/WindowInfo.hpp" "lafez/core/foundation/WindowInfo.cpp")
+    lafez/core/foundation/WindowInfo.cpp
+    lafez/core/foundation/WindowInfo.hpp
+)
 
 target_precompile_headers(
     lafez-lib

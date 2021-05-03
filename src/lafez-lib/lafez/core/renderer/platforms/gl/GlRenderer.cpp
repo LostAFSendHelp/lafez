@@ -5,6 +5,11 @@
 
 namespace Lafez {
 
+    GlRenderer::GlRenderer(GLFWwindow* windowPtr) :
+        mWindowPtr(windowPtr) {
+
+    }
+
     /********************************************************
     *                      Singleton                        *
     ********************************************************/
@@ -23,7 +28,7 @@ namespace Lafez {
 
 
     /********************************************************
-    *                        Shader                         *
+    *                        Generic                        *
     ********************************************************/
 
     void GlRenderer::clearBufferImpl(float red, float green, float blue, float alpha) {
@@ -33,6 +38,10 @@ namespace Lafez {
 
     void GlRenderer::setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) {
         glViewport(x, y, width, height);
+    }
+
+    void GlRenderer::swapBuffersImpl() {
+        glfwSwapBuffers(mWindowPtr);
     }
 
 
@@ -73,12 +82,15 @@ namespace Lafez {
         return new Shader{ program, name };
     }
 
-    void GlRenderer::deleteShaderImpl(const Shader& shader) const {
-        glDeleteProgram(shader.mID);
+    void GlRenderer::deleteShaderImpl(Shader* shader) {
+        LZ_ENGINE_GUARD_VOID((shader && !shader->mIsDeleted), "Nullptr passed as shader, or shader is already deleted");
+        glDeleteProgram(shader->mID);
+        shader->mIsDeleted = true;
     }
 
-    void GlRenderer::useShaderImpl(const Shader& shader) const {
-        glUseProgram(shader.mID);
+    void GlRenderer::useShaderImpl(const Shader* shader) const {
+        LZ_ENGINE_GUARD_VOID((shader && !shader->mIsDeleted), "Nullptr passed as shader, or shader is already deleted");
+        glUseProgram(shader->mID);
     }
 
     void GlRenderer::resetShaderImpl() const {
@@ -98,17 +110,19 @@ namespace Lafez {
         glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        return new ArrayBuffer{ buffer, vertexCount };
+        return new ArrayBuffer{ buffer, dataSize, vertexCount };
     }
 
-    void GlRenderer::bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const {
-        glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer.mID);
+    void GlRenderer::bindArrayBufferImpl(const ArrayBuffer* arrayBuffer) const {
+        LZ_ENGINE_GUARD_VOID(arrayBuffer, "Nullptr passed as array buffer");
+        glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer->mID);
     }
 
-    void GlRenderer::setBufferLayoutImpl(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) const {
+    void GlRenderer::setBufferLayoutImpl(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader) const {
+        LZ_ENGINE_GUARD_VOID((arrayBuffer && layout), "Nullptr passed to {}", __func__);
         bindArrayBufferImpl(arrayBuffer);
 
-        auto attribs = layout.getAttributes();
+        auto attribs = layout->getAttributes();
         for(const auto& attrib : attribs) {
             glVertexAttribPointer(attrib.mIndex,
                                   attrib.mElementSize,
@@ -140,8 +154,9 @@ namespace Lafez {
         return new IndexBuffer{ buffer, count };
     }
 
-    void GlRenderer::bindIndexBufferImpl(const IndexBuffer& indexBuffer) const {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.mID);
+    void GlRenderer::bindIndexBufferImpl(const IndexBuffer* indexBuffer) const {
+        LZ_ENGINE_GUARD_VOID(indexBuffer, "Nullptr passed as index buffer");
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->mID);
     }
 
     void GlRenderer::resetIndexBufferImpl() const {
@@ -160,15 +175,17 @@ namespace Lafez {
         return new VertexArray(id);
     }
 
-    void GlRenderer::bindVertexArrayImpl(const VertexArray& vertexArray) const {
-        glBindVertexArray(vertexArray.mID);
+    void GlRenderer::bindVertexArrayImpl(const VertexArray* vertexArray) const {
+        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
+        glBindVertexArray(vertexArray->mID);
     }
 
-    void GlRenderer::unbindVertexArrayImpl(const VertexArray& vertexArray) const {
+    void GlRenderer::unbindVertexArrayImpl(const VertexArray* vertexArray) const {
+        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
         int id = 0;
         glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &id);
 
-        if (vertexArray.mID == id) {
+        if (vertexArray->mID == id) {
             glBindVertexArray(0);
         }
     }
@@ -177,11 +194,12 @@ namespace Lafez {
         glBindVertexArray(0);
     }
 
-    void GlRenderer::drawVertexArrayImpl(const VertexArray& vertexArray) const {
-        if (vertexArray.getIndexBuffer()) {
-            glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
+    void GlRenderer::drawVertexArrayImpl(const VertexArray* vertexArray) const {
+        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
+        if (vertexArray->getIndexBuffer()) {
+            glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->mIndexCount, GL_UNSIGNED_INT, 0);
         } else {
-            glDrawArrays(GL_TRIANGLES, 0, vertexArray.getArrayBuffer()->mVertexCount);
+            glDrawArrays(GL_TRIANGLES, 0, vertexArray->getArrayBuffer()->mVertexCount);
         }
     }
 

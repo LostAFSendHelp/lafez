@@ -8,20 +8,56 @@ namespace Lafez {
     *                   VertexBufferLayout                  *
     ********************************************************/
 
-    VertexBufferLayout::VertexBufferLayout(const LzVec<PrimitiveType>& types):
-    mAttributes() {
+    VertexAttribute::VertexAttribute(const LzString& name, PrimitiveType type):
+        mName(name),
+        mType(type),
+        mIndex(0),
+        mSize(0),
+        mElementSize(0),
+        mStride(0),
+        mOffset(0) {
+
+    }
+
+    VertexAttribute::VertexAttribute(const VertexAttribute& other) :
+        mName(other.mName),
+        mType(other.mType),
+        mIndex(other.mIndex),
+        mSize(other.mSize),
+        mElementSize(other.mElementSize),
+        mStride(other.mStride),
+        mOffset(other.mOffset) {
+
+    }
+
+    VertexAttribute& VertexAttribute::operator=(const VertexAttribute& other) {
+        mName = other.mName;
+        mType = other.mType;
+        mIndex = other.mIndex;
+        mSize = other.mSize;
+        mElementSize = other.mElementSize;
+        mStride = other.mStride;
+        mOffset = other.mOffset;
+        return *this;
+    }
+
+    const LzString& VertexAttribute::getName() const {
+        return mName;
+    }
+
+    VertexBufferLayout::VertexBufferLayout(const LzVec<VertexAttribute>& attributes):
+    mAttributes(attributes) {
         uint8_t iteration = 0;
         LzSizeT offset = 0;
         LzSizeT stride = 0;
 
-        for (const auto& type : types) {
-            VertexAttribute attrib{ };
+        for (auto& attrib : mAttributes) {
+            auto type = attrib.mType;
             attrib.mIndex = iteration;
             attrib.mElementSize = getElementSizeFor(type);
             attrib.mOffset = stride;
             attrib.mType = type;
             attrib.mSize = getSizeFor(type);
-            mAttributes.push_back(attrib);
 
             stride += attrib.mSize;
             ++iteration;
@@ -85,18 +121,19 @@ namespace Lafez {
     //*                     ArrayBuffer                     *
     //*******************************************************
 
-    ArrayBuffer::ArrayBuffer(uint32_t id, LzSizeT vertexCount):
-    mID(id),
-    mVertexCount(vertexCount) {
+    ArrayBuffer::ArrayBuffer(uint32_t id, LzSizeT dataSize, LzSizeT vertexCount):
+        mID(id),
+        mDataSize(dataSize),
+        mVertexCount(vertexCount) {
 
     }
 
     void ArrayBuffer::bind() const {
-        RendererBackend::bindArrayBuffer(*this);
+        RendererBackend::bindArrayBuffer(this);
     }
 
-    void ArrayBuffer::setBufferLayout(const VertexBufferLayout& layout) const {
-        RendererBackend::setBufferLayout(*this, layout);
+    void ArrayBuffer::setBufferLayout(const VertexBufferLayout* layout, const Shader* shader) const {
+        RendererBackend::setBufferLayout(this, layout, shader);
     }
 
 
@@ -112,6 +149,6 @@ namespace Lafez {
     }
 
     void IndexBuffer::bind() const {
-        RendererBackend::bindIndexBuffer(*this);
+        RendererBackend::bindIndexBuffer(this);
     }
 }
