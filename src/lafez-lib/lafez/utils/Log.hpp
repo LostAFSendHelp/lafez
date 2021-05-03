@@ -125,3 +125,10 @@ namespace Lafez {
         LZ_ENGINE_WARN(__VA_ARGS__);\
         return val;\
     }
+
+#define LZ_ENGINE_GUARD_THROW(statement, ...)\
+    if (!statement) {\
+        auto location = fmt::format("[LINE] : {}\n[FILE] : {}\n[DESCRIPTION] : ", __LINE__, __FILE__);\
+        location += fmt::format(__VA_ARGS__);\
+        throw std::runtime_error(location);\
+    }

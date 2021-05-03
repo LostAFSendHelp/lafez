@@ -9,7 +9,9 @@ namespace Lafez {
         /// The renderer ID of the shader
         const uint32_t mID;
         /// The name of the shader
-        const LzString mName;
+        const LzString mName; 
+        /// Whether the Shader object has been deleted. Do not set this value yourself, let the rendererbackend do the job
+        bool mIsDeleted;
 
 
 
@@ -31,11 +33,11 @@ namespace Lafez {
 
 
         /**
-         * @brief Use the shader for subsequent object renderings, equivalent to calling RendererBackend::useShader(*this)
+         * @brief Use the shader for subsequent object renderings, equivalent to calling RendererBackend::useShader(this)
          */
         void use() const;
 
     private:
-
+        
     };
 };

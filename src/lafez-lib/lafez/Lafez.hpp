@@ -8,6 +8,7 @@
 #pragma once
 #include "Application.hpp"
 #include <lafez/utils/Log.hpp>
+#include <lafez/misc/lafez_exception.hpp>
 
 //#ifdef __LZ_WIN
 //	#include <Windows.h>
@@ -26,9 +27,15 @@ int WINAPI WinMain(
 	LZ_ENGINE_GUARD_VAL(application, 0, "APPLICATION NOT INITIALIZED");
 	LZ_ENGINE_INFO("LAFEZ ENGINE - WINDOW BUILD");
 
-	application->startUp();
-	application->run();
-	application->shutDown();
+	try {
+		application->startUp();
+		application->run();
+		application->shutDown();
+	} catch (const std::exception& e) {
+		MessageBox(nullptr, e.what(), "Run-time exception", MB_OK | MB_ICONERROR);
+	} catch (const Lafez::WinException& e) {
+		MessageBox(nullptr, e.what(), "Run-time exception", MB_OK | MB_ICONERROR);
+	}
 
 	return 0;
 }

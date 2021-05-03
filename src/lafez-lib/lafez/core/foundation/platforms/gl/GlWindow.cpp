@@ -72,7 +72,6 @@ namespace Lafez {
 
     void GlWindow::updateImpl() {
         LZ_ENGINE_ASSERT(mWindow, "GLFW WINDOW NOT INITIALIZED FOR UPDATING");
-        glfwSwapBuffers(mWindow);
         glfwPollEvents();
     }
 

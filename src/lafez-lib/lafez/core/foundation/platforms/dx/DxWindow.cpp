@@ -1,6 +1,8 @@
 #include "DxWindow.hpp"
 #include <lafez/core/lafez_event.hpp>
 #include <windowsx.h>
+#include <lafez/core/lafez_renderer.hpp>
+#include <lafez/misc/lafez_exception.hpp>
 
 #ifdef __LZ_WIN
 
@@ -50,12 +52,14 @@ namespace Lafez {
 		windowRect.right = 100 + mWindowInfo->mWidth;
 
 		DWORD windowStyles = WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME | WS_CAPTION;
-		LZ_ENGINE_ASSERT(AdjustWindowRectEx(
+		if (!AdjustWindowRectEx(
 			&windowRect,
 			windowStyles,
 			FALSE,
 			NULL
-		), "Failed to adjust window rect");
+		)) {
+			throw LZ_WINEXCEPT_LAST;
+		}
 
 		mHandleToWindow = CreateWindowEx(
 			NULL,								// no extended styles
@@ -71,6 +75,10 @@ namespace Lafez {
 			getWindowClass()->hInstance,		// hInstance
 			this								// user pointer
 		);
+
+		if (!mHandleToWindow) {
+			throw LZ_WINEXCEPT_LAST;
+		}
 
 		GetClientRect(mHandleToWindow, &windowRect);
 
@@ -173,7 +181,11 @@ namespace Lafez {
 		}
 
 		case WM_SIZE: {
-			WindowResizeEvent event(LOWORD(lParam), HIWORD(lParam));
+			auto width = LOWORD(lParam), height = HIWORD(lParam);
+			WindowResizeEvent event(width, height);
+			if (RendererBackend::isInitialized()) {
+				RendererBackend::setViewport(0, 0, width, height);
+			}
 			EventCenter::getInstance()->emit(event);
 			return 0;
 		}

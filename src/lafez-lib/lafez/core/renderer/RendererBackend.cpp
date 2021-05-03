@@ -2,7 +2,9 @@
 #include <lafez/core/renderer/Buffer.hpp>
 #include "RendererBackend.hpp"
 
-#define LZ_LOCAL_GUARD LZ_ENGINE_ASSERT(sShared, "ATTEMPTING TO CALL RENDERER BACKEND FUNCTIONS BEFORE STARTUP")
+#define LZ_LOCAL_GUARD LZ_ENGINE_GUARD_THROW(sShared, "ATTEMPTING TO CALL RENDERER BACKEND FUNCTIONS BEFORE STARTUP")
+#define LZ_CALL_SINGLETON(x) { LZ_LOCAL_GUARD; sShared->x; }
+#define LZ_CALL_SINGLETON_RETURN(x) { LZ_LOCAL_GUARD; return sShared->x; }
 
 namespace Lafez {
 
@@ -31,16 +33,17 @@ namespace Lafez {
     ********************************************************/
 
     void RendererBackend::clearBuffer(float red, float green, float blue, float alpha) {
-        LZ_LOCAL_GUARD;
-
-        sShared->clearBufferImpl(red, green, blue, alpha);
+        LZ_CALL_SINGLETON(clearBufferImpl(red, green, blue, alpha));
     }
 
     void RendererBackend::setViewport(int x, int y, LzSizeT width, LzSizeT height) {
-        LZ_LOCAL_GUARD;
-
-        sShared->setViewportImpl(x, y, width, height);
+        LZ_CALL_SINGLETON(setViewportImpl(x, y, width, height));
     }
+
+    void RendererBackend::swapBuffers() {
+        LZ_CALL_SINGLETON(swapBuffersImpl());
+    }
+
 
 
     /********************************************************
@@ -48,27 +51,19 @@ namespace Lafez {
     ********************************************************/
 
     Shader* RendererBackend::genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain) {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genShaderImpl(name, vSource, fSource, retain);
+        LZ_CALL_SINGLETON_RETURN(genShaderImpl(name, vSource, fSource, retain));
     }
 
-    void RendererBackend::deleteShader(const Shader& shader) {
-        LZ_LOCAL_GUARD;
-
-        sShared->deleteShaderImpl(shader);
+    void RendererBackend::deleteShader(Shader* shader) {
+        LZ_CALL_SINGLETON(deleteShaderImpl(shader));
     }
 
-    void RendererBackend::useShader(const Shader& shader) {
-        LZ_LOCAL_GUARD;
-
-        sShared->useShaderImpl(shader);
+    void RendererBackend::useShader(const Shader* shader) {
+        LZ_CALL_SINGLETON(useShaderImpl(shader));
     }
 
     void RendererBackend::resetShader() {
-        LZ_LOCAL_GUARD;
-
-        sShared->resetShaderImpl();
+        LZ_CALL_SINGLETON(resetShaderImpl());
     }
 
 
@@ -78,27 +73,19 @@ namespace Lafez {
     ********************************************************/
 
     ArrayBuffer* RendererBackend::genArrayBuffer(float* data, LzSizeT dataSize, LzSizeT vertexCount) {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genArrayBufferImpl(data, dataSize, vertexCount);
+        LZ_CALL_SINGLETON_RETURN(genArrayBufferImpl(data, dataSize, vertexCount));
     }
 
-    void RendererBackend::bindArrayBuffer(const ArrayBuffer& arrayBuffer) {
-        LZ_LOCAL_GUARD;
-
-        sShared->bindArrayBufferImpl(arrayBuffer);
+    void RendererBackend::bindArrayBuffer(const ArrayBuffer* arrayBuffer) {
+        LZ_CALL_SINGLETON(bindArrayBufferImpl(arrayBuffer));
     }
 
-    void RendererBackend::setBufferLayout(const ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout) {
-        LZ_LOCAL_GUARD;
-
-        sShared->setBufferLayoutImpl(arrayBuffer, layout);
+    void RendererBackend::setBufferLayout(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader) {
+        LZ_CALL_SINGLETON(setBufferLayoutImpl(arrayBuffer, layout, shader));
     }
 
     void RendererBackend::resetArrayBuffer() {
-        LZ_LOCAL_GUARD;
-
-        sShared->resetArrayBufferImpl();
+        LZ_CALL_SINGLETON(resetArrayBufferImpl());
     }
 
 
@@ -108,21 +95,15 @@ namespace Lafez {
     ********************************************************/
 
     IndexBuffer* RendererBackend::genIndexBuffer(uint32_t* indices, LzSizeT indexCount) {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genIndexBufferImpl(indices, indexCount);
+        LZ_CALL_SINGLETON_RETURN(genIndexBufferImpl(indices, indexCount));
     }
 
-    void RendererBackend::bindIndexBuffer(const IndexBuffer& indexBuffer) {
-        LZ_LOCAL_GUARD;
-
-        sShared->bindIndexBufferImpl(indexBuffer);
+    void RendererBackend::bindIndexBuffer(const IndexBuffer* indexBuffer) {
+        LZ_CALL_SINGLETON(bindIndexBufferImpl(indexBuffer));
     }
 
     void RendererBackend::resetIndexBuffer() {
-        LZ_LOCAL_GUARD;
-
-        sShared->resetIndexBufferImpl();
+        LZ_CALL_SINGLETON(resetIndexBufferImpl());
     }
 
 
@@ -132,36 +113,25 @@ namespace Lafez {
     ********************************************************/
 
     VertexArray* RendererBackend::genVertexArray() {
-        LZ_LOCAL_GUARD;
-
-        return sShared->genVertexArrayImpl();
+        LZ_CALL_SINGLETON_RETURN(genVertexArrayImpl());
     }
 
-    void RendererBackend::bindVertexArray(const VertexArray& vertexArray) {
-        LZ_LOCAL_GUARD;
-
-        sShared->bindVertexArrayImpl(vertexArray);
+    void RendererBackend::bindVertexArray(const VertexArray* vertexArray) {
+        LZ_CALL_SINGLETON(bindVertexArrayImpl(vertexArray));
     }
 
-    void RendererBackend::unbindVertexArray(const VertexArray& vertexArray) {
-        LZ_LOCAL_GUARD;
-
-        sShared->unbindVertexArrayImpl(vertexArray);
+    void RendererBackend::unbindVertexArray(const VertexArray* vertexArray) {
+        LZ_CALL_SINGLETON(unbindVertexArrayImpl(vertexArray));
     }
 
     void RendererBackend::resetVertexArray() {
-        LZ_LOCAL_GUARD;
-
-        sShared->resetVertexArrayImpl();
+        LZ_CALL_SINGLETON(resetVertexArrayImpl());
     }
 
-    void RendererBackend::drawVertexArray(const VertexArray& vertexArray) {
-        LZ_LOCAL_GUARD;
-        LZ_ENGINE_GUARD_VOID(vertexArray.getArrayBuffer(), "Vertex array object [ID {0}] contains no buffer data, aborting draw call...", vertexArray.mID);
-
-        vertexArray.bind();
-        sShared->drawVertexArrayImpl(vertexArray);
+    void RendererBackend::drawVertexArray(const VertexArray* vertexArray) {
+        LZ_CALL_SINGLETON(drawVertexArrayImpl(vertexArray));
     }
 }
 
 #undef LZ_LOCAL_GUARD
+#undef LZ_CALL_SINGLETON

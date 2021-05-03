@@ -1,6 +1,7 @@
 #pragma once
 #include <lafezlib_export.h>
 #include <lafez/lafez_pch.hpp>
+#include "Shader.hpp"
 
 #define LZ_PTYPE_NONE       ::Lafez::PrimitiveType::None
 #define LZ_PTYPE_INT        ::Lafez::PrimitiveType::Int
@@ -25,17 +26,28 @@ namespace Lafez {
     };
 
     struct LAFEZLIB VertexAttribute {
+    public:
         uint32_t mIndex;
         LzSizeT mSize;
         LzSizeT mElementSize;
         LzSizeT mStride;
         LzSizeT mOffset;
         PrimitiveType mType;
+
+        VertexAttribute(const LzString& name, PrimitiveType type);
+        VertexAttribute(const VertexAttribute& other);
+        VertexAttribute(VertexAttribute&& other) = default;
+        ~VertexAttribute() = default;
+
+        VertexAttribute& operator=(const VertexAttribute& other);
+        const LzString& getName() const;
+    private:
+        LzString mName;
     };
 
     struct LAFEZLIB VertexBufferLayout {
     public:
-        VertexBufferLayout(const LzVec<PrimitiveType>& types);
+        VertexBufferLayout(const LzVec<VertexAttribute>& types);
         ~VertexBufferLayout() = default;
 
         const LzVec<VertexAttribute>& getAttributes() const;
@@ -57,6 +69,8 @@ namespace Lafez {
 
         /// The renderer ID of the array buffer
         const uint32_t mID;
+        /// The size in bytes of the array buffer data
+        const LzSizeT mDataSize;
         /// The vertex count of the array buffer, used for non-indexed draw calls
         const LzSizeT mVertexCount;
 
@@ -67,7 +81,7 @@ namespace Lafez {
          * 
          * @param id The renderer ID of the array buffer
          */
-        ArrayBuffer(uint32_t id, LzSizeT vertexCount);
+        ArrayBuffer(uint32_t id, LzSizeT dataSize, LzSizeT vertexCount);
 
 
 
@@ -86,11 +100,14 @@ namespace Lafez {
 
 
         /**
-         * @brief Set the Buffer Layout for the ArrayBuffer. Only changes data in the backend, does not retain any data on the array buffer itself. Equivalent to calling RendererBackend::setBufferLayout(*this, layout)
+         * @brief Set the Buffer Layout for the ArrayBuffer.
+         * Only changes data in the backend, does not retain any data on the array buffer itself.
+         * Equivalent to calling RendererBackend::setBufferLayout(*this, layout, shader)
          * 
          * @param layout The buffer layout to apply to the array buffer
+         * @param shader The shader to validate the layout against, can be `nullptr` if backend is GL
          */
-        void setBufferLayout(const VertexBufferLayout& layout) const;
+        void setBufferLayout(const VertexBufferLayout* layout, const Shader* shader) const;
 
     private:
 
@@ -102,10 +119,6 @@ namespace Lafez {
 
     class LAFEZLIB IndexBuffer {
     public:
-        friend class RendererBackend;
-        friend class GlRenderer;
-        friend class DxRenderer;
-        friend class VkRenderer;
 
         /// The renderer ID of the index buffer
         const uint32_t mID;
