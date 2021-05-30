@@ -54,6 +54,7 @@ namespace Lafez {
         void bindVertexArrayImpl(const VertexArray* vertexArray) const override;
         void unbindVertexArrayImpl(const VertexArray* vertexArray) const override;
         void resetVertexArrayImpl() const override;
+        void vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const override;
         void drawVertexArrayImpl(const VertexArray* vertexArray) const override;
 
         void initImpl() override;

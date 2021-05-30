@@ -16,7 +16,7 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_GL);
+	Lafez::startUp(LZ_PLATFORM_DX);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
@@ -67,7 +67,6 @@ void ExampleApplication::run() {
     uint32_t indices[] = { 0, 1, 2 };
 
     auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
-    //vertexArray->bind();
     auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
     arrayBuffer->bind();
     
@@ -77,17 +76,16 @@ void ExampleApplication::run() {
             { "VS_COLOR", LZ_PTYPE_VEC3F }
         } 
     };
+
+    auto shader = LzUniPtr<Lafez::Shader>{ Lafez::RendererBackend::genDefaultShader() };
     //auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
     //indexBuffer->bind();
     //vertexArray->addIndexBuffer(indexBuffer);
 
-    auto shader = LzUniPtr<Lafez::Shader>{
-        Lafez::RendererBackend::genDefaultShader()
-    };
-
     shader->use();
-    arrayBuffer->setBufferLayout(&layout, shader.get());
+
     vertexArray->addArrayBuffer(arrayBuffer);
+    arrayBuffer->setBufferLayout(&layout, shader.get());
 
     while (!Lafez::Window::shouldClose()) {
         static auto spice = .0f;

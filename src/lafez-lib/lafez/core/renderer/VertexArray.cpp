@@ -22,10 +22,7 @@ namespace Lafez {
     }
 
     void VertexArray::addArrayBuffer(const LzShrPtr<ArrayBuffer>& arrayBuffer) {
-        RendererBackend::bindVertexArray(this);
-        RendererBackend::resetArrayBuffer();
-
-        arrayBuffer->bind();
+        RendererBackend::vertexArrayAddArrayBuffer(this, arrayBuffer.get());
         mArrayBuffer = arrayBuffer;
     }
 

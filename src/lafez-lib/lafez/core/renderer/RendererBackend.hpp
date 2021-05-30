@@ -246,6 +246,17 @@ namespace Lafez {
 
 
         /**
+        * @brief Bind an ArrayBuffer object to the VertexArray object, at the moment will clear the currently bound ArrayBuffer of the VertexArray, if any
+        * 
+        * @param vertexArray the container VertexArray object
+        * @param arrayBuffer the ArrayBuffer object to be bound
+         */
+
+        static void vertexArrayAddArrayBuffer(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer);
+
+
+
+        /**
          * @brief Draw using states bound by the vertex array object. Abort if array buffer data unavailable. Draw array if no indices found, draw indexed otherwise. The vertex array object is only bound if the state it holds has array buffer data
          * 
          * @param vertexArray The vertex array object to be bound and with whose data the renderer to draw from
@@ -283,6 +294,7 @@ namespace Lafez {
         virtual void bindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
         virtual void unbindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
         virtual void resetVertexArrayImpl() const = 0;
+        virtual void vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const = 0;
         virtual void drawVertexArrayImpl(const VertexArray* vertexArray) const = 0;
 
         virtual void initImpl() = 0;

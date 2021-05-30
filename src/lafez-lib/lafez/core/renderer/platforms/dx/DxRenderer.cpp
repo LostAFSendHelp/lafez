@@ -12,7 +12,7 @@
 using Microsoft::WRL::ComPtr;
 
 namespace Lafez {
-    DxRenderer::DxRenderer(HWND handleToWindow):
+    DxRenderer::DxRenderer(HWND handleToWindow) :
         mSwapChainPtr(nullptr),
         mDevicePtr(nullptr),
         mDeviceContextPtr(nullptr),
@@ -38,6 +38,7 @@ namespace Lafez {
         swapChainDesc.OutputWindow = handleToWindow;
 
         UINT creationFlags = 0;
+        
         #ifdef __LZ_DBG
         creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
         #endif 
@@ -100,7 +101,7 @@ namespace Lafez {
     }
 
     void DxRenderer::setViewportImpl(int x, int y, LzSizeT width, LzSizeT height) {
-        D3D11_VIEWPORT viewport {
+        D3D11_VIEWPORT viewport{
             (FLOAT)x,
             (FLOAT)y,
             (FLOAT)width,
@@ -124,12 +125,12 @@ namespace Lafez {
 
     Shader* DxRenderer::genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain) {
         auto flags = D3DCOMPILE_ENABLE_STRICTNESS;
-        #ifdef __LZ_DBG
-            flags |= D3DCOMPILE_DEBUG;
-        #endif
+#ifdef __LZ_DBG
+        flags |= D3DCOMPILE_DEBUG;
+#endif
 
         ComPtr<ID3DBlob> vBlobPtr = nullptr, pBlobPtr = nullptr, errorBlobPtr = nullptr;
-        
+
         // compile vertex shader
         LZ_ENGINE_ASSERT(
             SUCCEEDED(
@@ -251,7 +252,7 @@ namespace Lafez {
         bufferDesc.CPUAccessFlags = 0u;
         bufferDesc.MiscFlags = 0u;
         bufferDesc.StructureByteStride = dataSize / vertexCount;
-        
+
         D3D11_SUBRESOURCE_DATA subRescData{ 0 };
         subRescData.pSysMem = data;
 
@@ -303,7 +304,7 @@ namespace Lafez {
         int index = 0;
         for (const auto& attrib : layout->getAttributes()) {
             D3D11_INPUT_ELEMENT_DESC inputDesc{ 0 };
-            
+
             inputDesc.SemanticName = attrib.getName().c_str();
             inputDesc.SemanticIndex = 0;
             inputDesc.Format = getFormatForPrimitiveType(attrib.mType);
@@ -377,6 +378,10 @@ namespace Lafez {
 
     void DxRenderer::resetVertexArrayImpl() const {
         resetArrayBufferImpl();
+    }
+
+    void DxRenderer::vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const {
+
     }
 
     void DxRenderer::drawVertexArrayImpl(const VertexArray* vertexArray) const {

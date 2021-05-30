@@ -132,6 +132,10 @@ namespace Lafez {
         LZ_CALL_SINGLETON(resetVertexArrayImpl());
     }
 
+    void RendererBackend::vertexArrayAddArrayBuffer(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) {
+        LZ_CALL_SINGLETON(vertexArrayAddArrayBufferImpl(vertexArray, arrayBuffer));
+    }
+
     void RendererBackend::drawVertexArray(const VertexArray* vertexArray) {
         LZ_CALL_SINGLETON(drawVertexArrayImpl(vertexArray));
     }
