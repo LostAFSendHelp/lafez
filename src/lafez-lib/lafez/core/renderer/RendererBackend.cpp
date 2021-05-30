@@ -66,6 +66,10 @@ namespace Lafez {
         LZ_CALL_SINGLETON(resetShaderImpl());
     }
 
+    Shader* RendererBackend::genDefaultShader() {
+        LZ_CALL_SINGLETON_RETURN(genDefaultShaderImpl());
+    }
+
 
 
     /********************************************************

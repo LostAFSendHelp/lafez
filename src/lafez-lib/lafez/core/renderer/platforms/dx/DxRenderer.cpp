@@ -3,6 +3,7 @@
 #include "DxRenderer.hpp"
 #include <lafez/utils/Log.hpp>
 #include <lafez/misc/lafez_exception.hpp>
+#include <lafez/core/assets/Asset.hpp>
 #include <d3dcompiler.h>
 
 #pragma comment(lib, "d3d11.lib")
@@ -225,6 +226,15 @@ namespace Lafez {
     void DxRenderer::resetShaderImpl() const {
         mDeviceContextPtr->VSSetShader(nullptr, nullptr, 0);
         mDeviceContextPtr->PSSetShader(nullptr, nullptr, 0);
+    }
+
+    Shader* DxRenderer::genDefaultShaderImpl() const {
+        return genShader(
+            "DEFAULT HLSL SHADER",
+            Asset::getString("assets/shaders/hlsl/vertex_shader.hlsl"),
+            Asset::getString("assets/shaders/hlsl/pixel_shader.hlsl"),
+            false
+        );
     }
 
 

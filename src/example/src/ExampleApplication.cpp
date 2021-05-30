@@ -16,7 +16,7 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_DX);
+	Lafez::startUp(LZ_PLATFORM_GL);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
@@ -70,8 +70,8 @@ void ExampleApplication::run() {
     //vertexArray->bind();
     auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
     arrayBuffer->bind();
-
-    Lafez::VertexBufferLayout layout{
+    
+    Lafez::VertexBufferLayout layout {
         {
             { "VS_POSITION", LZ_PTYPE_VEC3F },
             { "VS_COLOR", LZ_PTYPE_VEC3F }
@@ -82,11 +82,7 @@ void ExampleApplication::run() {
     //vertexArray->addIndexBuffer(indexBuffer);
 
     auto shader = LzUniPtr<Lafez::Shader>{
-        Lafez::RendererBackend::genShader(
-            "basic shader",
-            Lafez::Asset::getString("assets/shaders/hlsl/vertex_shader.hlsl"),
-            Lafez::Asset::getString("assets/shaders/hlsl/fragment_shader.hlsl")
-        )
+        Lafez::RendererBackend::genDefaultShader()
     };
 
     shader->use();
@@ -96,7 +92,7 @@ void ExampleApplication::run() {
     while (!Lafez::Window::shouldClose()) {
         static auto spice = .0f;
         Lafez::Window::update();
-        Lafez::RendererBackend::clearBuffer(std::sinf(spice), .2f, std::cosf(spice), 1.0f);
+        Lafez::RendererBackend::clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
         Lafez::RendererBackend::drawVertexArray(vertexArray.get());
 
         // Render shits

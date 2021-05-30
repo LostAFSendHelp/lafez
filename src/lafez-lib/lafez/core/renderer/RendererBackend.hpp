@@ -126,6 +126,13 @@ namespace Lafez {
 
 
 
+        /**
+         * @brief Generate a default shader for testing purposes
+         */
+        static Shader* genDefaultShader();
+
+
+
         /********************************************************
         *                      ArrayBuffer                      *
         ********************************************************/
@@ -258,6 +265,7 @@ namespace Lafez {
         virtual void deleteShaderImpl(Shader* shader) = 0;
         virtual void useShaderImpl(const Shader* shader) const = 0;
         virtual void resetShaderImpl() const = 0;
+        virtual Shader* genDefaultShaderImpl() const = 0;
 
         // ArrayBuffer
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) = 0;

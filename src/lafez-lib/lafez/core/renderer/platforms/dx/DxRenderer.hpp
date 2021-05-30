@@ -36,6 +36,7 @@ namespace Lafez {
         void deleteShaderImpl(Shader* shader) override;
         void useShaderImpl(const Shader* shader) const override;
         void resetShaderImpl() const override;
+        Shader* genDefaultShaderImpl() const override;
 
         // ArrayBuffer
         ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) override;

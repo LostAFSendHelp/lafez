@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <lafez/utils/Log.hpp>
+#include <lafez/core/assets/Asset.hpp>
 #include <GLFW/glfw3.h>
 #include "GlRenderer.hpp"
 
@@ -95,6 +96,15 @@ namespace Lafez {
 
     void GlRenderer::resetShaderImpl() const {
         glUseProgram(0);
+    }
+
+    Shader* GlRenderer::genDefaultShaderImpl() const {
+        return genShader(
+            "GLSL DEFAULT SHADER",
+            Asset::getString("assets/shaders/glsl/vertex_shader.glsl"),
+            Asset::getString("assets/shaders/glsl/fragment_shader.glsl"),
+            false
+        );
     }
 
 
