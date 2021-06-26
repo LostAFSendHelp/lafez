@@ -5,10 +5,12 @@
 #include <lafez/core/foundation/WindowInfo.hpp>
 #include <Windows.h>
 
+typedef LRESULT(*WndProcThunk)(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 namespace Lafez {
 	class DxWindow final : public Window {
 	public:
-		DxWindow(const char* name, uint16_t width, uint16_t height);
+		DxWindow(const char* name, uint16_t width, uint16_t height, WndProcThunk wndProcThunk);
 		~DxWindow();
 
 		uint16_t getWidthImpl() const override;
@@ -30,6 +32,7 @@ namespace Lafez {
 
 		WNDCLASSEX* getWindowClass();
 		LRESULT handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		WndProcThunk mWndProcThunk;
 
 		static HINSTANCE sHandleToInstance;
 

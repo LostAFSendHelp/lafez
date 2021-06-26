@@ -62,6 +62,8 @@ add_library(
 
     lafez/core/foundation/platforms/dx/DxWindow.hpp 
     lafez/core/foundation/platforms/dx/DxWindow.cpp
+    lafez/core/foundation/platforms/dx/DxImGui.hpp
+    lafez/core/foundation/platforms/dx/DxImGui.cpp
     
     lafez/core/layers/Layer.hpp
     lafez/core/layers/Layer.cpp

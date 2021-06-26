@@ -9,11 +9,18 @@
 namespace Lafez {
 	HINSTANCE DxWindow::sHandleToInstance = GetModuleHandleA(nullptr);
 
-	DxWindow::DxWindow(const char* name, uint16_t width, uint16_t height):
+	DxWindow::DxWindow(
+		const char* name,
+		uint16_t width,
+		uint16_t height,
+		WndProcThunk wndProcThunk
+	):
 		Window(name, width, height),
 		mHandleToWindow(nullptr),
-		mWindowClass(nullptr) {
-
+		mWindowClass(nullptr),
+		mWndProcThunk(wndProcThunk)
+	{
+		
 	}
 
 	DxWindow::~DxWindow() {
@@ -133,6 +140,10 @@ namespace Lafez {
 
 	LRESULT DxWindow::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// TODO: handle or delegate errors from here
+
+		if (mWndProcThunk && mWndProcThunk(hWnd, uMsg, wParam, lParam)) {
+			return true;
+		}
 
 		switch (uMsg) {
 
