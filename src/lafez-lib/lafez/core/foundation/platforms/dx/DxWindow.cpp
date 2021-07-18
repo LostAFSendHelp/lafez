@@ -47,10 +47,6 @@ namespace Lafez {
 		}
 	}
 
-	bool DxWindow::shouldCloseImpl() const {
-		return mWindowInfo->mShouldClose;
-	}
-
 	void DxWindow::initImpl() {
 		RECT windowRect;
 		windowRect.top = 100;
@@ -111,18 +107,24 @@ namespace Lafez {
 		}
 	}
 
-	void DxWindow::updateImpl() {
+	bool DxWindow::updateImpl() {
 		MSG msg;
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-			if (msg.message == WM_QUIT) {
-				// if msg is WM_QUIT, notify the game loop so it stops
-				mWindowInfo->mShouldClose = true;
+		// handle all messages currently on the queue
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			/* if msg is WM_QUIT or close command has been issued, notify the game loop so it stops,
+			 we check `shouldClose` here too to ensure the loop is terminated asap, in case the
+			 window is already destroyed but messages are still dispatched due to the quit message
+			 is behind others in the queue */
+			if (msg.message == WM_QUIT || mWindowInfo->mShouldClose) {
+				break;
 			} else {
 				// if PeekMessage does not return 0, i.e not WM_QUIT
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
 		}
+
+		return !mWindowInfo->mShouldClose;
 	}
 
 	void DxWindow::closeImpl() {
@@ -131,6 +133,7 @@ namespace Lafez {
 		}
 
 		// close the window and post WM_DESTROY message to the queue
+		mWindowInfo->mShouldClose = true;
 		LZ_ENGINE_ASSERT(DestroyWindow(mHandleToWindow), "Failed to destroy window");
 	}
 

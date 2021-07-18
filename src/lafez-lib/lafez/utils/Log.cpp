@@ -40,10 +40,10 @@ namespace Lafez {
     }
 
     void Log::shutDown() {
+        LZ_ENGINE_INFO("LOGGERS SHUT DOWN");
         spdlog::shutdown();
         mEngineLog.reset();
         mClientLog.reset();
-        LZ_ENGINE_INFO("LOGGERS SHUT DOWN");
     }
 
     LzShrPtr<spdlog::logger> Log::getEngineLog() {

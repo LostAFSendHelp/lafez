@@ -12,7 +12,7 @@ ExampleApplication::ExampleApplication():
 }
 
 ExampleApplication::~ExampleApplication() {
-	LZ_CLIENT_INFO("EXAMPLE APPLICATION TERMIANTED");
+	LZ_CLIENT_INFO("EXAMPLE APPLICATION TERMINATED");
 }
 
 void ExampleApplication::startUp() {
@@ -87,7 +87,7 @@ void ExampleApplication::run() {
     vertexArray->addArrayBuffer(arrayBuffer);
     arrayBuffer->setBufferLayout(&layout, shader.get());
 
-    while (!Lafez::Window::shouldClose()) {
+    while (Lafez::Window::update()) {
         static auto spice = .0f;
         Lafez::RendererBackend::clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
         Lafez::RendererBackend::drawVertexArray(vertexArray.get());
@@ -96,7 +96,6 @@ void ExampleApplication::run() {
         // Render shits
         Lafez::RendererBackend::swapBuffers();
         spice += .01f;
-        Lafez::Window::update();
     }
 }
 

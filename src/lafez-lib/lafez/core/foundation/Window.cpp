@@ -37,16 +37,10 @@ namespace Lafez {
         sShared->setNameImpl(name);
     }
 
-    bool Window::shouldClose() {
-        LZ_ENGINE_GUARD_VAL(sShared, true, "ATTEMPT TO GET SHOULDCLOSE FROM UNITIALIZED WINDOW, DEFAULTING TO TRUE");
+    bool Window::update() {
+        LZ_ENGINE_GUARD_VAL(sShared, "ATTEMPT TO UPDATE UNINITIALIZED WINDOW, ABORTING...", false);
 
-        return sShared->shouldCloseImpl();
-    }
-
-    void Window::update() {
-        LZ_ENGINE_GUARD_VOID(sShared, "ATTEMPT TO UPDATE UNINITIALIZED WINDOW, ABORTING...");
-
-        sShared->updateImpl();
+        return sShared->updateImpl();
     }
 
     void Window::close() {

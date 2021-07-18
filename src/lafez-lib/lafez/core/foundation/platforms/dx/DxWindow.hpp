@@ -2,7 +2,6 @@
 #ifdef __LZ_WIN
 
 #include <lafez/core/foundation/Window.hpp>
-#include <lafez/core/foundation/WindowInfo.hpp>
 #include <Windows.h>
 
 typedef LRESULT(*WndProcThunk)(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -17,11 +16,10 @@ namespace Lafez {
 		uint16_t getHeightImpl() const override;
 		const LzString& getNameImpl() const override;
 		void setNameImpl(const char* name) override;
-		bool shouldCloseImpl() const override;
 
 		void initImpl() override;
 		void terminateImpl() override;
-		void updateImpl() override;
+		bool updateImpl() override;
 		void closeImpl() override;
 
 		void* getWindowPointerImpl() const override;

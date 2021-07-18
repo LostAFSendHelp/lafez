@@ -48,16 +48,12 @@ namespace Lafez {
 
 
         /**
-         * @brief Whether the window should close in the next iteration
-         */
-        static bool shouldClose();
-
-
-
-        /**
          * @brief Process all messages on the window message queue per frame
+         * 
+         * @return `false` if a quit event has been issued and the game loop
+         * should be terminated, `true` otherwise
          */
-        static void update();
+        static bool update();
 
 
 
@@ -115,11 +111,10 @@ namespace Lafez {
         virtual const LzString& getNameImpl() const = 0;    // TODO: decide whether this should be non-pure
         virtual void setNameImpl(const char* name) = 0;
         virtual void* getWindowPointerImpl() const = 0;
-        virtual bool shouldCloseImpl() const = 0;
         virtual void closeImpl() = 0;
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;
-        virtual void updateImpl() = 0;
+        virtual bool updateImpl() = 0;
 
         WindowInfo* mWindowInfo;
 

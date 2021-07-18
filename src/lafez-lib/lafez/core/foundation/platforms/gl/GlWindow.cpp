@@ -36,10 +36,6 @@ namespace Lafez {
         }
     }
 
-    bool GlWindow::shouldCloseImpl() const {
-        return mWindowInfo->mShouldClose;
-    }
-
     void GlWindow::initImpl() {
         if (!sGLFWInitialized) {
             auto result = glfwInit();
@@ -70,9 +66,10 @@ namespace Lafez {
         }
     }
 
-    void GlWindow::updateImpl() {
+    bool GlWindow::updateImpl() {
         LZ_ENGINE_ASSERT(mWindow, "GLFW WINDOW NOT INITIALIZED FOR UPDATING");
         glfwPollEvents();
+        return !mWindowInfo->mShouldClose;
     }
 
     void GlWindow::closeImpl() {
