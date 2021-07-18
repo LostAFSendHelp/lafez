@@ -12,7 +12,11 @@
 using Microsoft::WRL::ComPtr;
 
 namespace Lafez {
-    DxRenderer::DxRenderer(HWND handleToWindow) :
+    DxRenderer::DxRenderer(
+        HWND handleToWindow,
+        ComPtr<ID3D11Device>* devicePtr,
+        ComPtr<ID3D11DeviceContext>* deviceContextPtr
+    ) :
         mSwapChainPtr(nullptr),
         mDevicePtr(nullptr),
         mDeviceContextPtr(nullptr),
@@ -74,6 +78,9 @@ namespace Lafez {
 
         mDeviceContextPtr->OMSetRenderTargets(1, mRenderTargetViewPtr.GetAddressOf(), nullptr);
         mDeviceContextPtr->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        *devicePtr = mDevicePtr.Get();
+        *deviceContextPtr = mDeviceContextPtr.Get();
     }
 
     /********************************************************

@@ -19,8 +19,8 @@ void ExampleApplication::startUp() {
 	Lafez::startUp(LZ_PLATFORM_DX);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
-    //auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
-    //mLayerStack.pushLayers(imguiLayer);
+    auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
+    mLayerStack.pushLayers(imguiLayer);
 
     auto closeSub = eventCenter->subscribe([=](Lafez::Event& event) {
         if (event.mType == Lafez::EventType::Key) {
@@ -89,18 +89,19 @@ void ExampleApplication::run() {
 
     while (!Lafez::Window::shouldClose()) {
         static auto spice = .0f;
-        Lafez::Window::update();
         Lafez::RendererBackend::clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
         Lafez::RendererBackend::drawVertexArray(vertexArray.get());
+        mLayerStack.update();
 
         // Render shits
         Lafez::RendererBackend::swapBuffers();
         spice += .01f;
+        Lafez::Window::update();
     }
 }
 
 void ExampleApplication::shutDown() {
-	//mLayerStack.flush();
+	mLayerStack.flush();
 	Lafez::shutDown();
 }
 

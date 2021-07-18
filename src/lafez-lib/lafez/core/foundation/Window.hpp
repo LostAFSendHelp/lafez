@@ -55,7 +55,7 @@ namespace Lafez {
 
 
         /**
-         * @brief Update the window object each frame
+         * @brief Process all messages on the window message queue per frame
          */
         static void update();
 

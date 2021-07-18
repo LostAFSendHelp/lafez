@@ -7,7 +7,7 @@ namespace Lafez {
     GlImGui::GlImGui(GLFWwindow* window):
     ImGuiBackend(),
     mWindow(window) {
-        LZ_ENGINE_ASSERT(window, "ATTEMPTING TO INITIALIZE GLFW TO NULLPTR");
+        LZ_ENGINE_ASSERT(window, "ATTEMPTING TO INITIALIZE GLIMGUI TO NULLPTR");
     }
 
     GlImGui::~GlImGui() {

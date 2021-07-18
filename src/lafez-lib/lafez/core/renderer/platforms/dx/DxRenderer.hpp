@@ -16,7 +16,7 @@ namespace Lafez {
         /**
          * @brief Construct a new D3D11 Renderer object
          */
-        DxRenderer(HWND handleToWindow);
+        DxRenderer(HWND handleToWindow, ComPtr<ID3D11Device>* devicePtr, ComPtr<ID3D11DeviceContext>* deviceContextPtr);
 
 
 
