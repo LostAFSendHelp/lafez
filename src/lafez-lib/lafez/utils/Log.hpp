@@ -14,7 +14,8 @@ namespace Lafez {
 
 
         /**
-         * @brief Initialize engine logger and client logger
+         * @brief Initialize engine logger and client logger, which log to
+         * certain sinks (e.g msvc sink if on windows, stdout otherwise)
          */
         static void startUp();
 
@@ -60,6 +61,22 @@ namespace Lafez {
          * @param level The desired log level
          */
         static void setClientLogLevel(spdlog::level::level_enum level);
+
+
+
+        /**
+         * @brief Return a formatted string using args instead of logging to sinks,
+         * thus does not require initialization of loggers. Convenience function so
+         * we don't have to link and include an extra fmt in addition to that bundled
+         * with spdlog
+         * 
+         * @param base The base string for formatting
+         * @param args The arguments to use for formatting
+         */
+        template<typename ... Args>
+        inline static LzString raw(const LzString& base, Args&&... args) {
+            return ::fmt::format(base, std::forward<Args>(args)...);
+        }
 
 
 

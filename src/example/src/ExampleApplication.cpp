@@ -16,7 +16,7 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_DX);
+	Lafez::startUp(LZ_PLATFORM_GL);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");
@@ -44,7 +44,7 @@ void ExampleApplication::startUp() {
         if (event.mType == LZT_MOUSE_MOVE) {
             auto mouseEvent = dynamic_cast<Lafez::MouseMoveEvent*>(&event);
             Lafez::Window::setName(
-                fmt::format(
+                Lafez::Log::raw(
                     "{0} - Cursor at ({1}, {2})",
                     baseWindowName,
                     mouseEvent->mX,
