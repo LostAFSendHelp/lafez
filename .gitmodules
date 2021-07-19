@@ -13,3 +13,6 @@
 [submodule "src/vendor/glm"]
 	path = src/vendor/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "src/vendor/json"]
+	path = src/vendor/json
+	url = git@github.com:nlohmann/json.git

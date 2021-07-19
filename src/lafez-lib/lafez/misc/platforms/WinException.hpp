@@ -5,7 +5,7 @@
 #include <Windows.h>
 
 namespace Lafez {
-	class WinException : public Exception {
+	class LAFEZLIB WinException : public Exception {
 	public:
 		const HRESULT mResult;
 

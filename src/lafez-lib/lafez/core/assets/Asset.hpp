@@ -15,5 +15,16 @@ namespace Lafez {
          * @return LzString 
          */
         static LzString getString(const char* path);
+
+
+
+        /**
+         * @brief Write the specified string to the specified file. This function
+         * overwrites all content of a file that already exists
+         * 
+         * @param path the path to the file to be written
+         * @param content the text to be written to the file
+         */
+        static void writeString(const char* path, const char* content);
     };
 };

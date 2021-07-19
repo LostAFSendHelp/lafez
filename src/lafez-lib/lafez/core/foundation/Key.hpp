@@ -4,7 +4,7 @@
 namespace Lafez {
 	class LAFEZLIB Key {
 	public:
-		static void startUp(FoundationPlatform platform);
+		static void startUp(GraphicsAPI platform);
 		static void shutDown();
 
 		static Key* getInstance();
@@ -28,7 +28,7 @@ namespace Lafez {
 		// NUMPAD NOTATIONS
 		const int DECIMAL, DIVIDE, MULTIPLY, SUBTRACT, ADD;
 	private:
-		Key(FoundationPlatform platform);
+		Key(GraphicsAPI platform);
 		~Key() = default;
 
 		static Key* sShared;

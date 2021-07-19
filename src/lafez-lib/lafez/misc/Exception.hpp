@@ -1,9 +1,20 @@
 #pragma once
 #include <exception>
 #include <lafez/lafez_pch.hpp>
+#include <lafezlib_export.h>
+
+/**
+ * @brief throw Lafez-styled exception, which automatically passes LINE and FILE params.
+ * In order for the exception to be thrown, its constructor must receive LINE and FILE as
+ * 1st and 2nd arguments.
+ * 
+ * @param Exception the exception type
+ * @param __VA_ARGS__ constructor params after LINE and FILE
+ */
+#define LZ_THROW(Exception, ...) throw Exception(__LINE__, __FILE__, __VA_ARGS__)
 
 namespace Lafez {
-	class Exception : std::exception {
+	class LAFEZLIB Exception : public std::exception {
 	public:
 		const int mLine;
 		const char* const mFile;

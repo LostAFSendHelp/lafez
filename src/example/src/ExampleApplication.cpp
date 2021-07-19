@@ -16,7 +16,8 @@ ExampleApplication::~ExampleApplication() {
 }
 
 void ExampleApplication::startUp() {
-	Lafez::startUp(LZ_PLATFORM_GL);
+    const auto configs = Lafez::EngineConfigs::loadDefault();
+	Lafez::startUp(configs);
     auto baseWindowName = Lafez::Window::getName();
 	auto eventCenter = Lafez::EventCenter::getInstance();
     auto imguiLayer = Lafez::Layer::create<Lafez::ImGuiLayer>("Imgui Layer");

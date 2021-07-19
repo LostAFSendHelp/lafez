@@ -5,7 +5,7 @@
 namespace Lafez {
 	Key* Key::sShared = nullptr;
 
-	void Key::startUp(FoundationPlatform platform) {
+	void Key::startUp(GraphicsAPI platform) {
 		LZ_ENGINE_GUARD_VOID(!sShared, "ABORTING ATTEMPT TO DOUBLE STARTUP KEYCODE SET...");
 		sShared = new Key(platform);
 	}
@@ -22,7 +22,7 @@ namespace Lafez {
 	}
 
 	// TODO: init for different platforms
-	Key::Key(FoundationPlatform platform):
+	Key::Key(GraphicsAPI platform):
 		// ALPHABETS
 		A(GLFW_KEY_A), B(GLFW_KEY_B), C(GLFW_KEY_C), D(GLFW_KEY_D),
 		E(GLFW_KEY_E), F(GLFW_KEY_F), G(GLFW_KEY_G), H(GLFW_KEY_H),
@@ -69,21 +69,21 @@ namespace Lafez {
 
 		switch (platform)
 		{
-		case Lafez::FoundationPlatform::None: {
+		case Lafez::GraphicsAPI::None: {
 			LZ_ENGINE_INFO("KEYCODE SET INITIALIZED WITH ERROR");
 			break;
 		}
-		case Lafez::FoundationPlatform::GL: {
+		case Lafez::GraphicsAPI::GL: {
 			LZ_ENGINE_INFO("GLFW KEYCODE SET INITIALIZED");
 			break;
 		}
-		case Lafez::FoundationPlatform::VK: {
+		case Lafez::GraphicsAPI::VK: {
 			LZ_ENGINE_INFO("GLFW KEYCODE SET INITIALIZED");
 			break;
 		}
 
 		#ifdef __LZ_WIN
-			case Lafez::FoundationPlatform::DX: {
+			case Lafez::GraphicsAPI::DX: {
 				LZ_ENGINE_INFO("WIN32 KEYCODE SET INITIALIZED WITH ERROR");
 				break;
 			}

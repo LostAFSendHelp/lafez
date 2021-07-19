@@ -91,6 +91,13 @@ else()
     add_subdirectory(src/vendor/glm)
 endif()
 
+## nlohman json check
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor/json)
+    message(FATAL_ERROR "Could not find NLOHMANN_JSON")
+else()
+    add_subdirectory(src/vendor/json)
+endif()
+
 ## ---------------------------------------LIBRARIES---------------------------------------
 
 

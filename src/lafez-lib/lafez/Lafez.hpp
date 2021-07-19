@@ -31,9 +31,9 @@ int WINAPI WinMain(
 		application->startUp();
 		application->run();
 		application->shutDown();
-	} catch (const std::exception& e) {
-		MessageBox(nullptr, e.what(), "Run-time exception", MB_OK | MB_ICONERROR);
 	} catch (const Lafez::WinException& e) {
+		MessageBox(nullptr, e.what(), "Run-time exception", MB_OK | MB_ICONERROR);
+	} catch (const std::exception& e) {
 		MessageBox(nullptr, e.what(), "Run-time exception", MB_OK | MB_ICONERROR);
 	}
 

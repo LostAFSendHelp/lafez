@@ -103,9 +103,11 @@ add_library(
     lafez/misc/lafez_exception.hpp
     lafez/misc/Exception.hpp
     lafez/misc/Exception.cpp
+    lafez/misc/BadFileException.hpp
+    lafez/misc/BadFileException.cpp
     lafez/misc/platforms/WinException.hpp
     lafez/misc/platforms/WinException.cpp
-)
+ )
 
 target_precompile_headers(
     lafez-lib
@@ -133,6 +135,7 @@ target_link_libraries(
     glad
     glfw
     glm
+    nlohmann_json
 )
 
 target_include_directories(

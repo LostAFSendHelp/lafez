@@ -6,16 +6,21 @@
 #include <lafez/core/renderer/platforms/gl/GlRenderer.hpp>
 #include <lafez/core/renderer/platforms/dx/DxRenderer.hpp>
 #include <lafez/core/foundation/platforms/dx/DxImGui.hpp>
+#include <lafez/core/assets/Asset.hpp>
+#include <nlohmann/json.hpp>
+#include <lafez/misc/BadFileException.hpp>
 #include "Foundation.hpp"
 
+using Json = nlohmann::json;
+
 namespace Lafez {
-    void startUp(FoundationPlatform platform) {
+    void startUp(const EngineConfigs& engineConfigs) {
         Log::startUp();
         LZ_ENGINE_INFO("[----------LAFEZ STARTING UP----------]");
         LZ_ENGINE_GUARD_VOID((!Window::isInitialized() && !Input::isInitialized() && !ImGuiBackend::isInitialized()), "ATTEMPT TO RE-INITIALIZE FOUNDATION, ABORTING...");
 
-        switch (platform) {
-        case LZ_PLATFORM_GL: {
+        switch (engineConfigs.mGAPI) {
+        case LZ_GAPI_GL: {
             Window::startUp<GlWindow>("Lafez GL", 1024, 768);
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
             RendererBackend::startUp<GlRenderer>(window);
@@ -26,7 +31,7 @@ namespace Lafez {
         }
 
         #ifdef __LZ_WIN
-        case LZ_PLATFORM_DX: {
+        case LZ_GAPI_DX: {
             Window::startUp<DxWindow>("Lafez DX", 1024, 768, &ImGui_ImplWin32_WndProcHandler);
             auto window = static_cast<HWND>(Window::getWindowPointer());
 
@@ -40,7 +45,7 @@ namespace Lafez {
         #endif
 
 
-        case LZ_PLATFORM_VK:
+        case LZ_GAPI_VK:
             // TODO: setup for Vulkan
             break;
 
@@ -54,7 +59,7 @@ namespace Lafez {
          * rather than abstract type functioning via polymorphism (this is
          * to avoid unnecessary vtable lookups)
          */
-        Key::startUp(platform);
+        Key::startUp(engineConfigs.mGAPI);
         RendererBackend::setViewport(0, 0, Window::getWidth(), Window::getHeight());
     }
 
@@ -66,5 +71,79 @@ namespace Lafez {
         Window::shutDown();
         RendererBackend::shutDown();
         Log::shutDown();
+    }
+
+    EngineConfigs::EngineConfigs(GraphicsAPI gapi) noexcept : mGAPI(gapi) {
+
+    }
+
+    LzString EngineConfigs::toJson() const {
+        LzString apiString = "GL";
+        
+        switch (mGAPI) {
+        
+        case LZ_GAPI_DX: {
+            apiString = "DX";
+            break;
+        }
+        
+        case LZ_GAPI_VK: {
+            apiString = "VK";
+            break;
+        }
+
+        default:
+            break;
+        }
+
+        Json config;
+        config["graphics_api"] = apiString;
+        return config.dump(4);
+    }
+
+    EngineConfigs EngineConfigs::fromJson(const char* path) {
+        const auto rawData = Asset::getString(path);
+        return fromJsonString(rawData);
+    }
+
+    EngineConfigs EngineConfigs::fromJsonString(const LzString& jsonString) {
+        const auto parsedData = Json::parse(jsonString);
+        const auto val = parsedData.value<LzString>("graphics_api", "GL");
+
+        auto gapi = LZ_GAPI_GL;
+
+        if (val == "DX") {
+        #ifdef __LZ_WIN
+            gapi = LZ_GAPI_DX;
+        #else
+            LZ_ENGINE_WARN("ABORTING ATTEMPT TO INITIALIZE GRAPHICS API TO DX, DEFAULTING TO GL INSTEAD...");
+        #endif // __LZ_WIN
+        }
+        else if (val == "VK") {
+            LZ_ENGINE_WARN("LAFEZ CURRENTLY DOES NOT SUPPORT VK, DEFAULTING TO GL INSTEAD...");
+        }
+
+        return { gapi };
+    }
+
+    EngineConfigs EngineConfigs::createDefault() noexcept {
+        return { LZ_GAPI_GL };
+    }
+
+    EngineConfigs EngineConfigs::loadDefault() noexcept {
+        try {
+            return fromJson("engine_configs.json");
+        } catch (const std::exception& exception) {
+            LZ_ENGINE_WARN("ERROR READING CONFIG DATA, CREATING DEFAULT DATA INSTEAD...\n{0}", exception.what());
+            auto configs = createDefault();
+            
+            try {
+                Asset::writeString("engine_configs.json", configs.toJson().c_str());
+            } catch (const std::exception& exception) {
+                LZ_ENGINE_WARN("ERROR WRITING CONFIG DATA, CHANGES WILL NOT BE SAVED\nINFO: {0}", exception.what());
+            }
+            
+            return configs;
+        }
     }
 }
