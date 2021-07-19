@@ -95,6 +95,7 @@ namespace Lafez {
     };
 };
 
+
 #if defined __LZ_DBG || defined __LZ_RELDBG
 
     #define LZ_ENGINE_INFO(...) ::Lafez::Log::getEngineLog()->info(__VA_ARGS__)
