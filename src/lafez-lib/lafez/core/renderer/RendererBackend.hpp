@@ -5,7 +5,19 @@
 #include <lafez/core/renderer/Buffer.hpp>
 #include <lafez/core/renderer/VertexArray.hpp>
 
+#define LZ_VAO_BIND_TYPE_ERROR Lafez::VertexArrayBindType::Error
+#define LZ_VAO_BIND_TYPE_ARRAY Lafez::VertexArrayBindType::Array
+#define LZ_VAO_BIND_TYPE_INDEX Lafez::VertexArrayBindType::Index
+
 namespace Lafez {
+    enum class VertexArrayBindType {
+        /// If the binding of the vertex array is met with error
+        Error,
+        /// If the vertex array contains only an array buffer
+        Array,
+        /// If the vertex array contains both array and index buffers
+        Index
+    };
 
     class LAFEZLIB RendererBackend {
     public:
@@ -106,7 +118,7 @@ namespace Lafez {
          * 
          * @param shader The shader to be deleted
          */
-        static void deleteShader(Shader* shader);
+        static void deleteShader(Shader& shader);
 
 
 
@@ -115,7 +127,7 @@ namespace Lafez {
          * 
          * @param shader The shader to use
          */
-        static void useShader(const Shader* shader);
+        static void useShader(const Shader& shader);
 
 
 
@@ -153,8 +165,9 @@ namespace Lafez {
          * @brief Bind an ArrayBuffer object for rendering
          * 
          * @param arrayBuffer The array buffer to bind
+         * @return `true` if buffer bound successfully, `false` otherwise
          */
-        static void bindArrayBuffer(const ArrayBuffer* arrayBuffer);
+        static bool bindArrayBuffer(const ArrayBuffer& arrayBuffer);
 
 
 
@@ -165,7 +178,7 @@ namespace Lafez {
          * @param layout The layout to apply to the array buffer
          * @param shader The shader to match the layout with, not used by GL
          */
-        static void setBufferLayout(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader);
+        static void setBufferLayout(ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout, const Shader* shader);
 
 
 
@@ -195,8 +208,9 @@ namespace Lafez {
          * @brief Bind an IndexBuffer object for rendering
          * 
          * @param indexBuffer The index buffer to bind
+         * @return `true` if buffer bound successfully, `false` otherwise
          */
-        static void bindIndexBuffer(const IndexBuffer* indexBuffer);
+        static bool bindIndexBuffer(const IndexBuffer& indexBuffer);
 
 
 
@@ -225,7 +239,7 @@ namespace Lafez {
          * 
          * @param vertexArray the vertex array to be bound
          */
-        static void bindVertexArray(const VertexArray* vertexArray);
+        static VertexArrayBindType bindVertexArray(const VertexArray& vertexArray);
 
 
 
@@ -234,7 +248,7 @@ namespace Lafez {
          * 
          * @param vertexArray the vertex array object to be unbound
          */
-        static void unbindVertexArray(const VertexArray* vertexArray);
+        static void unbindVertexArray(const VertexArray& vertexArray);
 
 
 
@@ -252,7 +266,7 @@ namespace Lafez {
         * @param arrayBuffer the ArrayBuffer object to be bound
          */
 
-        static void vertexArrayAddArrayBuffer(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer);
+        static void vertexArrayAddArrayBuffer(VertexArray& vertexArray, const LzShrPtr<ArrayBuffer>& arrayBuffer);
 
 
 
@@ -261,7 +275,7 @@ namespace Lafez {
          * 
          * @param vertexArray The vertex array object to be bound and with whose data the renderer to draw from
          */
-        static void drawVertexArray(const VertexArray* vertexArray);
+        static void drawVertexArray(const VertexArray& vertexArray);
 
     protected:
         RendererBackend() = default;
@@ -273,29 +287,29 @@ namespace Lafez {
 
         // Shader
         virtual Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;
-        virtual void deleteShaderImpl(Shader* shader) = 0;
-        virtual void useShaderImpl(const Shader* shader) const = 0;
+        virtual void deleteShaderImpl(Shader& shader) = 0;
+        virtual void useShaderImpl(const Shader& shader) const = 0;
         virtual void resetShaderImpl() const = 0;
         virtual Shader* genDefaultShaderImpl() const = 0;
 
         // ArrayBuffer
         virtual ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) = 0;
-        virtual void bindArrayBufferImpl(const ArrayBuffer* arrayBuffer) const = 0;
-        virtual void setBufferLayoutImpl(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader*) const = 0;
+        virtual bool bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const = 0;
+        virtual void setBufferLayoutImpl(ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout, const Shader* shader) const = 0;
         virtual void resetArrayBufferImpl() const = 0;
 
         // IndexBuffer
         virtual IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT indexCount) = 0;
-        virtual void bindIndexBufferImpl(const IndexBuffer* indexBuffer) const = 0;
+        virtual bool bindIndexBufferImpl(const IndexBuffer& indexBuffer) const = 0;
         virtual void resetIndexBufferImpl() const = 0;
 
         // VertexArray
         virtual VertexArray* genVertexArrayImpl() = 0;
-        virtual void bindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
-        virtual void unbindVertexArrayImpl(const VertexArray* vertexArray) const = 0;
+        virtual VertexArrayBindType bindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
+        virtual void unbindVertexArrayImpl(const VertexArray& vertexArray) const = 0;
         virtual void resetVertexArrayImpl() const = 0;
-        virtual void vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const = 0;
-        virtual void drawVertexArrayImpl(const VertexArray* vertexArray) const = 0;
+        virtual void vertexArrayAddArrayBufferImpl(VertexArray& vertexArray, const LzShrPtr<ArrayBuffer>& arrayBuffer) const = 0;
+        virtual void drawVertexArrayImpl(const VertexArray& vertexArray) const = 0;
 
         virtual void initImpl() = 0;
         virtual void terminateImpl() = 0;

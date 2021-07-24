@@ -220,15 +220,16 @@ namespace Lafez {
         return new Shader{ id, name };
     }
 
-    void DxRenderer::deleteShaderImpl(Shader* shader) {
-        LZ_ENGINE_GUARD_VOID(shader, "Nullptr passed as shader");
-        mShaderContainer.erase(shader->mID);
+    void DxRenderer::deleteShaderImpl(Shader& shader) {
+        LZ_ENGINE_GUARD_VOID(!shader.mIsDeleted, "Shader already deleted");
+        shader.mIsDeleted = true;
+        mShaderContainer.erase(shader.mID);
     }
 
-    void DxRenderer::useShaderImpl(const Shader* shader) const {
-        LZ_ENGINE_GUARD_VOID(shader, "Nullptr passed as shader");
-        mDeviceContextPtr->VSSetShader(mShaderContainer.at(shader->mID).getVertexShaderPtr().Get(), nullptr, 0);
-        mDeviceContextPtr->PSSetShader(mShaderContainer.at(shader->mID).getPixelShaderPtr().Get(), nullptr, 0);
+    void DxRenderer::useShaderImpl(const Shader& shader) const {
+        LZ_ENGINE_GUARD_VOID(!shader.mIsDeleted, "Shader already deleted");
+        mDeviceContextPtr->VSSetShader(mShaderContainer.at(shader.mID).getVertexShaderPtr().Get(), nullptr, 0);
+        mDeviceContextPtr->PSSetShader(mShaderContainer.at(shader.mID).getPixelShaderPtr().Get(), nullptr, 0);
     }
 
     void DxRenderer::resetShaderImpl() const {
@@ -286,30 +287,35 @@ namespace Lafez {
         return new ArrayBuffer{ id, dataSize, vertexCount };
     }
 
-    void DxRenderer::bindArrayBufferImpl(const ArrayBuffer* arrayBuffer) const {
-        LZ_ENGINE_GUARD_VOID(arrayBuffer, "Nullptr passed as array buffer");
-        auto bufferPtr = mBufferContainer.at(arrayBuffer->mID).getBufferPtr();
-        UINT stride = arrayBuffer->mDataSize / arrayBuffer->mVertexCount;
-        UINT offset = 0;
+    bool DxRenderer::bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const {
+        try {
+            auto bufferPtr = mBufferContainer.at(arrayBuffer.mID).getBufferPtr();
+            UINT stride = arrayBuffer.mDataSize / arrayBuffer.mVertexCount;
+            UINT offset = 0;
 
-        mDeviceContextPtr->IASetVertexBuffers(
-            0,
-            1,
-            bufferPtr.GetAddressOf(),
-            &stride,
-            &offset
-        );
+            mDeviceContextPtr->IASetVertexBuffers(
+                0,
+                1,
+                bufferPtr.GetAddressOf(),
+                &stride,
+                &offset
+            );
+
+            return true;
+        } catch (const std::exception& e) {
+            LZ_ENGINE_WARN("Error binding Array buffer ID {0} : {1}", arrayBuffer.mID, e.what());
+            return false;
+        }
     }
 
-    void DxRenderer::setBufferLayoutImpl(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader) const {
-        LZ_ENGINE_GUARD_VOID(layout, "Nullptr passed as vertex buffer layout");
-        const auto elementCount = layout->getAttributes().size();
+    void DxRenderer::setBufferLayoutImpl(ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout, const Shader* shader) const {
+        const auto elementCount = layout.getAttributes().size();
         D3D11_INPUT_ELEMENT_DESC desc[elementCount];
 
         ComPtr<ID3D11InputLayout> inputLayoutPtr{ nullptr };
 
         int index = 0;
-        for (const auto& attrib : layout->getAttributes()) {
+        for (const auto& attrib : layout.getAttributes()) {
             D3D11_INPUT_ELEMENT_DESC inputDesc{ 0 };
 
             inputDesc.SemanticName = attrib.getName().c_str();
@@ -352,15 +358,47 @@ namespace Lafez {
     ********************************************************/
 
     IndexBuffer* DxRenderer::genIndexBufferImpl(uint32_t* indices, LzSizeT count) {
-        return nullptr;
+        ComPtr<ID3D11Buffer> bufferPtr;
+
+        D3D11_BUFFER_DESC desc{ 0 };
+        desc.ByteWidth = count * sizeof(uint32_t);
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+        desc.CPUAccessFlags = 0u;
+        desc.StructureByteStride = sizeof(uint32_t);
+
+        D3D11_SUBRESOURCE_DATA data{ 0 };
+        data.pSysMem = indices;
+
+        mDevicePtr->CreateBuffer(
+            &desc,
+            &data,
+            &bufferPtr
+        );
+
+        auto id = DxBuffer::getCount();
+        mBufferContainer.emplace(
+            std::piecewise_construct,
+            std::forward_as_tuple(id),
+            std::forward_as_tuple(bufferPtr)
+        );
+
+        return new IndexBuffer{ id, count };
     }
 
-    void DxRenderer::bindIndexBufferImpl(const IndexBuffer* indexBuffer) const {
-
+    bool DxRenderer::bindIndexBufferImpl(const IndexBuffer& indexBuffer) const {
+        try {
+            auto bufferPtr = mBufferContainer.at(indexBuffer.mID).getBufferPtr().Get();
+            mDeviceContextPtr->IASetIndexBuffer(bufferPtr, DXGI_FORMAT_R32_UINT, 0);
+            return true;
+        } catch (const std::exception& e) {
+            LZ_ENGINE_WARN("Error binding Index buffer ID {0} : {1}", indexBuffer.mID, e.what());
+            return false;
+        }
     }
 
     void DxRenderer::resetIndexBufferImpl() const {
-
+        mDeviceContextPtr->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, 0);
     }
 
 
@@ -374,27 +412,55 @@ namespace Lafez {
         return new VertexArray{ vaCount++ };
     }
 
-    void DxRenderer::bindVertexArrayImpl(const VertexArray* vertexArray) const {
-        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
-        bindArrayBufferImpl(vertexArray->getArrayBuffer().get());
+    VertexArrayBindType DxRenderer::bindVertexArrayImpl(const VertexArray& vertexArray) const {
+        auto arrayBuffer = vertexArray.getArrayBuffer();
+        auto indexBuffer = vertexArray.getIndexBuffer();
+
+        if (!arrayBuffer || !bindArrayBufferImpl(*arrayBuffer)) {
+            LZ_ENGINE_WARN("Error binding Vertex array ID {0} : Cannot bind array buffer", vertexArray.mID);
+            return LZ_VAO_BIND_TYPE_ERROR;
+        } else if (indexBuffer) {
+            if (bindIndexBufferImpl(*indexBuffer)) {
+                return LZ_VAO_BIND_TYPE_INDEX;
+            } else {
+                LZ_ENGINE_WARN("Error binding Vertex array ID {0} : Cannot bind index buffer", vertexArray.mID);
+                return LZ_VAO_BIND_TYPE_ERROR;
+            }
+        } else {
+            return LZ_VAO_BIND_TYPE_ARRAY;
+        }
     }
 
-    void DxRenderer::unbindVertexArrayImpl(const VertexArray* vertexArray) const {
-        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
+    void DxRenderer::unbindVertexArrayImpl(const VertexArray& vertexArray) const {
+        // TODO: implement if needed
     }
 
     void DxRenderer::resetVertexArrayImpl() const {
         resetArrayBufferImpl();
     }
 
-    void DxRenderer::vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const {
-
+    void DxRenderer::vertexArrayAddArrayBufferImpl(VertexArray& vertexArray, const LzShrPtr<ArrayBuffer>& arrayBuffer) const {
+        LZ_ENGINE_GUARD_VOID(arrayBuffer, "Nullptr passed as vertex array");
     }
 
-    void DxRenderer::drawVertexArrayImpl(const VertexArray* vertexArray) const {
-        LZ_ENGINE_GUARD_VOID(vertexArray, "Nullptr passed as vertex array");
-        bindVertexArrayImpl(vertexArray);
-        mDeviceContextPtr->Draw(vertexArray->getArrayBuffer()->mVertexCount, 0);
+    void DxRenderer::drawVertexArrayImpl(const VertexArray& vertexArray) const {
+        auto result = bindVertexArrayImpl(vertexArray);
+
+        switch (result) {
+        
+        case LZ_VAO_BIND_TYPE_ARRAY: {
+            mDeviceContextPtr->Draw(vertexArray.getArrayBuffer()->mVertexCount, 0);
+            break;
+        }
+        
+        case LZ_VAO_BIND_TYPE_INDEX: {
+            mDeviceContextPtr->DrawIndexed(vertexArray.getIndexBuffer()->mIndexCount, 0, 0);
+        }
+        
+        default:
+            LZ_ENGINE_WARN("Vertex array binding met with error, aborting draw...");
+            break;
+        }
     }
 
 

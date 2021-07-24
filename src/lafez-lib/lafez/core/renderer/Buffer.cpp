@@ -129,11 +129,11 @@ namespace Lafez {
     }
 
     void ArrayBuffer::bind() const {
-        RendererBackend::bindArrayBuffer(this);
+        RendererBackend::bindArrayBuffer(*this);
     }
 
-    void ArrayBuffer::setBufferLayout(const VertexBufferLayout* layout, const Shader* shader) const {
-        RendererBackend::setBufferLayout(this, layout, shader);
+    void ArrayBuffer::setBufferLayout(const VertexBufferLayout& layout, const Shader* shader) {
+        RendererBackend::setBufferLayout(*this, layout, shader);
     }
 
 
@@ -149,6 +149,6 @@ namespace Lafez {
     }
 
     void IndexBuffer::bind() const {
-        RendererBackend::bindIndexBuffer(this);
+        RendererBackend::bindIndexBuffer(*this);
     }
 }

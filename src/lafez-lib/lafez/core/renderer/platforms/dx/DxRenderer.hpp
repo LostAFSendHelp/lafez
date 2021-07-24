@@ -33,29 +33,29 @@ namespace Lafez {
 
         // Shader
         Shader* genShaderImpl(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) override;
-        void deleteShaderImpl(Shader* shader) override;
-        void useShaderImpl(const Shader* shader) const override;
+        void deleteShaderImpl(Shader& shader) override;
+        void useShaderImpl(const Shader& shader) const override;
         void resetShaderImpl() const override;
         Shader* genDefaultShaderImpl() const override;
 
         // ArrayBuffer
         ArrayBuffer* genArrayBufferImpl(float* data, LzSizeT dataSize, LzSizeT vertexCount) override;
-        void bindArrayBufferImpl(const ArrayBuffer* arrayBuffer) const override;
-        void setBufferLayoutImpl(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader) const override;
+        bool bindArrayBufferImpl(const ArrayBuffer& arrayBuffer) const override;
+        void setBufferLayoutImpl(ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout, const Shader* shader) const override;
         void resetArrayBufferImpl() const override;
 
         // IndexBuffer
-        IndexBuffer* genIndexBufferImpl(uint32_t * indices, LzSizeT indexCount) override;
-        void bindIndexBufferImpl(const IndexBuffer* indexBuffer) const override;
+        IndexBuffer* genIndexBufferImpl(uint32_t* indices, LzSizeT indexCount) override;
+        bool bindIndexBufferImpl(const IndexBuffer& indexBuffer) const override;
         void resetIndexBufferImpl() const override;
 
         // VertexArray
         VertexArray* genVertexArrayImpl() override;
-        void bindVertexArrayImpl(const VertexArray* vertexArray) const override;
-        void unbindVertexArrayImpl(const VertexArray* vertexArray) const override;
+        VertexArrayBindType bindVertexArrayImpl(const VertexArray& vertexArray) const override;
+        void unbindVertexArrayImpl(const VertexArray& vertexArray) const override;
         void resetVertexArrayImpl() const override;
-        void vertexArrayAddArrayBufferImpl(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) const override;
-        void drawVertexArrayImpl(const VertexArray* vertexArray) const override;
+        void vertexArrayAddArrayBufferImpl(VertexArray& vertexArray, const LzShrPtr<ArrayBuffer>& arrayBuffer) const override;
+        void drawVertexArrayImpl(const VertexArray& vertexArray) const override;
 
         void initImpl() override;
         void terminateImpl() override;

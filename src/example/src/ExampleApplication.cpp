@@ -79,19 +79,19 @@ void ExampleApplication::run() {
     };
 
     auto shader = LzUniPtr<Lafez::Shader>{ Lafez::RendererBackend::genDefaultShader() };
-    //auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
-    //indexBuffer->bind();
-    //vertexArray->addIndexBuffer(indexBuffer);
+    auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
+    indexBuffer->bind();
+    vertexArray->addIndexBuffer(indexBuffer);
 
     shader->use();
 
     vertexArray->addArrayBuffer(arrayBuffer);
-    arrayBuffer->setBufferLayout(&layout, shader.get());
+    arrayBuffer->setBufferLayout(layout, shader.get());
 
     while (Lafez::Window::update()) {
         static auto spice = .0f;
         Lafez::RendererBackend::clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
-        Lafez::RendererBackend::drawVertexArray(vertexArray.get());
+        Lafez::RendererBackend::drawVertexArray(*vertexArray);
         mLayerStack.update();
 
         // Render shits

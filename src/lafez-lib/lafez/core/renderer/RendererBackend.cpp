@@ -54,11 +54,11 @@ namespace Lafez {
         LZ_CALL_SINGLETON_RETURN(genShaderImpl(name, vSource, fSource, retain));
     }
 
-    void RendererBackend::deleteShader(Shader* shader) {
+    void RendererBackend::deleteShader(Shader& shader) {
         LZ_CALL_SINGLETON(deleteShaderImpl(shader));
     }
 
-    void RendererBackend::useShader(const Shader* shader) {
+    void RendererBackend::useShader(const Shader& shader) {
         LZ_CALL_SINGLETON(useShaderImpl(shader));
     }
 
@@ -80,11 +80,11 @@ namespace Lafez {
         LZ_CALL_SINGLETON_RETURN(genArrayBufferImpl(data, dataSize, vertexCount));
     }
 
-    void RendererBackend::bindArrayBuffer(const ArrayBuffer* arrayBuffer) {
-        LZ_CALL_SINGLETON(bindArrayBufferImpl(arrayBuffer));
+    bool RendererBackend::bindArrayBuffer(const ArrayBuffer& arrayBuffer) {
+        LZ_CALL_SINGLETON_RETURN(bindArrayBufferImpl(arrayBuffer));
     }
 
-    void RendererBackend::setBufferLayout(const ArrayBuffer* arrayBuffer, const VertexBufferLayout* layout, const Shader* shader) {
+    void RendererBackend::setBufferLayout(ArrayBuffer& arrayBuffer, const VertexBufferLayout& layout, const Shader* shader) {
         LZ_CALL_SINGLETON(setBufferLayoutImpl(arrayBuffer, layout, shader));
     }
 
@@ -102,8 +102,8 @@ namespace Lafez {
         LZ_CALL_SINGLETON_RETURN(genIndexBufferImpl(indices, indexCount));
     }
 
-    void RendererBackend::bindIndexBuffer(const IndexBuffer* indexBuffer) {
-        LZ_CALL_SINGLETON(bindIndexBufferImpl(indexBuffer));
+    bool RendererBackend::bindIndexBuffer(const IndexBuffer& indexBuffer) {
+        LZ_CALL_SINGLETON_RETURN(bindIndexBufferImpl(indexBuffer));
     }
 
     void RendererBackend::resetIndexBuffer() {
@@ -120,11 +120,11 @@ namespace Lafez {
         LZ_CALL_SINGLETON_RETURN(genVertexArrayImpl());
     }
 
-    void RendererBackend::bindVertexArray(const VertexArray* vertexArray) {
-        LZ_CALL_SINGLETON(bindVertexArrayImpl(vertexArray));
+    VertexArrayBindType RendererBackend::bindVertexArray(const VertexArray& vertexArray) {
+        LZ_CALL_SINGLETON_RETURN(bindVertexArrayImpl(vertexArray));
     }
 
-    void RendererBackend::unbindVertexArray(const VertexArray* vertexArray) {
+    void RendererBackend::unbindVertexArray(const VertexArray& vertexArray) {
         LZ_CALL_SINGLETON(unbindVertexArrayImpl(vertexArray));
     }
 
@@ -132,14 +132,15 @@ namespace Lafez {
         LZ_CALL_SINGLETON(resetVertexArrayImpl());
     }
 
-    void RendererBackend::vertexArrayAddArrayBuffer(VertexArray* vertexArray, const ArrayBuffer* arrayBuffer) {
+    void RendererBackend::vertexArrayAddArrayBuffer(VertexArray& vertexArray, const LzShrPtr<ArrayBuffer>& arrayBuffer) {
         LZ_CALL_SINGLETON(vertexArrayAddArrayBufferImpl(vertexArray, arrayBuffer));
     }
 
-    void RendererBackend::drawVertexArray(const VertexArray* vertexArray) {
+    void RendererBackend::drawVertexArray(const VertexArray& vertexArray) {
         LZ_CALL_SINGLETON(drawVertexArrayImpl(vertexArray));
     }
 }
 
 #undef LZ_LOCAL_GUARD
 #undef LZ_CALL_SINGLETON
+#undef LZ_CALL_SINGLETON_RETURN

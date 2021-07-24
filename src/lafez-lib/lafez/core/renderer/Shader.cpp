@@ -10,6 +10,6 @@ namespace Lafez {
     }
 
     void Shader::use() const {
-        RendererBackend::useShader(this);
+        RendererBackend::useShader(*this);
     }
 }

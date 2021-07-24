@@ -107,7 +107,7 @@ namespace Lafez {
          * @param layout The buffer layout to apply to the array buffer
          * @param shader The shader to validate the layout against, can be `nullptr` if backend is GL
          */
-        void setBufferLayout(const VertexBufferLayout* layout, const Shader* shader) const;
+        void setBufferLayout(const VertexBufferLayout& layout, const Shader* shader);
 
     private:
 

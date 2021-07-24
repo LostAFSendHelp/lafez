@@ -21,7 +21,8 @@ int WINAPI WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	PSTR pScmdline,
-	int iCmdshow) {
+	int iCmdshow
+) {
 
 	auto application = Lafez::createApplication();
 	LZ_ENGINE_GUARD_VAL(application, 0, "APPLICATION NOT INITIALIZED");

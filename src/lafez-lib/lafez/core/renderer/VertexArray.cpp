@@ -14,20 +14,20 @@ namespace Lafez {
     }
 
     void VertexArray::bind() const {
-        RendererBackend::bindVertexArray(this);
+        RendererBackend::bindVertexArray(*this);
     }
 
     void VertexArray::unbind() const {
-        RendererBackend::unbindVertexArray(this);
+        RendererBackend::unbindVertexArray(*this);
     }
 
     void VertexArray::addArrayBuffer(const LzShrPtr<ArrayBuffer>& arrayBuffer) {
-        RendererBackend::vertexArrayAddArrayBuffer(this, arrayBuffer.get());
+        RendererBackend::vertexArrayAddArrayBuffer(*this, arrayBuffer);
         mArrayBuffer = arrayBuffer;
     }
 
     void VertexArray::addIndexBuffer(const LzShrPtr<IndexBuffer>& indexBuffer) {
-        RendererBackend::bindVertexArray(this);
+        RendererBackend::bindVertexArray(*this);
         RendererBackend::resetIndexBuffer();
 
         indexBuffer->bind();
