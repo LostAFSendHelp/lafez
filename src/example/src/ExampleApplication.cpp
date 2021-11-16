@@ -1,5 +1,5 @@
 #include "ExampleApplication.hpp"
-#include <lafez/core/lafez_renderer.hpp>
+#include <lafez/core/lafez_gfx.hpp>
 #include <lafez/core/lafez_asset.hpp>
 #include <lafez/core/lafez_event.hpp>
 #include <lafez/Lafez.hpp>
@@ -59,8 +59,7 @@ void ExampleApplication::startUp() {
 }
 
 void ExampleApplication::run() {
-    auto shader = LzUniPtr<Lafez::Shader>{ Lafez::RendererBackend::genDefaultShader() };
-    shader->use();
+    auto shader = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genDefaultShader() };
 
     float data[] = {
         .0f, .75f, .0f, 1.0f, .0f, .0f,
@@ -74,38 +73,40 @@ void ExampleApplication::run() {
         -.25f, -.75f, .0f, .0f, 1.0f, .0f,
     };
 
-    Lafez::VertexBufferLayout layout{
-        {
-            { "VS_POSITION", LZ_PTYPE_VEC3F },
-            { "VS_COLOR", LZ_PTYPE_VEC3F }
-        }
+    Lafez::VertexAttribute attribs[] = {
+        { "VS_POSITION", LZ_PTYPE_VEC3F },
+        { "VS_COLOR", LZ_PTYPE_VEC3F }
     };
 
     uint32_t indices[] = { 0, 1, 2 };
 
-    auto vertexArray = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
-    auto arrayBuffer = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(data, sizeof(float) * 18, 3) };
-    auto indexBuffer = LzShrPtr<Lafez::IndexBuffer>{ Lafez::RendererBackend::genIndexBuffer(indices, 3) };
-    vertexArray->addIndexBuffer(indexBuffer);
-    vertexArray->addArrayBuffer(arrayBuffer);
-    arrayBuffer->setBufferLayout(layout, shader.get()); // On DX layout is reusable, so the next layout setting call is not necessary for DX
-                                                        // However on GL layout is VAO bound, so another separate call is needed for GL
-
-    auto anotherVA = LzUniPtr<Lafez::VertexArray>{ Lafez::RendererBackend::genVertexArray() };
-    auto anotherAB = LzShrPtr<Lafez::ArrayBuffer>{ Lafez::RendererBackend::genArrayBuffer(anotherData, sizeof(float) * 18, 3) };
-    anotherVA->addIndexBuffer(indexBuffer);
-    anotherVA->addArrayBuffer(anotherAB);
-    anotherAB->setBufferLayout(layout, shader.get());
+    auto vertexBuffer = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genVertexBuffer(data, sizeof(float) * 18, 3) };
+    auto indexBuffer = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genIndexBuffer(indices, 3) };
+    auto vbLayout = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genVBLayout(attribs, 2, shader.get()) };
+    Lafez::Drawable drawable{ Lafez::Gfx::gfx() };
+    drawable.addBindable(vertexBuffer);
+    drawable.addBindable(vbLayout);
+    drawable.addBindable(indexBuffer);
+    drawable.addBindable(shader);
+    
+    auto anotherVB = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genVertexBuffer(anotherData, sizeof(float) * 18, 3) };
+    auto anotherIB = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genIndexBuffer(indices, 3) };
+    auto anotherVBLayout = LzShrPtr<Lafez::Bindable>{ Lafez::Gfx::gfx()->genVBLayout(attribs, 2, shader.get()) };
+    Lafez::Drawable anotherDrawable{ Lafez::Gfx::gfx() };
+    anotherDrawable.addBindable(anotherVB);
+    anotherDrawable.addBindable(anotherVBLayout);
+    anotherDrawable.addBindable(anotherIB);
+    anotherDrawable.addBindable(shader);
 
     while (Lafez::Window::update()) {
         static auto spice = .0f;
-        Lafez::RendererBackend::clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
-        Lafez::RendererBackend::drawVertexArray(*vertexArray);
-        Lafez::RendererBackend::drawVertexArray(*anotherVA);
+        Lafez::Gfx::gfx()->clearBuffer(std::sinf(spice), 1.0f, std::cosf(spice), 1.0f);
+        drawable.draw();
+        anotherDrawable.draw();
         mLayerStack.update();
 
         // Render shits
-        Lafez::RendererBackend::swapBuffers();
+        Lafez::Gfx::gfx()->swapBuffers();
         spice += .01f;
     }
 }

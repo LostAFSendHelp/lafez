@@ -7,7 +7,7 @@
 namespace Lafez {
 	class LAFEZLIB WinException : public Exception {
 	public:
-		const HRESULT mResult;
+		const HRESULT result;
 
 		WinException(int line, const char* file, HRESULT result) noexcept;
 		WinException(const WinException& other) = delete;
@@ -27,8 +27,5 @@ namespace Lafez {
 
 	};
 };
-
-#define LZ_WINEXCEPT(x) Lafez::WinException(__LINE__, __FILE__, x)
-#define LZ_WINEXCEPT_LAST Lafez::WinException(__LINE__, __FILE__, GetLastError())
 
 #endif

@@ -1,7 +1,7 @@
 #include "DxWindow.hpp"
 #include <lafez/core/lafez_event.hpp>
+#include <lafez/core/lafez_gfx.hpp>
 #include <windowsx.h>
-#include <lafez/core/lafez_renderer.hpp>
 #include <lafez/misc/lafez_exception.hpp>
 
 #ifdef __LZ_WIN
@@ -197,8 +197,8 @@ namespace Lafez {
 		case WM_SIZE: {
 			auto width = LOWORD(lParam), height = HIWORD(lParam);
 			WindowResizeEvent event(width, height);
-			if (RendererBackend::isInitialized()) {
-				RendererBackend::setViewport(0, 0, width, height);
+			if (Gfx::gfx()) {
+				Gfx::gfx()->setViewport(0, 0, width, height);
 			}
 			EventCenter::getInstance()->emit(event);
 			return 0;

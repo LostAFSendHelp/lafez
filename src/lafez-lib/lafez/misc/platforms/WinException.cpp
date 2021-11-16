@@ -7,22 +7,22 @@
 namespace Lafez {
 	WinException::WinException(int line, const char* file, HRESULT result) noexcept:
 		Exception(line, file),
-		mResult(result) {
+		result(result) {
 
 	}
 
 	const char* WinException::what() const noexcept {
-		if (mBuffer.empty()) {
+		if (buffer.empty()) {
 			std::ostringstream oss;
 			oss << getType() << std::endl
-				<< "[ERROR CODE] : " << std::uppercase << std::hex << mResult << std::endl
-				<< "[DESCRIPTION] : " << translateErrorCode(mResult) << std::endl
+				<< "[ERROR CODE] : " << std::uppercase << std::hex << result << std::endl
+				<< "[DESCRIPTION] : " << translateErrorCode(result) << std::endl
 				<< getOriginString() << std::endl;
 			
-			mBuffer = oss.str();
+			buffer = oss.str();
 		}
 
-		return mBuffer.c_str();
+		return buffer.c_str();
 	}
 
 	const char* WinException::getType() const noexcept {

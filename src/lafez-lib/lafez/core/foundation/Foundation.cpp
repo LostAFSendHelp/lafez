@@ -3,8 +3,8 @@
 #include <lafez/core/foundation/platforms/gl/GlImGui.hpp>
 #include <lafez/core/foundation/platforms/gl/GlInput.hpp>
 #include <lafez/core/foundation/Key.hpp>
-#include <lafez/core/renderer/platforms/gl/GlRenderer.hpp>
-#include <lafez/core/renderer/platforms/dx/DxRenderer.hpp>
+#include <lafez/core/graphics/platforms/gl/GlGfx.hpp>
+#include <lafez/core/graphics/platforms/dx/DxGfx.hpp>
 #include <lafez/core/foundation/platforms/dx/DxImGui.hpp>
 #include <lafez/core/assets/Asset.hpp>
 #include <nlohmann/json.hpp>
@@ -23,7 +23,7 @@ namespace Lafez {
         case LZ_GAPI_GL: {
             Window::startUp<GlWindow>("Lafez GL", 1024, 768);
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
-            RendererBackend::startUp<GlRenderer>(window);
+            Gfx::startUp<GlGfx>(window);
             ImGuiBackend::startUp<GlImGui>(window);
             Input::startUp<GlInput>(window);
 
@@ -37,7 +37,7 @@ namespace Lafez {
 
             ComPtr<ID3D11Device> devicePtr{ nullptr };
             ComPtr<ID3D11DeviceContext> deviceContextPtr{ nullptr };
-            RendererBackend::startUp<DxRenderer>(window, &devicePtr, &deviceContextPtr);
+            Gfx::startUp<DxGfx>(window, &devicePtr, &deviceContextPtr);
             ImGuiBackend::startUp<DxImGui>(window, devicePtr, deviceContextPtr);
 
             break;
@@ -60,7 +60,7 @@ namespace Lafez {
          * to avoid unnecessary vtable lookups)
          */
         Key::startUp(engineConfigs.mGAPI);
-        RendererBackend::setViewport(0, 0, Window::getWidth(), Window::getHeight());
+        Gfx::gfx()->setViewport(0, 0, Window::getWidth(), Window::getHeight());
     }
 
     void shutDown() {
@@ -69,7 +69,7 @@ namespace Lafez {
         Key::shutDown();
         ImGuiBackend::shutDown();
         Window::shutDown();
-        RendererBackend::shutDown();
+        Gfx::shutDown();
         Log::shutDown();
     }
 

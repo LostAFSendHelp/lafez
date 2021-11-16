@@ -1,7 +1,7 @@
 #pragma once
 #include <lafez/core/foundation/Window.hpp>
 #include <lafez/core/foundation/WindowInfo.hpp>
-#include <GLFW/glfw3.h>
+#include <lafez/platform_headers/lafez_gl.hpp>
 
 namespace Lafez {
     class GlWindow final : public Window {

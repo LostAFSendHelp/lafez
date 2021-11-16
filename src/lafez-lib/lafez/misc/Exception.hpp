@@ -16,8 +16,8 @@
 namespace Lafez {
 	class LAFEZLIB Exception : public std::exception {
 	public:
-		const int mLine;
-		const char* const mFile;
+		const int line;
+		const char* const file;
 
 		Exception(int line, const char* file) noexcept;
 		Exception(const Exception& other) = delete;
@@ -32,7 +32,7 @@ namespace Lafez {
 		virtual const char* getType() const noexcept;
 
 	protected:
-		mutable LzString mBuffer;
+		mutable LzString buffer;
 
 	private:
 	};

@@ -1,5 +1,5 @@
 #pragma once
-#include <GLFW/glfw3.h>
+#include <lafez/platform_headers/lafez_gl.hpp>
 #include <lafez/core/foundation/Input.hpp>
 
 namespace Lafez {

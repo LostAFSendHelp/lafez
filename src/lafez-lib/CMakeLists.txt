@@ -14,7 +14,7 @@ add_library(
     lafez/core/lafez_event.hpp
     lafez/core/lafez_foundation.hpp
     lafez/core/lafez_layer.hpp
-    lafez/core/lafez_renderer.hpp
+    lafez/core/lafez_gfx.hpp
     
     lafez/core/event/data/Event.hpp
     lafez/core/event/data/Event.cpp
@@ -73,27 +73,29 @@ add_library(
     lafez/core/layers/impl/ImGuiLayer.hpp
     lafez/core/layers/impl/ImGuiLayer.cpp
 
-    lafez/core/renderer/Buffer.hpp
-    lafez/core/renderer/Buffer.cpp
-    lafez/core/renderer/RendererBackend.hpp
-    lafez/core/renderer/RendererBackend.cpp
-    lafez/core/renderer/Shader.hpp
-    lafez/core/renderer/Shader.cpp
-    lafez/core/renderer/VertexArray.hpp
-    lafez/core/renderer/VertexArray.cpp
+    lafez/core/graphics/Gfx.hpp
+    lafez/core/graphics/Gfx.cpp
+    lafez/core/graphics/Bindable.hpp
+    lafez/core/graphics/Bindable.cpp
+    lafez/core/graphics/Drawable.hpp
+    lafez/core/graphics/Drawable.cpp
+    lafez/core/graphics/VertexAttribute.hpp
+    lafez/core/graphics/VertexAttribute.cpp
+    
+    lafez/core/graphics/platforms/dx/DxGfx.hpp
+    lafez/core/graphics/platforms/dx/DxGfx.cpp
+    lafez/core/graphics/platforms/dx/DxShader.hpp
+    lafez/core/graphics/platforms/dx/DxShader.cpp
+    lafez/core/graphics/platforms/dx/DxBuffer.hpp
+    lafez/core/graphics/platforms/dx/DxBuffer.cpp
 
-    lafez/core/renderer/platforms/gl/GlRenderer.hpp
-    lafez/core/renderer/platforms/gl/GlRenderer.cpp
-
-    lafez/core/renderer/platforms/dx/DxRenderer.hpp
-    lafez/core/renderer/platforms/dx/DxRenderer.cpp
-    lafez/core/renderer/platforms/dx/DxShaderContainer.hpp
-    lafez/core/renderer/platforms/dx/DxShaderContainer.cpp
-    lafez/core/renderer/platforms/dx/DxBuffer.hpp
-    lafez/core/renderer/platforms/dx/DxBuffer.cpp
-
-    lafez/core/renderer/platforms/vk/VkRenderer.hpp
-    lafez/core/renderer/platforms/vk/VkRenderer.cpp
+    lafez/core/graphics/platforms/gl/GlGfx.hpp
+    lafez/core/graphics/platforms/gl/GlGfx.cpp
+    lafez/core/graphics/platforms/gl/GlShader.hpp
+    lafez/core/graphics/platforms/gl/GlShader.cpp
+    lafez/core/graphics/platforms/gl/GlBuffer.hpp
+    lafez/core/graphics/platforms/gl/GlBuffer.cpp
+    
 
     lafez/core/assets/Asset.hpp
     lafez/core/assets/Asset.cpp
@@ -105,9 +107,16 @@ add_library(
     lafez/misc/Exception.cpp
     lafez/misc/BadFileException.hpp
     lafez/misc/BadFileException.cpp
+    lafez/misc/RuntimeException.hpp
+    lafez/misc/RuntimeException.cpp
+
     lafez/misc/platforms/WinException.hpp
     lafez/misc/platforms/WinException.cpp
- )
+    lafez/misc/platforms/GlException.cpp
+    lafez/misc/platforms/GlException.cpp
+
+    lafez/platform_headers/lafez_gl.hpp
+)
 
 target_precompile_headers(
     lafez-lib

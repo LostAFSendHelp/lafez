@@ -1,6 +1,6 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/core/lafez_event.hpp>
-#include <lafez/core/lafez_renderer.hpp>
+#include <lafez/core/lafez_gfx.hpp>
 #include "GlWindow.hpp"
 
 namespace Lafez {
@@ -176,7 +176,7 @@ namespace Lafez {
             info.mWidth = width;
             info.mHeight = height;
 
-            RendererBackend::setViewport(0, 0, info.mWidth, info.mHeight);
+            Gfx::gfx()->setViewport(0, 0, info.mWidth, info.mHeight);
             WindowResizeEvent event{ width, height };
             EventCenter::getInstance()->emit(event);
         });

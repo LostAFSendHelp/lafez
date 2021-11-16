@@ -1,6 +1,6 @@
-#include "Key.hpp"
-#include <GLFW/glfw3.h>
+#include <lafez/platform_headers/lafez_gl.hpp>
 #include <lafez/utils/Log.hpp>
+#include "Key.hpp"
 
 namespace Lafez {
 	Key* Key::sShared = nullptr;

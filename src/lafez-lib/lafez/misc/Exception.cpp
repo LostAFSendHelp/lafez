@@ -4,28 +4,28 @@
 
 namespace Lafez {
 	Exception::Exception(int line, const char* file) noexcept :
-		mLine(line),
-		mFile(file),
-		mBuffer() {
+		line(line),
+		file(file),
+		buffer() {
 		
 	}
 
 	const char* Exception::what() const noexcept {
-		if (mBuffer.empty()) {
+		if (buffer.empty()) {
 			std::ostringstream oss;
 			oss << getType() << std::endl
 				<< getOriginString() << std::endl;
 			
-			mBuffer = oss.str();
+			buffer = oss.str();
 		}
 
-		return mBuffer.c_str();
+		return buffer.c_str();
 	}
 
 	LzString Exception::getOriginString() const noexcept {
 		std::ostringstream oss;
-		oss << "[LINE] : " << mLine << std::endl
-			<< "[FILE] : " << mFile;
+		oss << "[LINE] : " << line << std::endl
+			<< "[FILE] : " << file;
 
 		return oss.str();
 	}

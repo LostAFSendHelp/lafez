@@ -8,7 +8,6 @@
 #pragma once
 #include "Application.hpp"
 #include <lafez/utils/Log.hpp>
-#include <lafez/misc/lafez_exception.hpp>
 
 //#ifdef __LZ_WIN
 //	#include <Windows.h>
