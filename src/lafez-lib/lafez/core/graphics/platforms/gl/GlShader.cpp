@@ -2,6 +2,7 @@
 #include <lafez/utils/Log.hpp>
 #include <lafez/misc/lafez_exception.hpp>
 #include "GlShader.hpp"
+#include "GlGfx.hpp"
 
 namespace Lafez {
 	GlShader::GlShader(
@@ -39,6 +40,27 @@ namespace Lafez {
 		glDetachShader(shaderId, pShader);
 		glDeleteShader(vShader);
 		glDeleteShader(pShader);
+
+		LZ_GLCALL(
+			auto modelIndex = glGetUniformBlockIndex(shaderId, "u_model");
+			glUniformBlockBinding(
+				shaderId,
+				modelIndex,
+				Gfx::MODEL_BUFFER_INDEX
+			);
+			auto viewIndex = glGetUniformBlockIndex(shaderId, "u_view");
+			glUniformBlockBinding(
+				shaderId,
+				viewIndex,
+				Gfx::VIEW_BUFFER_INDEX
+			);
+			auto projectionIndex = glGetUniformBlockIndex(shaderId, "u_projection");
+			glUniformBlockBinding(
+				shaderId,
+				projectionIndex,
+				Gfx::PROJECTION_BUFFER_INDEX
+			);
+		);
 	}
 
 	void GlShader::bind() {

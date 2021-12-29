@@ -23,6 +23,9 @@ namespace Lafez {
 		void swapBuffers() override;
 		void drawList(unsigned int vertices) override;
 		void drawIndexed(unsigned int indices) override;
+		void setModel(const glm::mat4& model) override;
+		void setView(const glm::mat4& view) override;
+		void setProjection(const glm::mat4& perspective) override;
 		Bindable* genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) override;
 		Bindable* genVertexBuffer(float* data, LzSizeT dataSize, LzSizeT vertexCount) override;
 		Bindable* genIndexBuffer(uint32_t* indices, LzSizeT indexCount) override;
@@ -34,6 +37,11 @@ namespace Lafez {
 		ComPtr<ID3D11Device> devicePtr;
 		ComPtr<ID3D11DeviceContext> deviceContextPtr;
 		ComPtr<ID3D11RenderTargetView> renderTargetViewPtr;
+		ComPtr<ID3D11RasterizerState> rasterStatePtr;
+
+		ComPtr<ID3D11Buffer> modelCBufferPtr;
+		ComPtr<ID3D11Buffer> viewCBufferPtr;
+		ComPtr<ID3D11Buffer> projectionCBufferPtr;
 	};
 };
 

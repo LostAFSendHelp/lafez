@@ -1,12 +1,17 @@
 #pragma once
 #include <lafez/lafez_pch.hpp>
+#include <glm/glm.hpp>
 #include "Bindable.hpp"
 #include "Gfx.hpp"
+#include "Transform.hpp"
 
 namespace Lafez {
 	class LAFEZLIB Drawable final {
 	public:
+		friend class Gfx;
+
 		const uint32_t id;
+		const Transform transform;
 
 		Drawable(Gfx* const gfx);
 		Drawable(const Drawable& other) = delete;

@@ -21,7 +21,7 @@ namespace Lafez {
 
         switch (engineConfigs.mGAPI) {
         case LZ_GAPI_GL: {
-            Window::startUp<GlWindow>("Lafez GL", 1024, 768);
+            Window::startUp<GlWindow>("Lafez GL", 1280, 768);
             auto window = static_cast<GLFWwindow*>(Window::getWindowPointer());
             Gfx::startUp<GlGfx>(window);
             ImGuiBackend::startUp<GlImGui>(window);
@@ -32,7 +32,7 @@ namespace Lafez {
 
         #ifdef __LZ_WIN
         case LZ_GAPI_DX: {
-            Window::startUp<DxWindow>("Lafez DX", 1024, 768, &ImGui_ImplWin32_WndProcHandler);
+            Window::startUp<DxWindow>("Lafez DX", 1280, 768, &ImGui_ImplWin32_WndProcHandler);
             auto window = static_cast<HWND>(Window::getWindowPointer());
 
             ComPtr<ID3D11Device> devicePtr{ nullptr };

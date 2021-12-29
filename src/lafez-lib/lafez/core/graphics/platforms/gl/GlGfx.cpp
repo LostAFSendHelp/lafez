@@ -9,7 +9,10 @@
 namespace Lafez {
 	GlGfx::GlGfx(GLFWwindow* windowPtr) :
         Gfx(),
-        windowPtr(windowPtr)
+        windowPtr(windowPtr),
+        modelCBuffer(0u),
+        viewCBuffer(0u),
+        projectionCBuffer(0u)
     {
         LZ_RUNTIME_GUARD(windowPtr, "[GFX] Illegal attempt to pass NULL as GLFW window");
         LZ_RUNTIME_GUARD(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "[GFX] FAILED TO LOAD OPENGL FUNCTIONS");
@@ -17,9 +20,48 @@ namespace Lafez {
         LZ_ENGINE_INFO("GL WINDOW INITIALIZED");
         LZ_ENGINE_INFO("[GFX] INITIALIZED TO OPENGL");
 
-        auto vao = 0u;
-        glGenVertexArrays(1, &vao);
-        glBindVertexArray(vao);
+        LZ_GLCALL(
+            glEnable(GL_DEPTH_TEST);
+
+            glm::mat4 identity{ 1.0f };
+            GLuint cBuffers[3];
+            glGenBuffers(3, cBuffers);
+            for (unsigned int index = 0; index < 3; ++index) {
+                glBindBuffer(GL_UNIFORM_BUFFER, cBuffers[index]);
+                glBufferData(
+                    GL_UNIFORM_BUFFER,
+                    sizeof(glm::mat4),
+                    &identity,
+                    GL_DYNAMIC_DRAW
+                );
+            }
+            glBindBuffer(GL_UNIFORM_BUFFER, 0u);
+            modelCBuffer = cBuffers[0];
+            viewCBuffer = cBuffers[1];
+            projectionCBuffer = cBuffers[2];
+
+            glBindBufferBase(
+                GL_UNIFORM_BUFFER,
+                MODEL_BUFFER_INDEX,
+                modelCBuffer
+            );
+
+            glBindBufferBase(
+                GL_UNIFORM_BUFFER,
+                VIEW_BUFFER_INDEX,
+                viewCBuffer
+            );
+
+            glBindBufferBase(
+                GL_UNIFORM_BUFFER,
+                PROJECTION_BUFFER_INDEX,
+                projectionCBuffer
+            );
+
+            auto vao = 0u;
+            glGenVertexArrays(1, &vao);
+            glBindVertexArray(vao);
+        );
 	}
 
     GlGfx::~GlGfx() {
@@ -28,7 +70,7 @@ namespace Lafez {
 
     void GlGfx::clearBuffer(float r, float g, float b, float a) {
         glClearColor(r, g, b, a);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void GlGfx::setViewport(float x, float y, float width, float height) {
@@ -49,6 +91,45 @@ namespace Lafez {
     void GlGfx::drawIndexed(unsigned int indices) {
         LZ_GLCALL(
             glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, 0);
+        );
+    }
+
+    void GlGfx::setModel(const glm::mat4& model) {
+        LZ_GLCALL(
+            glBindBuffer(GL_UNIFORM_BUFFER, modelCBuffer);
+            glBufferSubData(
+                GL_UNIFORM_BUFFER,
+                0,
+                sizeof(glm::mat4),
+                &model
+            );
+            glBindBuffer(GL_UNIFORM_BUFFER, 0u);
+        );
+    }
+
+    void GlGfx::setView(const glm::mat4& view) {
+        LZ_GLCALL(
+            glBindBuffer(GL_UNIFORM_BUFFER, viewCBuffer);
+            glBufferSubData(
+                GL_UNIFORM_BUFFER,
+                0,
+                sizeof(glm::mat4),
+                &view
+            );
+            glBindBuffer(GL_UNIFORM_BUFFER, 0u);
+        );
+    }
+
+    void GlGfx::setProjection(const glm::mat4& projection) {
+        LZ_GLCALL(
+            glBindBuffer(GL_UNIFORM_BUFFER, projectionCBuffer);
+            glBufferSubData(
+                GL_UNIFORM_BUFFER,
+                0,
+                sizeof(glm::mat4),
+                &projection
+            );
+            glBindBuffer(GL_UNIFORM_BUFFER, 0u);
         );
     }
 

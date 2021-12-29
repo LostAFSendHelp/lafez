@@ -81,6 +81,9 @@ add_library(
     lafez/core/graphics/Drawable.cpp
     lafez/core/graphics/VertexAttribute.hpp
     lafez/core/graphics/VertexAttribute.cpp
+    lafez/core/graphics/Transform.hpp
+    lafez/core/graphics/Transform.cpp
+    lafez/core/graphics/CBuffer.hpp
     
     lafez/core/graphics/platforms/dx/DxGfx.hpp
     lafez/core/graphics/platforms/dx/DxGfx.cpp
@@ -88,6 +91,8 @@ add_library(
     lafez/core/graphics/platforms/dx/DxShader.cpp
     lafez/core/graphics/platforms/dx/DxBuffer.hpp
     lafez/core/graphics/platforms/dx/DxBuffer.cpp
+    
+    
 
     lafez/core/graphics/platforms/gl/GlGfx.hpp
     lafez/core/graphics/platforms/gl/GlGfx.cpp
@@ -95,6 +100,8 @@ add_library(
     lafez/core/graphics/platforms/gl/GlShader.cpp
     lafez/core/graphics/platforms/gl/GlBuffer.hpp
     lafez/core/graphics/platforms/gl/GlBuffer.cpp
+    
+    
     
 
     lafez/core/assets/Asset.hpp
@@ -138,12 +145,12 @@ target_link_libraries(
 
     PUBLIC
     spdlog::spdlog
+    glm
     lafez-imgui # strip this from client side for release build
     
     PRIVATE
     glad
     glfw
-    glm
     nlohmann_json
 )
 

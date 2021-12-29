@@ -1,12 +1,19 @@
 #pragma once
 #include "Bindable.hpp"
+#include "CBuffer.hpp"
+#include "Transform.hpp"
 #include "VertexAttribute.hpp"
 #include <lafez/misc/RuntimeException.hpp>
 
-
 namespace Lafez {
+	class Drawable;
+
 	class LAFEZLIB Gfx {
 	public:
+		static const unsigned int MODEL_BUFFER_INDEX;
+		static const unsigned int VIEW_BUFFER_INDEX;
+		static const unsigned int PROJECTION_BUFFER_INDEX;
+
 		Gfx(const Gfx& other) = delete;
 		Gfx(Gfx&& other) = delete;
 		Gfx& operator=(const Gfx& other) = delete;
@@ -19,6 +26,9 @@ namespace Lafez {
 		virtual void swapBuffers() = 0;
 		virtual void drawList(unsigned int vertices) = 0;
 		virtual void drawIndexed(unsigned int indices) = 0;
+		virtual void setModel(const glm::mat4& model) = 0;
+		virtual void setView(const glm::mat4& view) = 0;
+		virtual void setProjection(const glm::mat4& projection) = 0;
 		virtual Bindable* genShader(const LzString& name, const LzString& vSource, const LzString& fSource, bool retain = false) = 0;
 		virtual Bindable* genVertexBuffer(float* data, LzSizeT dataSize, LzSizeT vertexCount) = 0;
 		virtual Bindable* genIndexBuffer(uint32_t* indices, LzSizeT indexCount) = 0;

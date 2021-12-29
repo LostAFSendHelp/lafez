@@ -12,14 +12,17 @@ namespace Lafez {
 		HWND handleToWindow,
 		ComPtr<ID3D11Device>* devicePtr,
 		ComPtr<ID3D11DeviceContext>* deviceContextPtr
-	):
+	) :
 		Gfx(),
 		swapChainPtr(nullptr),
 		devicePtr(nullptr),
 		deviceContextPtr(nullptr),
-		renderTargetViewPtr(nullptr)
+		renderTargetViewPtr(nullptr),
+		modelCBufferPtr(nullptr),
+		viewCBufferPtr(nullptr),
+		projectionCBufferPtr(nullptr),
+		rasterStatePtr(nullptr)
 	{
-
 		// swap chain and device creation
 		DXGI_SWAP_CHAIN_DESC swapChainDesc{ };
 		swapChainDesc.BufferDesc.Width = 0u;
@@ -90,6 +93,81 @@ namespace Lafez {
 		*devicePtr = this->devicePtr.Get();
 		*deviceContextPtr = this->deviceContextPtr.Get();
 
+		// create model buffers
+		D3D11_BUFFER_DESC desc{ 0 };
+		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.ByteWidth = sizeof(glm::mat4);
+		desc.MiscFlags = 0u;
+		desc.StructureByteStride = 0u;
+
+		D3D11_SUBRESOURCE_DATA resource{ 0 };
+		glm::mat4 identity{ 1.0f };
+		resource.pSysMem = &identity;
+		resource.SysMemPitch = 0u;
+		resource.SysMemSlicePitch = 0u;
+
+		// model cbuffer
+		result = this->devicePtr->CreateBuffer(
+			&desc,
+			&resource,
+			&modelCBufferPtr
+		);
+
+		this->deviceContextPtr->VSSetConstantBuffers(
+			MODEL_BUFFER_INDEX,
+			1u,
+			modelCBufferPtr.GetAddressOf()
+		);
+
+		LZ_RUNTIME_GUARD(SUCCEEDED(result), WinException::translateErrorCode(result).c_str());
+
+		// view cbuffer
+		result = this->devicePtr->CreateBuffer(
+			&desc,
+			&resource,
+			&viewCBufferPtr
+		);
+
+		this->deviceContextPtr->VSSetConstantBuffers(
+			VIEW_BUFFER_INDEX,
+			1u,
+			viewCBufferPtr.GetAddressOf()
+		);
+
+		LZ_RUNTIME_GUARD(SUCCEEDED(result), WinException::translateErrorCode(result).c_str());
+
+		// projection cbuffer
+		result = this->devicePtr->CreateBuffer(
+			&desc,
+			&resource,
+			&projectionCBufferPtr
+		);
+
+		this->deviceContextPtr->VSSetConstantBuffers(
+			PROJECTION_BUFFER_INDEX,
+			1u,
+			projectionCBufferPtr.GetAddressOf()
+		);
+
+		LZ_RUNTIME_GUARD(SUCCEEDED(result), WinException::translateErrorCode(result).c_str());
+
+		// set up rasterizer
+		D3D11_RASTERIZER_DESC rasterDesc;
+		ZeroMemory(&rasterDesc, sizeof(D3D11_RASTERIZER_DESC));
+		rasterDesc.FillMode = D3D11_FILL_SOLID;
+		rasterDesc.CullMode = D3D11_CULL_BACK;
+		rasterDesc.FrontCounterClockwise = TRUE;
+		result = this->devicePtr->CreateRasterizerState(
+			&rasterDesc,
+			&rasterStatePtr
+		);
+
+		LZ_RUNTIME_GUARD(SUCCEEDED(result), WinException::translateErrorCode(result).c_str());
+
+		this->deviceContextPtr->RSSetState(rasterStatePtr.Get());
+
 		LZ_ENGINE_INFO("[GFX] INITIALIZED TO D3D11");
 	}
 
@@ -125,6 +203,54 @@ namespace Lafez {
 
 	void DxGfx::drawIndexed(unsigned int indices) {
 		deviceContextPtr->DrawIndexed(indices, 0u, 0);
+	}
+
+	void DxGfx::setModel(const glm::mat4& model) {
+		D3D11_MAPPED_SUBRESOURCE subResc;
+		ZeroMemory(&subResc, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		deviceContextPtr->Map(
+			modelCBufferPtr.Get(),
+			0u,
+			D3D11_MAP_WRITE_DISCARD,
+			0u,
+			&subResc
+		);
+
+		memcpy(subResc.pData, &model, sizeof(glm::mat4));
+		deviceContextPtr->Unmap(modelCBufferPtr.Get(), 0u);
+	}
+
+	void DxGfx::setView(const glm::mat4& view) {
+		D3D11_MAPPED_SUBRESOURCE subResc;
+		ZeroMemory(&subResc, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		deviceContextPtr->Map(
+			viewCBufferPtr.Get(),
+			0u,
+			D3D11_MAP_WRITE_DISCARD,
+			0u,
+			&subResc
+		);
+
+		memcpy(subResc.pData, &view, sizeof(glm::mat4));
+		deviceContextPtr->Unmap(viewCBufferPtr.Get(), 0u);
+	}
+
+	void DxGfx::setProjection(const glm::mat4& projection) {
+		D3D11_MAPPED_SUBRESOURCE subResc;
+		ZeroMemory(&subResc, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		deviceContextPtr->Map(
+			projectionCBufferPtr.Get(),
+			0u,
+			D3D11_MAP_WRITE_DISCARD,
+			0u,
+			&subResc
+		);
+
+		memcpy(subResc.pData, &projection, sizeof(glm::mat4));
+		deviceContextPtr->Unmap(projectionCBufferPtr.Get(), 0u);
 	}
 
 	Bindable* DxGfx::genShader(

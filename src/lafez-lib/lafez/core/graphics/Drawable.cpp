@@ -1,5 +1,6 @@
 #include "Drawable.hpp"
 #include <lafez/misc/lafez_exception.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Lafez {
 	uint32_t Drawable::count = 0;
@@ -9,7 +10,8 @@ namespace Lafez {
 		bindables(),
 		gfx(gfx),
 		indexCount(0u),
-		vertexCount(0u)
+		vertexCount(0u),
+		transform()
 	{
 		LZ_RUNTIME_GUARD(gfx, "Nullptr of type Gfx passed to Drawable object");
 	}
@@ -24,6 +26,10 @@ namespace Lafez {
 		for (const auto& item : bindables) {
 			item->bind();
 		}
+
+		auto scale = glm::scale(glm::mat4{ 1.0f }, glm::vec3{ transform.scaleFactor });
+		auto model = transform.translation * transform.rotation * scale;
+		gfx->setModel(model);
 
 		if (indexCount > 0) {
 			gfx->drawIndexed(indexCount);
@@ -51,5 +57,4 @@ namespace Lafez {
 			vertexCount = bindable->customBindValue;
 		}
 	}
-
 };
